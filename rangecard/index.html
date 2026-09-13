@@ -1,1 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="field">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#14160F">
+<meta name="description" content="Range Card — a trajectory and holdover calculator for airguns.">
+<title>Range Card</title>
+<script>(function(){try{var t=localStorage.getItem('rc.theme');document.documentElement.setAttribute('data-theme',t==='night'?'night':'field');}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="wrap">
 
+  <header class="masthead">
+    <div>
+      <h1>Range Card</h1>
+      <p>Trajectory and holdover for airguns</p>
+    </div>
+    <div data-theme-switch></div>
+  </header>
+
+  <div class="columns">
+
+    <div class="col-inputs stack">
+
+      <fieldset>
+        <legend>Profile</legend>
+        <div class="row">
+          <select id="profile" aria-label="Saved profile"></select>
+          <button type="button" id="newProfile" class="shrink" title="New profile">New</button>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <input id="profileName" type="text" aria-label="Profile name" placeholder="Unnamed setup">
+          <button type="button" id="deleteProfile" class="shrink">Delete</button>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Rifle and pellet</legend>
+        <div class="fields">
+          <div><label for="v0">Muzzle velocity</label><input id="v0" type="number" value="250" step="1" inputmode="decimal"></div>
+          <div><label for="mass">Pellet weight</label><input id="mass" type="number" value="8.44" step="0.01" inputmode="decimal"></div>
+          <div><label for="bc">Ballistic coefficient</label><input id="bc" type="number" value="0.024" step="0.001" inputmode="decimal"></div>
+          <div><label for="drag">Drag model</label>
+            <select id="drag"><option value="g1">G1</option><option value="flat">Flat Cd</option></select></div>
+          <div><label for="scopeH">Scope height</label><input id="scopeH" type="number" value="50" step="1" inputmode="decimal"></div>
+          <div><label for="zero">Zero range</label><input id="zero" type="number" value="30" step="1" inputmode="decimal"></div>
+          <div><label for="clickVal">Click value</label><input id="clickVal" type="number" value="0.1" step="0.01" inputmode="decimal"></div>
+          <div><label for="clickUnit">Turret unit</label>
+            <select id="clickUnit"><option value="mil">MIL</option><option value="moa">MOA</option></select></div>
+        </div>
+        <p class="hint">Velocity in m/s, weight in grain, scope height in mm, ranges in m.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Conditions</legend>
+        <div class="fields">
+          <div><label for="temp">Temperature °C</label><input id="temp" type="number" value="15" step="1" inputmode="decimal"></div>
+          <div><label for="press">Pressure hPa</label><input id="press" type="number" value="1013" step="1" inputmode="decimal"></div>
+          <div><label for="hum">Humidity %</label><input id="hum" type="number" value="50" step="1" inputmode="decimal"></div>
+          <div><label for="slope">Slope °</label><input id="slope" type="number" value="0" step="1" inputmode="decimal"></div>
+          <div><label for="wind">Wind m/s</label><input id="wind" type="number" value="0" step="0.5" inputmode="decimal"></div>
+          <div><label for="windDir">Wind from °</label><input id="windDir" type="number" value="90" step="15" inputmode="decimal"></div>
+        </div>
+        <p class="hint">Wind from: <strong>0</strong> head on, <strong>90</strong> from the right, <strong>270</strong> from the left.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Card</legend>
+        <div class="fields">
+          <div><label for="maxRange">Max range m</label><input id="maxRange" type="number" value="60" step="5" inputmode="decimal"></div>
+          <div><label for="stepRange">Step m</label><input id="stepRange" type="number" value="5" step="1" inputmode="decimal"></div>
+          <div class="wide"><label for="zone">Target zone diameter mm</label><input id="zone" type="number" value="25" step="1" inputmode="decimal"></div>
+        </div>
+        <p class="hint">The target zone sets the point blank window: the stretch where the pellet stays inside that circle without holding over.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Tools</legend>
+        <details>
+          <summary>Fit BC from two chrono readings</summary>
+          <div class="fields">
+            <div><label for="fitV0">At muzzle m/s</label><input id="fitV0" type="number" value="250" step="1" inputmode="decimal"></div>
+            <div><label for="fitV1">Downrange m/s</label><input id="fitV1" type="number" value="222" step="1" inputmode="decimal"></div>
+            <div><label for="fitD">Distance m</label><input id="fitD" type="number" value="25" step="1" inputmode="decimal"></div>
+            <div style="display:flex; align-items:flex-end;"><button type="button" id="fitRun" class="primary">Fit</button></div>
+          </div>
+          <p class="hint" id="fitOut">A fitted BC beats a published one. Measure both readings on the same day, same pellets.</p>
+        </details>
+        <details style="margin-top: 6px;">
+          <summary>Backup and restore</summary>
+          <div class="row">
+            <button type="button" id="exportBtn">Export JSON</button>
+            <button type="button" id="importBtn">Import JSON</button>
+          </div>
+          <input id="importFile" type="file" accept="application/json,.json" class="sr-only">
+          <p class="hint" id="dataOut">Profiles are stored in this browser only.</p>
+        </details>
+      </fieldset>
+
+    </div>
+
+    <div class="col-results stack">
+
+      <div class="readouts" id="readouts"></div>
+
+      <svg class="chart" id="chart" viewBox="0 0 640 240" role="img" aria-labelledby="chartTitle">
+        <title id="chartTitle">Trajectory relative to the line of sight</title>
+      </svg>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Range</th><th>Velocity</th><th>Energy</th><th>Path</th>
+            <th id="thHold">Hold</th><th>Clicks</th><th>Wind</th>
+          </tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+
+      <p class="hint">Path is where the pellet sits relative to the crosshair: negative is below. Hold and clicks are what you dial or hold up to put it back on the aim point.</p>
+
+    </div>
+
+  </div>
+</div>
+
+<script src="ballistics.js"></script>
+<script src="theme.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

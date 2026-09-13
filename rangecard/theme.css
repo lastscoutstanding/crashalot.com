@@ -1,0 +1,157 @@
+/* theme.css — Range Card
+ *
+ * Every colour in the app lives in this file and nowhere else. The rest of the
+ * site only ever uses var(--…), so adding a theme means adding one block below
+ * plus one line in theme.js.
+ *
+ * Themes switch through the data-theme attribute on <html>:
+ *   <html data-theme="field">  field card, the default, for daylight
+ *   <html data-theme="night">  night optics, easier on the eyes indoors
+ *
+ * Tokens are named after their role, never after a colour. So --accent, never
+ * --amber: the name has to stay true once the theme changes.
+ */
+
+:root,
+[data-theme="field"] {
+  color-scheme: dark;
+
+  --bg:            #14160F;
+  --panel:         #1C2016;
+  --panel-raised:  #242A1B;
+  --line:          #2E3423;
+  --line-strong:   #3E4630;
+
+  --text:          #E8E6D9;
+  --text-dim:      #9BA679;
+  --text-faint:    #6E7853;
+
+  --accent:        #E2A32B;
+  --accent-hover:  #F0B948;
+  --on-accent:     #241A02;
+
+  --good:          #8B9663;
+  --warn:          #E2A32B;
+  --bad:           #D9533C;
+
+  --focus:         #E2A32B;
+  --selection:     #3E4630;
+}
+
+[data-theme="night"] {
+  color-scheme: dark;
+
+  --bg:            #0B0E12;
+  --panel:         #141920;
+  --panel-raised:  #1B222B;
+  --line:          #232A33;
+  --line-strong:   #323C47;
+
+  --text:          #C9D2DA;
+  --text-dim:      #8A97A5;
+  --text-faint:    #5C6B7A;
+
+  --accent:        #E5484D;
+  --accent-hover:  #F26A6E;
+  --on-accent:     #180507;
+
+  --good:          #4FA97F;
+  --warn:          #D9913C;
+  --bad:           #E5484D;
+
+  --focus:         #E5484D;
+  --selection:     #2A333D;
+}
+
+/* Sizing and typography are theme independent. Only colour changes, otherwise
+ * the layout shifts every time you switch. */
+:root {
+  --font-ui: "Archivo Narrow", system-ui, -apple-system, sans-serif;
+  --font-num: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius: 8px;
+  --radius-sm: 5px;
+  --pad: 16px;
+  --gap: 12px;
+  --maxw: 860px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+::selection { background: var(--selection); color: var(--text); }
+
+h1, h2, h3 { font-weight: 600; letter-spacing: -0.01em; margin: 0 0 8px; }
+h1 { font-size: 22px; }
+h2 { font-size: 18px; }
+h3 { font-size: 15px; color: var(--text-dim); font-weight: 500; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--pad);
+}
+
+.num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+
+label { display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 4px; }
+
+input, select, button {
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+}
+
+input, select { width: 100%; }
+
+input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+button { cursor: pointer; background: var(--panel-raised); }
+button:hover { border-color: var(--accent); }
+
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+button.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+
+/* Theme switch in the header */
+.theme-switch { display: inline-flex; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); overflow: hidden; }
+.theme-switch button {
+  border: 0; border-radius: 0; padding: 6px 12px; font-size: 13px;
+  background: transparent; color: var(--text-dim);
+}
+.theme-switch button[aria-pressed="true"] { background: var(--panel-raised); color: var(--accent); }
+
+table { width: 100%; border-collapse: collapse; }
+th { font-size: 13px; font-weight: 500; color: var(--text-dim); text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--line-strong); }
+td { text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { text-align: left; }
+td.n { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: no-preference) {
+  button, input, select { transition: border-color .12s ease, background-color .12s ease; }
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="field">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Range Card — engine check</title>
+<link rel="stylesheet" href="theme.css">
+<style>
+  body { padding: 24px 16px 64px; }
+  main { max-width: 760px; margin: 0 auto; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  fieldset { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel);
+             padding: 14px; margin: 0 0 14px; }
+  legend { padding: 0 6px; color: var(--text-faint); font-size: 12px; }
+  .summary { color: var(--accent); margin: 0 0 12px; font-family: var(--font-num); font-size: 13px; }
+  .lead { color: var(--text-faint); margin: 0 0 20px; font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Engine check</h1>
+  <p class="lead">Bare validation page. Compare the output against ChairGun or JBM before trusting the engine on paper.</p>
+
+  <fieldset>
+    <legend>Setup</legend>
+    <div class="grid">
+      <div><label for="v0">Muzzle velocity (m/s)</label><input id="v0" type="number" value="250" step="1"></div>
+      <div><label for="mass">Pellet weight (grain)</label><input id="mass" type="number" value="8.44" step="0.01"></div>
+      <div><label for="bc">BC (lb/in²)</label><input id="bc" type="number" value="0.024" step="0.001"></div>
+      <div><label for="drag">Drag model</label>
+        <select id="drag"><option value="g1">G1</option><option value="flat">Flat (constant Cd)</option></select></div>
+      <div><label for="sh">Scope height (mm)</label><input id="sh" type="number" value="50" step="1"></div>
+      <div><label for="zero">Zero range (m)</label><input id="zero" type="number" value="30" step="1"></div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Conditions</legend>
+    <div class="grid">
+      <div><label for="temp">Temperature (°C)</label><input id="temp" type="number" value="15" step="1"></div>
+      <div><label for="press">Pressure (hPa)</label><input id="press" type="number" value="1013" step="1"></div>
+      <div><label for="rh">Humidity (%)</label><input id="rh" type="number" value="50" step="1"></div>
+      <div><label for="wind">Wind speed (m/s)</label><input id="wind" type="number" value="2" step="0.5"></div>
+      <div><label for="wdir">Wind from (°)</label><input id="wdir" type="number" value="90" step="15"></div>
+      <div><label for="slope">Slope angle (°)</label><input id="slope" type="number" value="0" step="1"></div>
+    </div>
+  </fieldset>
+
+  <p class="summary" id="summary"></p>
+  <table>
+    <thead><tr><th>Range</th><th>Velocity</th><th>Energy</th><th>Path</th><th>Holdover</th><th>Windage</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+</main>
+
+<script src="ballistics.js"></script>
+<script>
+(function () {
+  var u = Ballistics.units;
+  var ids = ['v0','mass','bc','drag','sh','zero','temp','press','rh','wind','wdir','slope'];
+  var el = {};
+  ids.forEach(function (id) { el[id] = document.getElementById(id); });
+
+  function num(id) { return parseFloat(el[id].value) || 0; }
+
+  function render() {
+    var atm = Ballistics.atmosphere({
+      tempC: num('temp'),
+      pressurePa: u.hpaToPa(num('press')),
+      humidity: num('rh') / 100
+    });
+
+    var distances = [];
+    for (var d = 5; d <= 60; d += 5) distances.push(d);
+
+    var t = Ballistics.trajectory({
+      muzzleVelocity: num('v0'),
+      mass: u.grainToKg(num('mass')),
+      bc: num('bc'),
+      dragModel: el.drag.value,
+      scopeHeight: u.mmToM(num('sh')),
+      zeroRange: num('zero'),
+      slopeDeg: num('slope'),
+      windSpeed: num('wind'),
+      windFromDeg: num('wdir'),
+      atmosphere: atm,
+      maxRange: 65,
+      distances: distances
+    });
+
+    var zeros = t.zeros.map(function (z) { return z.toFixed(1) + ' m'; }).join(' and ');
+    document.getElementById('summary').textContent =
+      'Launch angle ' + t.zeroAngleMoa.toFixed(1) + ' MOA · zeros ' + (zeros || 'none') +
+      ' · apex ' + (t.maxOrdinate * 100).toFixed(1) + ' cm · air density ' +
+      atm.density.toFixed(3) + ' kg/m³';
+
+    document.getElementById('rows').innerHTML = t.rows.map(function (r) {
+      var isZero = t.zeros.some(function (z) { return Math.abs(z - r.distance) < 2.5; });
+      return '<tr' + (isZero ? ' style="color: var(--accent)"' : '') + '>' +
+        '<td>' + r.distance + ' m</td>' +
+        '<td class="n">' + r.velocity.toFixed(1) + ' m/s</td>' +
+        '<td class="n">' + r.energy.toFixed(1) + ' J</td>' +
+        '<td class="n">' + r.dropCm.toFixed(1) + ' cm</td>' +
+        '<td class="n">' + r.holdMil.toFixed(2) + ' mil</td>' +
+        '<td class="n">' + r.driftCm.toFixed(1) + ' cm</td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  ids.forEach(function (id) { el[id].addEventListener('input', render); });
+  render();
+})();
+</script>
+</body>
+</html>
