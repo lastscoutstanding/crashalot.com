@@ -19,7 +19,7 @@
   ];
 
   var el = {};
-  ['profile', 'profileName', 'newProfile', 'deleteProfile', 'readouts', 'chart',
+  ['profile', 'profileName', 'profileNote', 'renameProfile', 'deleteProfile', 'readouts', 'chart',
    'rows', 'thHold', 'pelletNote', 'fitV0', 'fitV1', 'fitD', 'fitRun', 'fitOut',
    'exportBtn', 'importBtn', 'importFile', 'dataOut'].concat(FIELDS)
     .forEach(function (id) { el[id] = document.getElementById(id); });
@@ -182,13 +182,16 @@
     });
   }
 
+  var NEW_VALUE = '__new__';
+
   function renderProfileList() {
-    el.profile.innerHTML = state.profiles.map(function (p) {
-      return '<option value="' + p.id + '"' + (p.id === state.activeId ? ' selected' : '') +
-             '>' + escapeHtml(p.name || 'Unnamed setup') + '</option>';
+    var html = state.profiles.map(function (p) {
+      return '<option value="' + p.id + '">' + escapeHtml(p.name || 'Unnamed setup') + '</option>';
     }).join('');
-    el.profileName.value = active().name || '';
-    el.deleteProfile.disabled = state.profiles.length < 2;
+    html += '<option disabled>──────────</option>';
+    html += '<option value="' + NEW_VALUE + '">+ Create new setup</option>';
+    el.profile.innerHTML = html;
+    el.profile.value = state.activeId;
   }
 
   function escapeHtml(s) {
@@ -402,40 +405,132 @@
     });
   });
 
-  el.profile.addEventListener('change', function () {
-    state.activeId = el.profile.value;
-    valuesToForm(active().values);
-    el.pelletNote.textContent = DEFAULT_NOTE;
-    el.profileName.value = active().name || '';
-    save();
-    refresh();
-  });
+  /* The setup row does four jobs in one line: pick a setup, create one (last
+   * entry in the list), rename the selected one (pencil), and delete it behind
+   * a two-step confirm (bin). Creating and renaming share the same field: it
+   * replaces the select in place, so the row never grows. */
 
-  el.profileName.addEventListener('input', function () {
-    active().name = el.profileName.value;
-    var opt = el.profile.querySelector('option[value="' + active().id + '"]');
-    if (opt) opt.textContent = el.profileName.value || 'Unnamed setup';
-    save();
-  });
+  var naming = false;
+  var namingMode = 'create';
+  var namingReturnTo = null;
 
-  el.newProfile.addEventListener('click', function () {
-    var copy = JSON.parse(JSON.stringify(formToValues()));
-    var p = { id: newId(), name: 'New setup', values: copy };
+  function startNaming(mode) {
+    naming = true;
+    namingMode = mode;
+    namingReturnTo = state.activeId;
+    disarmDelete();
+    el.profile.hidden = true;
+    el.profileName.hidden = false;
+    if (mode === 'rename') {
+      el.profileName.value = active().name || '';
+      el.profileNote.textContent = 'Rename and press Enter. Escape to cancel.';
+    } else {
+      el.profileName.value = '';
+      el.profileNote.textContent = 'Name it and press Enter. Escape to cancel.';
+    }
+    el.profileName.focus();
+    el.profileName.select();
+  }
+
+  function stopNaming() {
+    naming = false;
+    el.profileName.hidden = true;
+    el.profile.hidden = false;
+  }
+
+  function cancelNaming() {
+    if (!naming) return;
+    stopNaming();
+    el.profile.value = namingReturnTo;
+    el.profileNote.textContent = '';
+  }
+
+  function commitNaming() {
+    if (!naming) return;
+    var mode = namingMode;
+    var name = el.profileName.value.trim();
+    if (!name) { cancelNaming(); return; }
+    stopNaming();
+
+    if (mode === 'rename') {
+      if (name === active().name) { el.profileNote.textContent = ''; return; }
+      active().name = name;
+      renderProfileList();
+      el.profileNote.textContent = 'Renamed.';
+      save();
+      return;
+    }
+
+    var p = { id: newId(), name: name, values: JSON.parse(JSON.stringify(formToValues())) };
     state.profiles.push(p);
     state.activeId = p.id;
     renderProfileList();
-    el.profileName.focus();
-    el.profileName.select();
+    el.profileNote.textContent = 'Created from the values currently on screen.';
+    save();
+    refresh();
+  }
+
+  el.profile.addEventListener('change', function () {
+    disarmDelete();
+    if (el.profile.value === NEW_VALUE) { startNaming('create'); return; }
+    state.activeId = el.profile.value;
+    valuesToForm(active().values);
+    el.pelletNote.textContent = DEFAULT_NOTE;
+    el.profileNote.textContent = '';
     save();
     refresh();
   });
 
+  el.profileName.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); commitNaming(); }
+    else if (e.key === 'Escape') { e.preventDefault(); cancelNaming(); }
+  });
+
+  el.profileName.addEventListener('blur', function () { commitNaming(); });
+
+  el.renameProfile.addEventListener('click', function () {
+    if (naming) { cancelNaming(); return; }
+    startNaming('rename');
+  });
+
+  /* Delete: first click arms the bin, second one within five seconds does it. */
+
+  var armed = false;
+  var armTimer = null;
+
+  function disarmDelete() {
+    armed = false;
+    clearTimeout(armTimer);
+    el.deleteProfile.classList.remove('armed');
+    el.deleteProfile.setAttribute('aria-label', 'Delete this setup');
+  }
+
   el.deleteProfile.addEventListener('click', function () {
-    if (state.profiles.length < 2) return;
+    if (naming) { cancelNaming(); return; }
+    var name = active().name || 'this setup';
+
+    if (!armed) {
+      armed = true;
+      el.deleteProfile.classList.add('armed');
+      el.deleteProfile.setAttribute('aria-label', 'Confirm deleting ' + name);
+      el.profileNote.textContent = 'Delete "' + name + '"? Press the bin again to confirm.';
+      armTimer = setTimeout(function () {
+        disarmDelete();
+        el.profileNote.textContent = '';
+      }, 5000);
+      return;
+    }
+
+    disarmDelete();
     state.profiles = state.profiles.filter(function (p) { return p.id !== state.activeId; });
+    if (!state.profiles.length) {
+      state.profiles = [{ id: newId(), name: 'Default setup', values: defaults() }];
+    }
     state.activeId = state.profiles[0].id;
     renderProfileList();
     valuesToForm(active().values);
+    el.pelletNote.textContent = DEFAULT_NOTE;
+    el.profileNote.textContent = 'Deleted "' + name + '".';
     save();
     refresh();
   });

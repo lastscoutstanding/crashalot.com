@@ -80,3 +80,18 @@ details[open] > summary { margin-bottom: 10px; }
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
+
+/* Icon-only buttons, sized to match a text input next to them */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  color: var(--text-dim);
+}
+.icon-btn:hover { color: var(--accent); border-color: var(--accent); }
+.icon-btn.armed { color: var(--bad); border-color: var(--bad); }
+
+#profileNote:empty { display: none; }
