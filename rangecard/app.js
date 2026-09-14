@@ -154,9 +154,16 @@
     return 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   }
 
+  // A stored activeId can point at a profile that no longer exists, e.g. after
+  // an import or an older state shape. Reconcile instead of leaving the select
+  // with nothing selected.
   function active() {
     var found = state.profiles.filter(function (p) { return p.id === state.activeId; })[0];
-    return found || state.profiles[0];
+    if (!found) {
+      found = state.profiles[0];
+      state.activeId = found.id;
+    }
+    return found;
   }
 
   /* ---------- form <-> state ---------- */
@@ -191,7 +198,7 @@
     html += '<option disabled>──────────</option>';
     html += '<option value="' + NEW_VALUE + '">+ Create new setup</option>';
     el.profile.innerHTML = html;
-    el.profile.value = state.activeId;
+    el.profile.value = active().id;
   }
 
   function escapeHtml(s) {
@@ -304,7 +311,16 @@
   function renderChart(c) {
     var pts = c.result.points;
     var v = c.values;
-    var W = 640, H = 240, padL = 44, padR = 12, padT = 16, padB = 26;
+
+    /* The SVG scales to the width of its column, and text scales with it. On a
+     * 640-wide viewBox an 11px label renders at about 6px on a portrait phone,
+     * which is unreadable. A narrower, taller viewBox keeps the labels close to
+     * their nominal size. */
+    var narrow = (window.innerWidth || 640) < 560;
+    var W = narrow ? 380 : 640;
+    var H = narrow ? 250 : 240;
+    var padL = narrow ? 34 : 44, padR = 12, padT = 16, padB = 26;
+    el.chart.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
     var maxX = v.maxRange;
 
     var lo = 0, hi = 0;
@@ -324,6 +340,7 @@
     var parts = ['<title id="chartTitle">Trajectory relative to the line of sight</title>'];
 
     var gridStep = maxX <= 30 ? 5 : maxX <= 70 ? 10 : 20;
+    if (narrow && maxX / gridStep > 6) gridStep *= 2;
     for (var gx = 0; gx <= maxX + 0.001; gx += gridStep) {
       parts.push('<line x1="' + fmt(sx(gx)) + '" y1="' + padT + '" x2="' + fmt(sx(gx)) +
                  '" y2="' + (H - padB) + '" stroke="var(--line)" stroke-width="1"/>');
@@ -371,23 +388,45 @@
 
   /* ---------- wiring ---------- */
 
+  function fail(where, e) {
+    if (el.profileNote) {
+      el.profileNote.textContent = where + ' failed: ' + (e && e.message ? e.message : e) +
+        '. Try a hard refresh; if it persists, export your profiles and clear the site data.';
+    }
+    if (window.console) console.error('[Range Card] ' + where, e);
+  }
+
   var pending = null;
   function refresh() {
     if (pending) cancelAnimationFrame(pending);
     pending = requestAnimationFrame(function () {
       pending = null;
-      var c = compute();
-      renderReadouts(c);
-      renderChart(c);
-      renderTable(c);
-      active().values = c.values;
-      save();
+      try {
+        var c = compute();
+        renderReadouts(c);
+        renderChart(c);
+        renderTable(c);
+        active().values = c.values;
+        save();
+      } catch (e) {
+        fail('Render', e);
+      }
     });
   }
 
   FIELDS.forEach(function (id) {
     el[id].addEventListener('input', refresh);
     el[id].addEventListener('change', refresh);
+  });
+
+  var resizeTimer = null;
+  var lastNarrow = null;
+  window.addEventListener('resize', function () {
+    var narrow = (window.innerWidth || 640) < 560;
+    if (narrow === lastNarrow) return;   // only redraw when the layout flips
+    lastNarrow = narrow;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(refresh, 150);
   });
 
   el.pellet.addEventListener('change', function () {
@@ -596,9 +635,25 @@
 
   /* ---------- start ---------- */
 
-  load();
-  renderProfileList();
-  valuesToForm(active().values);
-  loadPellets();
-  refresh();
+  function start() {
+    load();
+    renderProfileList();
+    valuesToForm(active().values);
+    loadPellets();
+    refresh();
+  }
+
+  try {
+    start();
+  } catch (e) {
+    // Stored state we can't work with should not cost the user the whole app.
+    try { localStorage.removeItem(KEY); } catch (e2) {}
+    state = { version: STATE_VERSION, activeId: null, profiles: [] };
+    try {
+      start();
+      fail('Startup', e);
+    } catch (e3) {
+      fail('Startup', e3);
+    }
+  }
 })();
