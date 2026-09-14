@@ -70,9 +70,17 @@ pellet sets the weight and deliberately leaves your BC untouched.
 
 ## Accuracy
 
-The engine integrates a point mass with a Mach-dependent drag coefficient. The
-G1 table in `ballistics.js` should be checked against a reference before you
-trust the output on paper.
+The engine integrates a point mass with a Mach-dependent drag coefficient.
+
+Cross-checked against Element Ballistics on matched inputs (G1, 15 °C,
+1013 hPa, 50% RH, 50 mm scope height, 30 m zero) in .177 and .22, no wind and
+with a 3 m/s crosswind. Retained velocity, time of flight, path and drift all
+agreed within a few tenths. That validates the G1 table, the BC conversion, the
+atmosphere model, the integrator and the zeroing geometry.
+
+What it does not validate is the choice of G1 itself. Both tools were run on
+the same drag curve, so the agreement says the implementation is right, not
+that G1 fits a diabolo. It doesn't.
 
 Two things matter more than the model for airguns:
 
