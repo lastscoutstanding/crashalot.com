@@ -6,6 +6,10 @@
 
 body { padding: 0 16px 64px; }
 
+/* An explicit display on a class beats the hidden attribute, which silently
+ * breaks every hidden element in the page. Put hidden back in charge. */
+[hidden] { display: none !important; }
+
 .wrap { max-width: var(--maxw); margin: 0 auto; }
 
 .masthead {
@@ -129,9 +133,7 @@ details[open] > summary { margin-bottom: 10px; }
 .reticle {
   display: block;
   width: 100%;
-  max-width: 340px;
   height: auto;
-  margin: 0 auto;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);

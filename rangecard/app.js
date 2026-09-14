@@ -22,6 +22,7 @@
   var el = {};
   ['profile', 'profileName', 'profileNote', 'renameProfile', 'deleteProfile', 'readouts', 'chart',
    'rows', 'thHold', 'pelletNote', 'reticle', 'reticleWrap', 'reticleNote', 'retNote', 'retWind',
+   'showReticle',
    'fitV0', 'fitV1', 'fitD', 'fitRun', 'fitOut',
    'exportBtn', 'importBtn', 'importFile', 'dataOut'].concat(FIELDS)
     .forEach(function (id) { el[id] = document.getElementById(id); });
@@ -42,7 +43,7 @@
   /* How you want to look at the result is a viewing preference, not a property
    * of the rifle, so it sits beside rc.theme rather than inside a profile. */
   var VIEW_KEY = 'rc.view';
-  var view = { panel: 'trajectory', retMode: 'holdover', retWind: false };
+  var view = { showReticle: false, retMode: 'holdover', retWind: false };
 
   function loadView() {
     try {
@@ -50,7 +51,8 @@
       if (!raw) return;
       var v = JSON.parse(raw);
       if (v && typeof v === 'object') {
-        if (v.panel === 'reticle' || v.panel === 'trajectory') view.panel = v.panel;
+        // v.panel is the older shape, when the reticle replaced the chart
+        view.showReticle = v.showReticle != null ? !!v.showReticle : v.panel === 'reticle';
         if (v.retMode === 'marks' || v.retMode === 'holdover') view.retMode = v.retMode;
         view.retWind = !!v.retWind;
       }
@@ -432,6 +434,10 @@
 
   function renderReticle(c) {
     var v = c.values;
+    var narrow = (window.innerWidth || 640) < 560;
+    var W = narrow ? 360 : 640;
+    var H = 340;
+    el.reticle.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
     var out = Reticle.build({
       config: reticleConfig(v),
       mode: view.retMode,
@@ -439,7 +445,8 @@
       rows: c.result.rows,
       points: c.result.points,
       zeroRange: v.zero,
-      size: 320
+      width: W,
+      height: H
     });
     el.reticle.innerHTML =
       '<title id="reticleTitle">Reticle with ' +
@@ -449,13 +456,13 @@
   }
 
   function applyView() {
-    var onReticle = view.panel === 'reticle';
-    el.chart.hidden = onReticle;
+    // The chart always stays. The reticle is an extra panel below it, not a
+    // replacement: the two answer the same question in different forms and are
+    // worth reading together.
+    var onReticle = view.showReticle;
+    el.showReticle.checked = onReticle;
     el.reticleWrap.hidden = !onReticle;
 
-    Array.prototype.forEach.call(document.querySelectorAll('[data-panel]'), function (b) {
-      b.setAttribute('aria-pressed', String(b.getAttribute('data-panel') === view.panel));
-    });
     Array.prototype.forEach.call(document.querySelectorAll('[data-retmode]'), function (b) {
       b.setAttribute('aria-pressed', String(b.getAttribute('data-retmode') === view.retMode));
     });
@@ -516,11 +523,9 @@
     el[id].addEventListener('change', refresh);
   });
 
-  Array.prototype.forEach.call(document.querySelectorAll('[data-panel]'), function (b) {
-    b.addEventListener('click', function () {
-      view.panel = b.getAttribute('data-panel');
-      applyView(); saveView();
-    });
+  el.showReticle.addEventListener('change', function () {
+    view.showReticle = el.showReticle.checked;
+    applyView(); saveView(); refresh();
   });
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-retmode]'), function (b) {

@@ -149,10 +149,7 @@
       <div class="readouts" id="readouts"></div>
 
       <div class="panel-head">
-        <div class="seg" role="group" aria-label="Result view">
-          <button type="button" data-panel="trajectory" aria-pressed="true">Trajectory</button>
-          <button type="button" data-panel="reticle" aria-pressed="false">Reticle</button>
-        </div>
+        <label class="toggle"><input type="checkbox" id="showReticle"> Reticle</label>
         <div class="seg reticle-only" role="group" aria-label="Reticle reading" hidden>
           <button type="button" data-retmode="holdover" aria-pressed="true">Holdover</button>
           <button type="button" data-retmode="marks" aria-pressed="false">Read marks</button>
@@ -165,7 +162,7 @@
       </svg>
 
       <div id="reticleWrap" hidden>
-        <svg class="reticle" id="reticle" viewBox="0 0 320 320" role="img" aria-labelledby="reticleTitle">
+        <svg class="reticle" id="reticle" viewBox="0 0 640 340" role="img" aria-labelledby="reticleTitle">
           <title id="reticleTitle">Reticle with holdover marks</title>
         </svg>
         <p class="hint" id="reticleNote"></p>

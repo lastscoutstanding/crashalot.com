@@ -97,14 +97,16 @@
    * @param {boolean} o.wind    holdover mode only: offset the dots for wind
    * @param {Array} o.rows      trajectory rows, for holdover mode
    * @param {Array} o.points    raw trajectory points, for marks mode
-   * @param {number} o.size     viewBox size in user units
+   * @param {number} o.width    viewBox width in user units
+   * @param {number} o.height   viewBox height in user units
    * @returns {{svg:string, notes:string}}
    */
   function build(o) {
     var cfg = o.config;
-    var size = o.size || 320;
-    var cx = size / 2, cy = size / 2;
-    var R = size / 2 - 8;
+    var W = o.width || 640;
+    var H = o.height || 340;
+    var cx = W / 2, cy = H / 2;
+    var R = Math.min(W, H) / 2 - 8;
     var usable = R - 22;
     var marks = Math.max(1, cfg.marksBelow || 1);
     var per = usable / marks;                 // pixels between engraved marks
