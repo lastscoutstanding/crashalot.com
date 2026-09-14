@@ -10,7 +10,8 @@ folder from GitHub Pages.
 | --- | --- |
 | `index.html` | The page. All markup, no logic. |
 | `ballistics.js` | The engine: atmosphere, drag, RK4 integration, zeroing, BC fitting. No DOM. |
-| `app.js` | Reads the form, calls the engine, renders readouts, chart and table. Owns profiles. |
+| `app.js` | Reads the form, calls the engine, renders readouts, chart, reticle and table. Owns profiles. |
+| `reticle.js` | Draws the reticle as SVG: parametric geometry, holdover dots, reverse range lookup. No DOM. |
 | `theme.css` | Every colour in the app, as tokens, one block per theme. |
 | `theme.js` | Theme switching and persistence. |
 | `app.css` | Layout only. No colours. |
@@ -23,8 +24,8 @@ Drop the folder into the repo that already serves the site:
 
 ```
 /               index.html   (the tile page)
-/rangecard/     index.html, app.js, ballistics.js, theme.css, theme.js,
-                app.css, pellets.txt
+/rangecard/     index.html, app.js, ballistics.js, reticle.js, theme.css,
+                theme.js, app.css, pellets.txt
 ```
 
 Nothing else to configure. GitHub Pages serves subfolders as-is, so it goes
@@ -53,7 +54,12 @@ Everything lives in `localStorage`, prefixed `rc.` so it never collides with
 anything else on the domain:
 
 - `rc.theme` — the selected theme
+- `rc.view` — which result panel, reticle reading mode, wind on or off
 - `rc.state` — profiles and their values
+
+Reticle geometry (pattern, spacing, focal plane, calibration magnification)
+belongs to the scope, so it lives in the profile. How you want to read it is a
+viewing preference and lives in `rc.view`.
 
 Profiles export and import as JSON from the Tools panel.
 
@@ -67,6 +73,19 @@ The `quality` field says how far to trust the BC: `meas` is a published
 measurement, `est` is scaled by weight from a pellet of the same brand, shape
 and calibre, and `none` means no defensible figure exists. Picking a `none`
 pellet sets the weight and deliberately leaves your BC untouched.
+
+## The reticle view
+
+There is no library of branded reticles, deliberately. A reticle drawn with the
+wrong subtension produces a wrong holdover that still looks plausible. Instead
+you describe your reticle in its own geometry — unit, spacing, mark count —
+which is what the scope manual gives you, and that reproduces mil-dot,
+half-mil, MOA and most ladder reticles exactly.
+
+Second focal plane scopes are handled properly: subtensions are only true at
+one magnification, and off it the engraving stays where it is while the
+holdover moves. On a 10× calibrated scope with a 30 m zero, the first mark is
+44 m at 10×, 55 m at 5×, and 40 m at 16×.
 
 ## Accuracy
 

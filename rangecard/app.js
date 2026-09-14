@@ -15,12 +15,14 @@
   var FIELDS = [
     'pellet', 'v0', 'mass', 'bc', 'drag', 'scopeH', 'zero', 'clickVal', 'clickUnit',
     'temp', 'press', 'hum', 'slope', 'wind', 'windDir',
-    'maxRange', 'stepRange', 'zone'
+    'maxRange', 'stepRange', 'zone',
+    'retPattern', 'retUnit', 'retSpacing', 'retMarks', 'retSide', 'retPlane', 'retCalMag', 'retMag'
   ];
 
   var el = {};
   ['profile', 'profileName', 'profileNote', 'renameProfile', 'deleteProfile', 'readouts', 'chart',
-   'rows', 'thHold', 'pelletNote', 'fitV0', 'fitV1', 'fitD', 'fitRun', 'fitOut',
+   'rows', 'thHold', 'pelletNote', 'reticle', 'reticleWrap', 'reticleNote', 'retNote', 'retWind',
+   'fitV0', 'fitV1', 'fitD', 'fitRun', 'fitOut',
    'exportBtn', 'importBtn', 'importFile', 'dataOut'].concat(FIELDS)
     .forEach(function (id) { el[id] = document.getElementById(id); });
 
@@ -29,11 +31,35 @@
       pellet: '', v0: 250, mass: 8.44, bc: 0.024, drag: 'g1', scopeH: 50, zero: 30,
       clickVal: 0.1, clickUnit: 'mil',
       temp: 15, press: 1013, hum: 50, slope: 0, wind: 0, windDir: 90,
-      maxRange: 60, stepRange: 5, zone: 25
+      maxRange: 60, stepRange: 5, zone: 25,
+      retPattern: 'mil-dot', retUnit: 'mil', retSpacing: 1, retMarks: 5, retSide: 4,
+      retPlane: 'ffp', retCalMag: 10, retMag: 10
     };
   }
 
   var state = { version: STATE_VERSION, activeId: null, profiles: [] };
+
+  /* How you want to look at the result is a viewing preference, not a property
+   * of the rifle, so it sits beside rc.theme rather than inside a profile. */
+  var VIEW_KEY = 'rc.view';
+  var view = { panel: 'trajectory', retMode: 'holdover', retWind: false };
+
+  function loadView() {
+    try {
+      var raw = localStorage.getItem(VIEW_KEY);
+      if (!raw) return;
+      var v = JSON.parse(raw);
+      if (v && typeof v === 'object') {
+        if (v.panel === 'reticle' || v.panel === 'trajectory') view.panel = v.panel;
+        if (v.retMode === 'marks' || v.retMode === 'holdover') view.retMode = v.retMode;
+        view.retWind = !!v.retWind;
+      }
+    } catch (e) {}
+  }
+
+  function saveView() {
+    try { localStorage.setItem(VIEW_KEY, JSON.stringify(view)); } catch (e) {}
+  }
 
   /* ---------- pellet library ---------- */
 
@@ -386,6 +412,76 @@
     el.chart.innerHTML = parts.join('');
   }
 
+  function reticleConfig(v) {
+    var preset = Reticle.patterns[v.retPattern];
+    var cfg = {
+      unit: v.retUnit, spacing: v.retSpacing, marksBelow: v.retMarks,
+      marksSide: v.retSide, halfMarks: false,
+      plane: v.retPlane, calMag: v.retCalMag, mag: v.retMag
+    };
+    // A preset owns its geometry; only Custom reads the four geometry fields.
+    if (preset && v.retPattern !== 'custom') {
+      cfg.unit = preset.unit;
+      cfg.spacing = preset.spacing;
+      cfg.marksBelow = preset.marksBelow;
+      cfg.marksSide = preset.marksSide;
+      cfg.halfMarks = preset.halfMarks;
+    }
+    return cfg;
+  }
+
+  function renderReticle(c) {
+    var v = c.values;
+    var out = Reticle.build({
+      config: reticleConfig(v),
+      mode: view.retMode,
+      wind: view.retWind && view.retMode === 'holdover',
+      rows: c.result.rows,
+      points: c.result.points,
+      zeroRange: v.zero,
+      size: 320
+    });
+    el.reticle.innerHTML =
+      '<title id="reticleTitle">Reticle with ' +
+      (view.retMode === 'marks' ? 'range labels on the marks' : 'holdover marks') +
+      '</title>' + out.svg;
+    el.reticleNote.textContent = out.notes;
+  }
+
+  function applyView() {
+    var onReticle = view.panel === 'reticle';
+    el.chart.hidden = onReticle;
+    el.reticleWrap.hidden = !onReticle;
+
+    Array.prototype.forEach.call(document.querySelectorAll('[data-panel]'), function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-panel') === view.panel));
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-retmode]'), function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-retmode') === view.retMode));
+    });
+
+    // Wind only means something for holdover dots; reading marks ignores it.
+    Array.prototype.forEach.call(document.querySelectorAll('.reticle-only'), function (n) {
+      var isWind = n.classList.contains('toggle');
+      n.hidden = !onReticle || (isWind && view.retMode !== 'holdover');
+    });
+    el.retWind.checked = view.retWind;
+  }
+
+  // The geometry fields only apply to a custom reticle; a preset drives itself.
+  function applyPatternFields() {
+    var custom = el.retPattern.value === 'custom';
+    ['retUnit', 'retSpacing', 'retMarks', 'retSide'].forEach(function (id) {
+      el[id].parentNode.hidden = !custom;
+    });
+    var sfp = el.retPlane.value === 'sfp';
+    el.retCalMag.parentNode.hidden = !sfp;
+    el.retMag.parentNode.hidden = !sfp;
+    el.retNote.textContent = sfp
+      ? 'Subtensions are only true at the calibration magnification. Off it, the engraving stays put and the holdover moves.'
+      : 'On a first focal plane scope the subtensions hold at any magnification.';
+  }
+
   /* ---------- wiring ---------- */
 
   function fail(where, e) {
@@ -405,6 +501,7 @@
         var c = compute();
         renderReadouts(c);
         renderChart(c);
+        renderReticle(c);
         renderTable(c);
         active().values = c.values;
         save();
@@ -418,6 +515,28 @@
     el[id].addEventListener('input', refresh);
     el[id].addEventListener('change', refresh);
   });
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-panel]'), function (b) {
+    b.addEventListener('click', function () {
+      view.panel = b.getAttribute('data-panel');
+      applyView(); saveView();
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-retmode]'), function (b) {
+    b.addEventListener('click', function () {
+      view.retMode = b.getAttribute('data-retmode');
+      applyView(); saveView(); refresh();
+    });
+  });
+
+  el.retWind.addEventListener('change', function () {
+    view.retWind = el.retWind.checked;
+    saveView(); refresh();
+  });
+
+  el.retPattern.addEventListener('change', applyPatternFields);
+  el.retPlane.addEventListener('change', applyPatternFields);
 
   var resizeTimer = null;
   var lastNarrow = null;
@@ -514,6 +633,7 @@
     if (el.profile.value === NEW_VALUE) { startNaming('create'); return; }
     state.activeId = el.profile.value;
     valuesToForm(active().values);
+    applyPatternFields();
     el.pelletNote.textContent = DEFAULT_NOTE;
     el.profileNote.textContent = '';
     save();
@@ -637,8 +757,11 @@
 
   function start() {
     load();
+    loadView();
     renderProfileList();
     valuesToForm(active().values);
+    applyPatternFields();
+    applyView();
     loadPellets();
     refresh();
   }

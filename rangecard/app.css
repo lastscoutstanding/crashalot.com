@@ -112,3 +112,28 @@ details[open] > summary { margin-bottom: 10px; }
   .table-wrap th, .table-wrap td { padding: 6px; }
   .readout strong { font-size: 18px; }
 }
+
+/* Result view switch */
+.panel-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+.seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); overflow: hidden; }
+.seg button {
+  border: 0; border-radius: 0; padding: 6px 12px; font-size: 13px;
+  background: transparent; color: var(--text-dim);
+}
+.seg button[aria-pressed="true"] { background: var(--panel-raised); color: var(--accent); }
+
+.toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-dim); margin: 0; }
+.toggle input { width: auto; accent-color: var(--accent); }
+
+.reticle {
+  display: block;
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  margin: 0 auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+#reticleNote { text-align: center; }
