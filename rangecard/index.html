@@ -12,6 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="print.css">
 </head>
 <body>
 <div class="wrap">
@@ -137,6 +138,9 @@
             <button type="button" id="exportBtn">Export JSON</button>
             <button type="button" id="importBtn">Import JSON</button>
           </div>
+          <div class="row" style="margin-top: 8px;">
+            <button type="button" id="printBtn" class="primary">Print card</button>
+          </div>
           <input id="importFile" type="file" accept="application/json,.json" class="sr-only">
           <p class="hint" id="dataOut">Profiles are stored in this browser only.</p>
         </details>
@@ -167,6 +171,8 @@
         </svg>
         <p class="hint" id="reticleNote"></p>
       </div>
+
+      <div class="print-head print-only" id="printHead"></div>
 
       <div class="table-wrap">
         <table>

@@ -22,7 +22,7 @@
   var el = {};
   ['profile', 'profileName', 'profileNote', 'renameProfile', 'deleteProfile', 'readouts', 'chart',
    'rows', 'thHold', 'pelletNote', 'reticle', 'reticleWrap', 'reticleNote', 'retNote', 'retWind',
-   'showReticle',
+   'showReticle', 'printHead', 'printBtn',
    'fitV0', 'fitV1', 'fitD', 'fitRun', 'fitOut',
    'exportBtn', 'importBtn', 'importFile', 'dataOut'].concat(FIELDS)
     .forEach(function (id) { el[id] = document.getElementById(id); });
@@ -312,6 +312,40 @@
     }).join('');
   }
 
+  /* The card has to stand on its own once it leaves the screen: whoever picks
+   * it up needs to see what rifle, what pellet and what weather it was made
+   * for, or the numbers on it mean nothing. */
+  function renderPrintHead(c) {
+    var v = c.values;
+    var pellet = el.pellet.value ? pelletByKey(el.pellet.value) : null;
+    var pelletName = pellet ? pellet.brand + ' ' + pellet.model : v.mass + ' gr pellet';
+
+    var date = new Date().toLocaleDateString('en-GB', {
+      day: 'numeric', month: 'short', year: 'numeric'
+    });
+
+    var load = pelletName + ', ' + fmt(v.mass, 2) + ' gr, BC ' + fmt(v.bc, 4) +
+               ' ' + (v.drag === 'flat' ? 'flat' : 'G1') +
+               ' · ' + fmt(v.v0, 0) + ' m/s · ' +
+               fmt(0.5 * u.grainToKg(v.mass) * v.v0 * v.v0, 1) + ' J';
+
+    var rig = 'Zero ' + fmt(v.zero, 0) + ' m · scope ' + fmt(v.scopeH, 0) + ' mm · ' +
+              fmt(v.clickVal, 2) + ' ' + (v.clickUnit === 'moa' ? 'MOA' : 'MIL') + ' per click';
+
+    var wind = v.wind > 0
+      ? fmt(v.wind, 1) + ' m/s from ' + fmt(v.windDir, 0) + '\u00B0'
+      : 'no wind';
+    var cond = fmt(v.temp, 0) + ' \u00B0C · ' + fmt(v.press, 0) + ' hPa · ' +
+               fmt(v.hum, 0) + '% RH · ' + wind +
+               (v.slope ? ' · slope ' + fmt(v.slope, 0) + '\u00B0' : '');
+
+    el.printHead.innerHTML =
+      '<h2>' + escapeHtml(active().name || 'Range card') + '</h2>' +
+      '<p>' + escapeHtml(load) + '</p>' +
+      '<p>' + escapeHtml(rig) + '</p>' +
+      '<p class="meta">' + escapeHtml(cond) + ' · ' + escapeHtml(date) + '</p>';
+  }
+
   function renderTable(c) {
     var v = c.values;
     var rows = c.result.rows;
@@ -511,6 +545,7 @@
         renderReadouts(c);
         renderChart(c);
         renderReticle(c);
+        renderPrintHead(c);
         renderTable(c);
         active().values = c.values;
         save();
@@ -719,6 +754,8 @@
     el.fitOut.textContent = 'Fitted BC ' + bc.toFixed(4) + ' lb/in², applied above.';
     refresh();
   });
+
+  el.printBtn.addEventListener('click', function () { window.print(); });
 
   el.exportBtn.addEventListener('click', function () {
     var blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });

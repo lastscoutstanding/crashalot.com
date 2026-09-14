@@ -1,0 +1,131 @@
+/* print.css — Range Card
+ *
+ * Turns the screen into a card you can cut out and tape to the stock.
+ *
+ * Colours come from the theme tokens, so printing is mostly a matter of
+ * redefining those tokens for paper. That beats hunting for colours element by
+ * element, and it means a new theme never breaks printing.
+ *
+ * What gets printed: the summary block, the table, and the reticle if it is
+ * open on screen. Not the chart. At the firing line you read numbers; the chart
+ * carries nothing the table doesn't, and it costs a third of the card.
+ */
+
+@page {
+  size: A4 portrait;
+  margin: 12mm;
+}
+
+@media print {
+
+  :root,
+  [data-theme="field"],
+  [data-theme="night"] {
+    --bg: #fff;
+    --panel: #fff;
+    --panel-raised: #fff;
+    --line: #c8c8c8;
+    --line-strong: #8a8a8a;
+    --text: #000;
+    --text-dim: #333;
+    --text-faint: #555;
+    --accent: #000;
+    --accent-hover: #000;
+    --on-accent: #fff;
+    --good: #000;
+    --warn: #000;
+    --bad: #000;
+    color-scheme: light;
+  }
+
+  html, body {
+    background: #fff;
+    color: #000;
+    padding: 0;
+    margin: 0;
+    font-size: 9pt;
+  }
+
+  /* Everything that only makes sense on screen */
+  .masthead,
+  .col-inputs,
+  .panel-head,
+  .chart,
+  .readouts,
+  .col-results > .hint,
+  #reticleNote {
+    display: none !important;
+  }
+
+  .columns { display: block; }
+
+  .col-results {
+    display: block;
+    width: 85mm;
+    border: 1px dashed #999;
+    border-radius: 0;
+    padding: 4mm;
+  }
+
+  .stack { display: block; }
+
+  .print-only { display: block !important; }
+
+  .print-head { margin: 0 0 3mm; }
+
+  .print-head h2 {
+    font-size: 12pt;
+    font-weight: 600;
+    margin: 0 0 1mm;
+    letter-spacing: 0;
+  }
+
+  .print-head p {
+    margin: 0 0 0.8mm;
+    font-size: 8pt;
+    line-height: 1.35;
+    color: #222;
+  }
+
+  .print-head .meta { color: #555; }
+
+  .table-wrap {
+    border: 0;
+    border-radius: 0;
+    overflow: visible;
+    background: none;
+  }
+
+  .table-wrap table { min-width: 0; width: 100%; }
+
+  th, td {
+    padding: 0.7mm 1mm !important;
+    font-size: 8pt;
+    border-bottom: 0.4pt solid #ddd;
+  }
+
+  th {
+    border-bottom: 0.8pt solid #000;
+    color: #000;
+  }
+
+  /* Velocity and energy are interesting at the bench, not on the card */
+  th:nth-child(2), td:nth-child(2),
+  th:nth-child(3), td:nth-child(3) { display: none; }
+
+  tr.is-zero td { font-weight: 600; }
+
+  #reticleWrap { margin-top: 3mm; page-break-inside: avoid; }
+
+  .reticle {
+    border: 0.4pt solid #bbb;
+    border-radius: 0;
+    width: 60mm;
+    margin: 0 auto;
+  }
+
+  a[href]::after { content: ""; }
+}
+
+/* The summary block exists only for paper */
+.print-only { display: none; }

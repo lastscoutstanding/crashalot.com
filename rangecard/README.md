@@ -15,6 +15,7 @@ folder from GitHub Pages.
 | `theme.css` | Every colour in the app, as tokens, one block per theme. |
 | `theme.js` | Theme switching and persistence. |
 | `app.css` | Layout only. No colours. |
+| `print.css` | Print rules: redefines the theme tokens for paper and reshapes the page into a cut-out card. |
 | `pellets.txt` | Pellet library: calibre, brand, model, head size, weight, BC. Plain text, edit by hand. |
 | `check.html` | Bare validation page for comparing the engine against a reference. Not linked from the app. |
 
@@ -25,7 +26,7 @@ Drop the folder into the repo that already serves the site:
 ```
 /               index.html   (the tile page)
 /rangecard/     index.html, app.js, ballistics.js, reticle.js, theme.css,
-                theme.js, app.css, pellets.txt
+                theme.js, app.css, print.css, pellets.txt
 ```
 
 Nothing else to configure. GitHub Pages serves subfolders as-is, so it goes
@@ -86,6 +87,19 @@ Second focal plane scopes are handled properly: subtensions are only true at
 one magnification, and off it the engraving stays where it is while the
 holdover moves. On a 10× calibrated scope with a 30 m zero, the first mark is
 44 m at 10×, 55 m at 5×, and 40 m at 16×.
+
+## Printing
+
+Print card in the Tools panel produces an 85 mm wide dashed-outlined card: the
+setup summary, the range table, and the reticle if it is open on screen. Cut it
+out and it fits a stock or a pocket.
+
+The chart and the velocity and energy columns are left off deliberately. At the
+firing line you read holds; those three carry nothing the remaining columns
+don't and they cost most of the card.
+
+Printing works by redefining the theme tokens for paper inside the print block,
+so a new theme never breaks it and nothing is hunted down element by element.
 
 ## Accuracy
 
