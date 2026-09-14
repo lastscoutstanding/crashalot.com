@@ -122,6 +122,9 @@
 
       <fieldset>
         <legend>Tools</legend>
+        <div class="row" style="margin-bottom: 12px;">
+          <button type="button" id="printBtn" class="primary">Print card</button>
+        </div>
         <details>
           <summary>Fit BC from two chrono readings</summary>
           <div class="fields">
@@ -137,9 +140,6 @@
           <div class="row">
             <button type="button" id="exportBtn">Export JSON</button>
             <button type="button" id="importBtn">Import JSON</button>
-          </div>
-          <div class="row" style="margin-top: 8px;">
-            <button type="button" id="printBtn" class="primary">Print card</button>
           </div>
           <input id="importFile" type="file" accept="application/json,.json" class="sr-only">
           <p class="hint" id="dataOut">Profiles are stored in this browser only.</p>
