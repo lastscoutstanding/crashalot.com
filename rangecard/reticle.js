@@ -89,12 +89,27 @@
 
   function fmt(n, d) { return n.toFixed(d == null ? 1 : d); }
 
+  // Plain words beat degrees on a diagram you read at a glance.
+  function windWord(deg) {
+    var d = ((deg % 360) + 360) % 360;
+    if (d < 22.5 || d >= 337.5) return 'head on';
+    if (d < 67.5) return 'from the right front';
+    if (d < 112.5) return 'from the right';
+    if (d < 157.5) return 'from the right rear';
+    if (d < 202.5) return 'from behind';
+    if (d < 247.5) return 'from the left rear';
+    if (d < 292.5) return 'from the left';
+    return 'from the left front';
+  }
+
   /**
    * @param {object} o
    * @param {object} o.config   {pattern, unit, spacing, marksBelow, halfMarks, marksSide,
    *                             plane:'ffp'|'sfp', calMag, mag}
    * @param {string} o.mode     'holdover' or 'marks'
    * @param {boolean} o.wind    holdover mode only: offset the dots for wind
+   * @param {number} o.windSpeed     m/s, for the wind flag
+   * @param {number} o.windFromDeg   direction the wind comes from
    * @param {Array} o.rows      trajectory rows, for holdover mode
    * @param {Array} o.points    raw trajectory points, for marks mode
    * @param {number} o.width    viewBox width in user units
@@ -146,6 +161,9 @@
     var unitLabel = cfg.unit === 'moa' ? 'MOA' : 'mil';
     var perMarkText = fmt(rad / unitRad(cfg.unit), 2) + ' ' + unitLabel + ' per mark';
     var notes = perMarkText;
+    if (o.mode !== 'marks') {
+      notes += ' · dots are aim points, so they sit opposite the drift';
+    }
 
     if (o.mode === 'marks') {
       var any = false;
@@ -174,6 +192,25 @@
     if (rows.length > 9) {
       var stride = Math.ceil(rows.length / 9);
       rows = rows.filter(function (r, idx) { return idx % stride === 0; });
+    }
+
+    /* A wind flag at the top of the view. Without it the dots are ambiguous:
+     * they are aim points, so they sit on the opposite side from the drift, and
+     * that reads as backwards until you know which way the air is moving. */
+    if (o.wind && o.windSpeed > 0) {
+      var from = (o.windFromDeg || 0) * Math.PI / 180;
+      var blowX = -Math.sin(from);
+      var fy = cy - R + 22;
+      if (Math.abs(blowX) > 0.05) {
+        var half = 26 * (blowX > 0 ? 1 : -1);
+        s.push('<line x1="' + fmt(cx - half) + '" y1="' + fy + '" x2="' + fmt(cx + half) + '" y2="' + fy +
+               '" stroke="' + dim + '" stroke-width="1.2"/>');
+        s.push('<path d="M' + fmt(cx + half) + ' ' + fy + 'l' + fmt(-half / 4) + ' -4l' + fmt(-half / 4) +
+               ' 8z" fill="' + dim + '"/>');
+      }
+      s.push('<text x="' + cx + '" y="' + (fy + 18) + '" fill="' + faint +
+             '" font-size="12" font-family="var(--font-num)" text-anchor="middle">' +
+             fmt(o.windSpeed, 1) + ' m/s ' + esc(windWord(o.windFromDeg || 0)) + '</text>');
     }
 
     var offCount = 0;

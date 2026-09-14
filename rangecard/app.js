@@ -445,6 +445,8 @@
       rows: c.result.rows,
       points: c.result.points,
       zeroRange: v.zero,
+      windSpeed: v.wind,
+      windFromDeg: v.windDir,
       width: W,
       height: H
     });
