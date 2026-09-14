@@ -26,6 +26,7 @@
 #
 # Adding a pellet: append a line. No code change needed.
 
+#   calibre | brand | model | head mm | weight grain | BC lb/in2 | quality | note
 # ---- .177 ----
 .177|JSB|Exact Diabolo|4.52|8.44|0.0190|meas|4.50/4.51/4.52 heads
 .177|JSB|Exact Express|4.52|7.87|0.0190|meas|
