@@ -162,7 +162,7 @@
     var perMarkText = fmt(rad / unitRad(cfg.unit), 2) + ' ' + unitLabel + ' per mark';
     var notes = perMarkText;
     if (o.mode !== 'marks') {
-      notes += ' · dots are aim points, so they sit opposite the drift';
+      notes += ' · dots are aim points: put one on the target';
     }
 
     if (o.mode === 'marks') {
@@ -194,9 +194,7 @@
       rows = rows.filter(function (r, idx) { return idx % stride === 0; });
     }
 
-    /* A wind flag at the top of the view. Without it the dots are ambiguous:
-     * they are aim points, so they sit on the opposite side from the drift, and
-     * that reads as backwards until you know which way the air is moving. */
+    /* A wind flag at the top, showing which way the air is moving. */
     if (o.wind && o.windSpeed > 0) {
       var from = (o.windFromDeg || 0) * Math.PI / 180;
       var blowX = -Math.sin(from);
@@ -213,10 +211,24 @@
              fmt(o.windSpeed, 1) + ' m/s ' + esc(windWord(o.windFromDeg || 0)) + '</text>');
     }
 
+    /* Sign convention, which is easy to get backwards.
+     *
+     * The reticle is fixed to the rifle. Pointing the rifle up sweeps the view
+     * up, so the target sinks in the field of view and you put a mark BELOW
+     * centre on it. Pointing right sweeps the view right, so the target slides
+     * LEFT and you use a mark left of centre.
+     *
+     * Combine that with having to point into the deflection — up against drop,
+     * right against a left drift — and the aim point always lands on the same
+     * side as the deflection itself. Pellet drops, dot sits low. Pellet drifts
+     * left, dot sits left.
+     *
+     * In SVG y grows downward while z grows to the right, so the two axes need
+     * opposite signs here even though they follow one rule. */
     var offCount = 0;
     rows.forEach(function (r) {
       var y = cy + (r.holdRad / rad) * per;
-      var x = cx + (o.wind ? (r.windRad / rad) * per : 0);
+      var x = cx - (o.wind ? (r.windRad / rad) * per : 0);
       var dist2 = (x - cx) * (x - cx) + (y - cy) * (y - cy);
       if (dist2 > (R - 6) * (R - 6)) { offCount++; return; }
       s.push('<circle cx="' + fmt(x) + '" cy="' + fmt(y) + '" r="3.2" fill="' + accent + '"/>');
