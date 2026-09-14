@@ -1,0 +1,65 @@
+# pellets.txt — Range Card pellet library
+#
+# Pipe separated, one pellet per line. Lines starting with # are ignored.
+# Fields:
+#   calibre | brand | model | head mm | weight grain | BC lb/in2 | quality | note
+#
+# Weights are manufacturer figures and are reliable.
+#
+# BCs are not, and you should know why before using one:
+#   - A pellet's BC is not a constant. It moves with velocity, and for a
+#     diabolo it gets BETTER as the pellet slows. Numbers published by US
+#     sources are usually taken around 900 fps and read low on a sub-12 ft-lb
+#     rifle.
+#   - The G1 drag curve is a poor fit for a diabolo. GA is the correct
+#     reference drag law for round-head pellets. These figures are the best
+#     available single-number stand-ins, not physics.
+#   - Barrels vary. So do batches.
+#
+# quality field:
+#   meas  a figure measured and published by shooters, mostly at UK sub-12
+#         ft-lb velocities
+#   est   no measurement found. Scaled by weight from a pellet of the same
+#         brand, shape and calibre. A starting point, nothing more.
+#   none  no defensible number. The app fills in the weight and leaves your BC
+#         alone. Fit it yourself.
+#
+# Adding a pellet: append a line. No code change needed.
+
+# ---- .177 ----
+.177|JSB|Exact Diabolo|4.52|8.44|0.0190|meas|4.50/4.51/4.52 heads
+.177|JSB|Exact Express|4.52|7.87|0.0190|meas|
+.177|JSB|Exact Heavy|4.52|10.34|0.0300|meas|reported 0.029-0.031
+.177|JSB|Exact RS|4.52|7.33|0.0165|est|
+.177|JSB|Hades|4.52|10.34|0.0290|meas|hollow point
+.177|Air Arms|Field Diabolo|4.52|8.44|0.0190|meas|JSB made, 4.51/4.52
+.177|Air Arms|Express|4.52|7.87|0.0190|meas|JSB made
+.177|H&N|Field Target Trophy|4.50|8.64|0.0160|meas|
+.177|H&N|Field Target Trophy|4.51|8.64|0.0170|meas|
+.177|H&N|Baracuda Match|4.50|10.65|0.0200|meas|
+.177|H&N|Baracuda Magnum|4.50|16.36|0.0330|meas|
+.177|H&N|Baracuda Hunter|4.50|10.34|0.0220|meas|hollow point
+.177|H&N|Baracuda Hunter Extreme|4.50|9.57|0.0150|meas|
+.177|RWS|Superdome|4.50|8.3|0.0140|meas|
+.177|RWS|Hobby|4.50|7.0||none|wadcutter, no BC found
+.177|Crosman|Premier Light|4.52|7.9||none|no BC found, fit your own
+.177|Crosman|Premier Heavy|4.52|10.5||none|no BC found, fit your own
+
+# ---- .20 ----
+.20|JSB|Exact Diabolo|5.10|13.73|0.0340|meas|one shooter's chrono pair
+
+# ---- .22 ----
+.22|JSB|Exact Jumbo|5.52|15.89|0.0310|meas|5.50-5.54 heads exist
+.22|JSB|Exact Jumbo Heavy|5.52|18.13|0.0350|meas|
+.22|JSB|Exact Jumbo RS|5.52|13.43|0.0262|est|
+.22|JSB|Exact Jumbo Monster|5.52|25.39||none|longer body, scaling fails, no BC found
+.22|JSB|Hades|5.52|15.89|0.0290|meas|hollow point
+.22|Air Arms|Field Diabolo|5.52|16.0|0.0280|meas|JSB made
+.22|H&N|Baracuda Match|5.51|21.14|0.0350|meas|
+.22|H&N|Field Target Trophy|5.53|14.66|0.0243|est|scaled off Baracuda, head shape differs
+.22|Crosman|Premier|5.50|14.3||none|no BC found, fit your own
+.22|RWS|Superdome|5.50|14.5||none|no BC found, fit your own
+
+# ---- .25 ----
+.25|JSB|Exact King|6.35|25.39||none|published BCs are for 1200+ fps, useless sub-30 ft-lb
+.25|JSB|Exact King Heavy|6.35|33.95||none|no usable BC found

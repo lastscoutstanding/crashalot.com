@@ -13,20 +13,20 @@
   var STATE_VERSION = 1;
 
   var FIELDS = [
-    'v0', 'mass', 'bc', 'drag', 'scopeH', 'zero', 'clickVal', 'clickUnit',
+    'pellet', 'v0', 'mass', 'bc', 'drag', 'scopeH', 'zero', 'clickVal', 'clickUnit',
     'temp', 'press', 'hum', 'slope', 'wind', 'windDir',
     'maxRange', 'stepRange', 'zone'
   ];
 
   var el = {};
   ['profile', 'profileName', 'newProfile', 'deleteProfile', 'readouts', 'chart',
-   'rows', 'thHold', 'fitV0', 'fitV1', 'fitD', 'fitRun', 'fitOut',
+   'rows', 'thHold', 'pelletNote', 'fitV0', 'fitV1', 'fitD', 'fitRun', 'fitOut',
    'exportBtn', 'importBtn', 'importFile', 'dataOut'].concat(FIELDS)
     .forEach(function (id) { el[id] = document.getElementById(id); });
 
   function defaults() {
     return {
-      v0: 250, mass: 8.44, bc: 0.024, drag: 'g1', scopeH: 50, zero: 30,
+      pellet: '', v0: 250, mass: 8.44, bc: 0.024, drag: 'g1', scopeH: 50, zero: 30,
       clickVal: 0.1, clickUnit: 'mil',
       temp: 15, press: 1013, hum: 50, slope: 0, wind: 0, windDir: 90,
       maxRange: 60, stepRange: 5, zone: 25
@@ -34,6 +34,98 @@
   }
 
   var state = { version: STATE_VERSION, activeId: null, profiles: [] };
+
+  /* ---------- pellet library ---------- */
+
+  var pellets = [];
+  var DEFAULT_NOTE = 'Velocity in m/s, weight in grain, scope height in mm, ranges in m.';
+
+  // pellets.txt is pipe separated:
+  // calibre|brand|model|head|weight|bc|quality|note
+  function parsePellets(text) {
+    return text.split(/\r?\n/).reduce(function (out, line) {
+      line = line.trim();
+      if (!line || line.charAt(0) === '#') return out;
+      var f = line.split('|');
+      if (f.length < 7) return out;
+      var weight = parseFloat(f[4]);
+      if (!(weight > 0)) return out;
+      var bc = parseFloat(f[5]);
+      out.push({
+        key: f[0] + '|' + f[1] + '|' + f[2] + '|' + f[3],
+        caliber: f[0], brand: f[1], model: f[2], head: f[3],
+        weight: weight,
+        bc: isFinite(bc) && bc > 0 ? bc : null,
+        quality: f[6] || 'none',
+        note: (f[7] || '').trim()
+      });
+      return out;
+    }, []);
+  }
+
+  function fillPelletSelect() {
+    var groups = [];
+    pellets.forEach(function (p) {
+      var g = groups.filter(function (x) { return x.caliber === p.caliber; })[0];
+      if (!g) { g = { caliber: p.caliber, items: [] }; groups.push(g); }
+      g.items.push(p);
+    });
+
+    var html = '<option value="">Custom / not listed</option>';
+    groups.forEach(function (g) {
+      html += '<optgroup label="' + escapeHtml(g.caliber) + '">';
+      g.items.forEach(function (p) {
+        html += '<option value="' + escapeHtml(p.key) + '">' +
+                escapeHtml(p.brand + ' ' + p.model + ' — ' + p.weight + ' gr' +
+                           (p.head ? ' / ' + p.head : '')) + '</option>';
+      });
+      html += '</optgroup>';
+    });
+    el.pellet.innerHTML = html;
+  }
+
+  function pelletByKey(key) {
+    return pellets.filter(function (p) { return p.key === key; })[0] || null;
+  }
+
+  // Applying a pellet always sets the weight. It only sets the BC when the
+  // library has a defensible one, so a 'none' entry never overwrites a BC the
+  // user fitted themselves.
+  function applyPellet(key) {
+    var p = pelletByKey(key);
+    if (!p) { el.pelletNote.textContent = DEFAULT_NOTE; return; }
+    el.mass.value = p.weight;
+    var msg;
+    if (p.bc && p.quality === 'meas') {
+      el.bc.value = p.bc;
+      msg = 'BC ' + p.bc.toFixed(4) + ', measured figure.';
+    } else if (p.bc) {
+      el.bc.value = p.bc;
+      msg = 'BC ' + p.bc.toFixed(4) + ', estimated by scaling. Fit your own.';
+    } else {
+      msg = 'No usable BC on file. Weight set, BC left alone.';
+    }
+    el.pelletNote.textContent = msg + (p.note ? ' ' + p.note.charAt(0).toUpperCase() + p.note.slice(1) + '.' : '');
+  }
+
+  function loadPellets() {
+    if (typeof fetch !== 'function') return;
+    fetch('pellets.txt', { cache: 'no-cache' })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then(function (text) {
+        pellets = parsePellets(text);
+        if (!pellets.length) throw new Error('empty');
+        fillPelletSelect();
+        var saved = active().values.pellet;
+        if (saved && pelletByKey(saved)) {
+          el.pellet.value = saved;
+          el.pelletNote.textContent = (pelletByKey(saved).note || DEFAULT_NOTE);
+        }
+      })
+      .catch(function () {
+        el.pelletNote.textContent = 'Pellet library unavailable, enter weight and BC by hand.';
+      });
+  }
 
   /* ---------- persistence ---------- */
 
@@ -295,9 +387,25 @@
     el[id].addEventListener('change', refresh);
   });
 
+  el.pellet.addEventListener('change', function () {
+    applyPellet(el.pellet.value);
+    refresh();
+  });
+
+  // Typing a weight or BC by hand means you are no longer on a library pellet.
+  ['mass', 'bc'].forEach(function (id) {
+    el[id].addEventListener('input', function () {
+      if (el.pellet.value) {
+        el.pellet.value = '';
+        el.pelletNote.textContent = DEFAULT_NOTE;
+      }
+    });
+  });
+
   el.profile.addEventListener('change', function () {
     state.activeId = el.profile.value;
     valuesToForm(active().values);
+    el.pelletNote.textContent = DEFAULT_NOTE;
     el.profileName.value = active().name || '';
     save();
     refresh();
@@ -396,5 +504,6 @@
   load();
   renderProfileList();
   valuesToForm(active().values);
+  loadPellets();
   refresh();
 })();

@@ -14,6 +14,7 @@ folder from GitHub Pages.
 | `theme.css` | Every colour in the app, as tokens, one block per theme. |
 | `theme.js` | Theme switching and persistence. |
 | `app.css` | Layout only. No colours. |
+| `pellets.txt` | Pellet library: calibre, brand, model, head size, weight, BC. Plain text, edit by hand. |
 | `check.html` | Bare validation page for comparing the engine against a reference. Not linked from the app. |
 
 ## Deploying under an existing site
@@ -22,7 +23,8 @@ Drop the folder into the repo that already serves the site:
 
 ```
 /               index.html   (the tile page)
-/rangecard/     index.html, app.js, ballistics.js, theme.css, theme.js, app.css
+/rangecard/     index.html, app.js, ballistics.js, theme.css, theme.js,
+                app.css, pellets.txt
 ```
 
 Nothing else to configure. GitHub Pages serves subfolders as-is, so it goes
@@ -54,6 +56,17 @@ anything else on the domain:
 - `rc.state` — profiles and their values
 
 Profiles export and import as JSON from the Tools panel.
+
+## The pellet library
+
+`pellets.txt` is pipe separated, one pellet per line, `#` for comments. Adding
+a pellet is appending a line; no code change needed. The file is fetched at
+load, so `file://` won't serve it — test it on the live site or a local server.
+
+The `quality` field says how far to trust the BC: `meas` is a published
+measurement, `est` is scaled by weight from a pellet of the same brand, shape
+and calibre, and `none` means no defensible figure exists. Picking a `none`
+pellet sets the weight and deliberately leaves your BC untouched.
 
 ## Accuracy
 
