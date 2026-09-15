@@ -479,6 +479,7 @@
       rows: c.result.rows,
       points: c.result.points,
       zeroRange: v.zero,
+      nearZero: c.result.nearZero,
       windSpeed: v.wind,
       windFromDeg: v.windDir,
       width: W,

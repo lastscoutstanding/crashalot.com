@@ -187,8 +187,16 @@
       return { svg: s.join(''), notes: notes };
     }
 
-    // holdover mode
-    var rows = (o.rows || []).filter(function (r) { return r.distance > 0; });
+    /* Holdover mode.
+     *
+     * Only from the near zero outwards. Closer than that the scope height
+     * dominates: at 5 m with a 50 mm mount the pellet is still centimetres
+     * below the line of sight, which is metres of holdover nobody uses and a
+     * dot far off the glass. Including those ranges meant the view permanently
+     * claimed something fell outside the reticle, which trained you to ignore
+     * the one warning that matters — a range too far to hold for. */
+    var from = o.nearZero != null ? o.nearZero - 0.01 : 0;
+    var rows = (o.rows || []).filter(function (r) { return r.distance > 0 && r.distance >= from; });
     if (rows.length > 9) {
       var stride = Math.ceil(rows.length / 9);
       rows = rows.filter(function (r, idx) { return idx % stride === 0; });
@@ -236,7 +244,10 @@
              '" font-size="12" font-family="var(--font-num)">' + fmt(r.distance, 0) + ' m</text>');
     });
 
-    if (offCount) notes += ' · ' + offCount + ' range' + (offCount > 1 ? 's fall' : ' falls') + ' outside the reticle';
+    if (offCount) {
+      notes += ' · ' + offCount + ' range' + (offCount > 1 ? 's need' : ' needs') +
+               ' more holdover than the reticle has';
+    }
     return { svg: s.join(''), notes: notes };
   }
 
