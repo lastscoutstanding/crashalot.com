@@ -43,7 +43,7 @@
   /* How you want to look at the result is a viewing preference, not a property
    * of the rifle, so it sits beside rc.theme rather than inside a profile. */
   var VIEW_KEY = 'rc.view';
-  var view = { showReticle: false, retMode: 'holdover', retWind: false };
+  var view = { showReticle: false, retMode: 'holdover', retBranch: 'far', retWind: false };
 
   function loadView() {
     try {
@@ -54,6 +54,7 @@
         // v.panel is the older shape, when the reticle replaced the chart
         view.showReticle = v.showReticle != null ? !!v.showReticle : v.panel === 'reticle';
         if (v.retMode === 'marks' || v.retMode === 'holdover') view.retMode = v.retMode;
+        if (v.retBranch === 'near' || v.retBranch === 'far') view.retBranch = v.retBranch;
         view.retWind = !!v.retWind;
       }
     } catch (e) {}
@@ -466,6 +467,16 @@
     return cfg;
   }
 
+  // Range at which the path peaks: the point where the two branches meet.
+  function apexRange(points) {
+    if (!points || !points.length) return 0;
+    var best = 0;
+    for (var i = 1; i < points.length; i++) {
+      if (points[i][2] > points[best][2]) best = i;
+    }
+    return points[best][1];
+  }
+
   function renderReticle(c) {
     var v = c.values;
     var narrow = (window.innerWidth || 640) < 560;
@@ -475,11 +486,12 @@
     var out = Reticle.build({
       config: reticleConfig(v),
       mode: view.retMode,
+      branch: view.retBranch,
       wind: view.retWind && view.retMode === 'holdover',
       rows: c.result.rows,
       points: c.result.points,
       zeroRange: v.zero,
-      nearZero: c.result.nearZero,
+      apexRange: apexRange(c.result.points),
       windSpeed: v.wind,
       windFromDeg: v.windDir,
       width: W,
@@ -503,11 +515,16 @@
     Array.prototype.forEach.call(document.querySelectorAll('[data-retmode]'), function (b) {
       b.setAttribute('aria-pressed', String(b.getAttribute('data-retmode') === view.retMode));
     });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-branch]'), function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-branch') === view.retBranch));
+    });
 
-    // Wind only means something for holdover dots; reading marks ignores it.
     Array.prototype.forEach.call(document.querySelectorAll('.reticle-only'), function (n) {
-      var isWind = n.classList.contains('toggle');
-      n.hidden = !onReticle || (isWind && view.retMode !== 'holdover');
+      n.hidden = !onReticle;
+    });
+    // Branch and wind only mean something for holdover dots; reading marks ignores both.
+    Array.prototype.forEach.call(document.querySelectorAll('.holdover-only'), function (n) {
+      n.hidden = !onReticle || view.retMode !== 'holdover';
     });
     el.retWind.checked = view.retWind;
   }
@@ -569,6 +586,13 @@
   Array.prototype.forEach.call(document.querySelectorAll('[data-retmode]'), function (b) {
     b.addEventListener('click', function () {
       view.retMode = b.getAttribute('data-retmode');
+      applyView(); saveView(); refresh();
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-branch]'), function (b) {
+    b.addEventListener('click', function () {
+      view.retBranch = b.getAttribute('data-branch');
       applyView(); saveView(); refresh();
     });
   });

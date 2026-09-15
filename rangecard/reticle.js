@@ -189,14 +189,16 @@
 
     /* Holdover mode.
      *
-     * Only from the near zero outwards. Closer than that the scope height
-     * dominates: at 5 m with a 50 mm mount the pellet is still centimetres
-     * below the line of sight, which is metres of holdover nobody uses and a
-     * dot far off the glass. Including those ranges meant the view permanently
-     * claimed something fell outside the reticle, which trained you to ignore
-     * the one warning that matters — a range too far to hold for. */
-    var from = o.nearZero != null ? o.nearZero - 0.01 : 0;
-    var rows = (o.rows || []).filter(function (r) { return r.distance > 0 && r.distance >= from; });
+     * The path climbs to its apex and then falls, so a given hold belongs to
+     * two ranges, one on each branch, and those two dots land on exactly the
+     * same spot on the glass. Drawing both is not busy, it is ambiguous. So the
+     * branch is a choice: 'far' from the apex outwards, which is the usual
+     * case, 'near' for everything up to it. */
+    var apex = o.apexRange != null ? o.apexRange : 0;
+    var rows = (o.rows || []).filter(function (r) {
+      if (r.distance <= 0) return false;
+      return o.branch === 'near' ? r.distance <= apex + 0.01 : r.distance >= apex - 0.01;
+    });
     if (rows.length > 9) {
       var stride = Math.ceil(rows.length / 9);
       rows = rows.filter(function (r, idx) { return idx % stride === 0; });
@@ -233,15 +235,34 @@
      *
      * In SVG y grows downward while z grows to the right, so the two axes need
      * opposite signs here even though they follow one rule. */
+    /* Around the zero the path is nearly flat, so several ranges sit within a
+     * fraction of a mark and their labels collide. The dots stay where the
+     * numbers put them; only the labels get pushed apart, with a leader line
+     * back to the dot so it stays obvious which is which. */
+    var placed = [];
     var offCount = 0;
     rows.forEach(function (r) {
       var y = cy + (r.holdRad / rad) * per;
       var x = cx - (o.wind ? (r.windRad / rad) * per : 0);
       var dist2 = (x - cx) * (x - cx) + (y - cy) * (y - cy);
       if (dist2 > (R - 6) * (R - 6)) { offCount++; return; }
-      s.push('<circle cx="' + fmt(x) + '" cy="' + fmt(y) + '" r="3.2" fill="' + accent + '"/>');
-      s.push('<text x="' + fmt(x + 8) + '" y="' + fmt(y + 4) + '" fill="' + accent +
-             '" font-size="12" font-family="var(--font-num)">' + fmt(r.distance, 0) + ' m</text>');
+      placed.push({ x: x, y: y, label: fmt(r.distance, 0) + ' m' });
+    });
+
+    placed.sort(function (a, b) { return a.y - b.y; });
+    var lastLabelY = -1e6;
+    placed.forEach(function (pt) {
+      var ly = pt.y;
+      if (ly < lastLabelY + 14) ly = lastLabelY + 14;
+      lastLabelY = ly;
+      var lx = pt.x + 9;
+      if (Math.abs(ly - pt.y) > 1.5) {
+        s.push('<line x1="' + fmt(pt.x + 4) + '" y1="' + fmt(pt.y) + '" x2="' + fmt(lx - 2) +
+               '" y2="' + fmt(ly) + '" stroke="' + faint + '" stroke-width="0.8"/>');
+      }
+      s.push('<circle cx="' + fmt(pt.x) + '" cy="' + fmt(pt.y) + '" r="3.2" fill="' + accent + '"/>');
+      s.push('<text x="' + fmt(lx) + '" y="' + fmt(ly + 4) + '" fill="' + accent +
+             '" font-size="12" font-family="var(--font-num)">' + pt.label + '</text>');
     });
 
     if (offCount) {

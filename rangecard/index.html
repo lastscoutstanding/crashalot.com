@@ -161,7 +161,11 @@
           <button type="button" data-retmode="holdover" aria-pressed="true">Holdover</button>
           <button type="button" data-retmode="marks" aria-pressed="false">Read marks</button>
         </div>
-        <label class="toggle reticle-only" hidden><input type="checkbox" id="retWind"> Wind</label>
+        <div class="seg holdover-only" role="group" aria-label="Trajectory branch" hidden>
+          <button type="button" data-branch="near">Near</button>
+          <button type="button" data-branch="far" aria-pressed="true">Far</button>
+        </div>
+        <label class="toggle holdover-only" hidden><input type="checkbox" id="retWind"> Wind</label>
       </div>
 
       <svg class="chart" id="chart" viewBox="0 0 640 240" role="img" aria-labelledby="chartTitle">
