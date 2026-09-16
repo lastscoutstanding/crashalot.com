@@ -57,10 +57,8 @@ body {
 }
 .pager button[aria-pressed="true"] { background: var(--panel-raised); color: var(--accent); }
 
-.plot-seg { display: inline-flex; }
-.plot-toggle { display: none; }
-
-/* One at a time on a phone: the chart steps aside when the reticle is up */
+/* One plot at a time, on any screen. The segmented pair is the only control,
+ * so what it says is what you get. */
 .col-results.has-reticle .chart { display: none; }
 
 @media (min-width: 860px) {
@@ -73,9 +71,6 @@ body {
   .columns > * { flex: none; }
   .col-inputs { position: sticky; top: 16px; }
   .pager { display: none; }
-  .plot-seg { display: none; }
-  .plot-toggle { display: inline-flex; }
-  .col-results.has-reticle .chart { display: block; }
 }
 
 .stack { display: flex; flex-direction: column; gap: var(--gap); }
@@ -152,6 +147,38 @@ details[open] > summary { margin-bottom: 10px; }
 .icon-btn.armed { color: var(--bad); border-color: var(--bad); }
 
 #profileNote:empty { display: none; }
+
+/* Phones: each pane keeps its own scroll position.
+ *
+ * With the page as one long document both panes share the document's scroll,
+ * so scrolling the setup pane moves the card pane with it and swiping lands
+ * you halfway down the other screen. Pinning the shell to the viewport and
+ * letting each pane scroll inside itself gives them separate positions, and
+ * keeps the pager reachable instead of scrolled off the top. */
+@media (max-width: 859.98px) {
+  html, body { height: 100%; }
+
+  body {
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-bottom: 0;
+  }
+
+  .wrap { display: flex; flex-direction: column; flex: 1; min-height: 0; width: 100%; }
+
+  .columns { flex: 1; min-height: 0; align-items: stretch; }
+
+  .columns > * {
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    padding-bottom: calc(40px + env(safe-area-inset-bottom));
+  }
+}
 
 /* Portrait phones */
 @media (max-width: 460px) {

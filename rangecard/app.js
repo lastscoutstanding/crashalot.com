@@ -22,7 +22,7 @@
   var el = {};
   ['profile', 'profileName', 'profileNote', 'renameProfile', 'deleteProfile', 'readouts', 'chart',
    'rows', 'thHold', 'pelletNote', 'reticle', 'reticleWrap', 'reticleNote', 'retNote', 'retWind',
-   'showReticle', 'printHead', 'printBtn',
+   'printHead', 'printBtn',
    'fitV0', 'fitV1', 'fitD', 'fitRun', 'fitOut',
    'exportBtn', 'importBtn', 'importFile', 'dataOut'].concat(FIELDS)
     .forEach(function (id) { el[id] = document.getElementById(id); });
@@ -533,7 +533,6 @@
     // replacement: the two answer the same question in different forms and are
     // worth reading together.
     var onReticle = view.showReticle;
-    el.showReticle.checked = onReticle;
     el.reticleWrap.hidden = !onReticle;
     document.querySelector('.col-results').classList.toggle('has-reticle', onReticle);
     Array.prototype.forEach.call(document.querySelectorAll('[data-plot]'), function (b) {
@@ -611,8 +610,6 @@
     view.showReticle = on;
     applyView(); saveView(); refresh();
   }
-
-  el.showReticle.addEventListener('change', function () { setReticle(el.showReticle.checked); });
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-plot]'), function (b) {
     b.addEventListener('click', function () { setReticle(b.getAttribute('data-plot') === 'reticle'); });

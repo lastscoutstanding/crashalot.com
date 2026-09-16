@@ -57,7 +57,19 @@
     display: none !important;
   }
 
+  /* The phone layout pins the shell to the viewport and scrolls inside the
+   * panes. On paper that would clip everything to one screen. */
+  html, body {
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  .wrap { display: block; }
+
   .columns { display: block; }
+
+  .columns > * { height: auto; overflow: visible; }
 
   .col-results {
     display: block;
