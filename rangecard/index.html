@@ -33,6 +33,11 @@
     <div data-theme-switch></div>
   </header>
 
+  <div class="pager" role="group" aria-label="Screen">
+    <button type="button" data-pane="0" aria-pressed="true">Setup</button>
+    <button type="button" data-pane="1" aria-pressed="false">Card</button>
+  </div>
+
   <div class="columns">
 
     <div class="col-inputs stack">
@@ -161,7 +166,11 @@
       <div class="readouts" id="readouts"></div>
 
       <div class="panel-head">
-        <label class="toggle"><input type="checkbox" id="showReticle"> Reticle</label>
+        <div class="seg plot-seg" role="group" aria-label="Plot">
+          <button type="button" data-plot="chart" aria-pressed="true">Chart</button>
+          <button type="button" data-plot="reticle" aria-pressed="false">Reticle</button>
+        </div>
+        <label class="toggle plot-toggle"><input type="checkbox" id="showReticle"> Reticle</label>
         <div class="seg reticle-only" role="group" aria-label="Reticle reading" hidden>
           <button type="button" data-retmode="holdover" aria-pressed="true">Holdover</button>
           <button type="button" data-retmode="marks" aria-pressed="false">Read marks</button>

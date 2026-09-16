@@ -33,11 +33,49 @@ body {
 .masthead h1 { margin: 0; line-height: 1; }
 .masthead p { margin: 4px 0 0; font-size: 13px; color: var(--text-faint); }
 
-.columns { display: grid; gap: 20px; align-items: start; }
+/* Phone first: the two panes sit side by side in a horizontal scroller with
+ * snap points, so one swipe moves between setup and card. On a laptop there is
+ * room for both at once, so the scroller becomes a plain two-column grid and
+ * the pager disappears. Same markup, same state, both ways. */
+.columns {
+  display: flex;
+  gap: 20px;
+  align-items: start;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.columns::-webkit-scrollbar { display: none; }
+.columns > * { flex: 0 0 100%; scroll-snap-align: start; }
+
+.pager { display: flex; gap: 1px; background: var(--line); border: 1px solid var(--line);
+         border-radius: var(--radius-sm); overflow: hidden; margin: 0 0 14px; }
+.pager button {
+  flex: 1; border: 0; border-radius: 0; padding: 8px 12px; font-size: 14px;
+  background: var(--panel); color: var(--text-dim);
+}
+.pager button[aria-pressed="true"] { background: var(--panel-raised); color: var(--accent); }
+
+.plot-seg { display: inline-flex; }
+.plot-toggle { display: none; }
+
+/* One at a time on a phone: the chart steps aside when the reticle is up */
+.col-results.has-reticle .chart { display: none; }
 
 @media (min-width: 860px) {
-  .columns { grid-template-columns: 300px minmax(0, 1fr); }
+  .columns {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+  .columns > * { flex: none; }
   .col-inputs { position: sticky; top: 16px; }
+  .pager { display: none; }
+  .plot-seg { display: none; }
+  .plot-toggle { display: inline-flex; }
+  .col-results.has-reticle .chart { display: block; }
 }
 
 .stack { display: flex; flex-direction: column; gap: var(--gap); }
@@ -126,7 +164,12 @@ details[open] > summary { margin-bottom: 10px; }
   .fields { gap: 8px; }
   .table-wrap table { min-width: 430px; }
   .table-wrap th, .table-wrap td { padding: 6px; }
-  .readout strong { font-size: 18px; }
+  .readout strong { font-size: 17px; }
+  .readouts { grid-template-columns: repeat(3, 1fr); }
+  .readout { padding: 7px 8px; }
+  .readout span { font-size: 11px; }
+  .readout strong small { font-size: 11px; }
+  .panel-head { gap: 8px; }
 }
 
 /* Result view switch */

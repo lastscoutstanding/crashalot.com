@@ -504,6 +504,30 @@
     el.reticleNote.textContent = out.notes;
   }
 
+  /* The pager and the snap scroller are two views on one number: which pane is
+   * in front. On a laptop the scroller is a grid, scrollLeft stays 0 and none
+   * of this does anything. */
+  var columns = document.querySelector('.columns');
+
+  function goPane(i) {
+    var pane = columns.children[i];
+    if (!pane) return;
+    var left = pane.offsetLeft - columns.offsetLeft;
+    if (columns.scrollTo) columns.scrollTo({ left: left, behavior: 'smooth' });
+    else columns.scrollLeft = left;
+  }
+
+  function syncPager() {
+    var best = 0, bestGap = Infinity;
+    for (var i = 0; i < columns.children.length; i++) {
+      var gap = Math.abs((columns.children[i].offsetLeft - columns.offsetLeft) - columns.scrollLeft);
+      if (gap < bestGap) { bestGap = gap; best = i; }
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('[data-pane]'), function (b) {
+      b.setAttribute('aria-pressed', String(Number(b.getAttribute('data-pane')) === best));
+    });
+  }
+
   function applyView() {
     // The chart always stays. The reticle is an extra panel below it, not a
     // replacement: the two answer the same question in different forms and are
@@ -511,6 +535,11 @@
     var onReticle = view.showReticle;
     el.showReticle.checked = onReticle;
     el.reticleWrap.hidden = !onReticle;
+    document.querySelector('.col-results').classList.toggle('has-reticle', onReticle);
+    Array.prototype.forEach.call(document.querySelectorAll('[data-plot]'), function (b) {
+      var wants = b.getAttribute('data-plot') === 'reticle';
+      b.setAttribute('aria-pressed', String(wants === onReticle));
+    });
 
     Array.prototype.forEach.call(document.querySelectorAll('[data-retmode]'), function (b) {
       b.setAttribute('aria-pressed', String(b.getAttribute('data-retmode') === view.retMode));
@@ -578,10 +607,26 @@
     el[id].addEventListener('change', refresh);
   });
 
-  el.showReticle.addEventListener('change', function () {
-    view.showReticle = el.showReticle.checked;
+  function setReticle(on) {
+    view.showReticle = on;
     applyView(); saveView(); refresh();
+  }
+
+  el.showReticle.addEventListener('change', function () { setReticle(el.showReticle.checked); });
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-plot]'), function (b) {
+    b.addEventListener('click', function () { setReticle(b.getAttribute('data-plot') === 'reticle'); });
   });
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-pane]'), function (b) {
+    b.addEventListener('click', function () { goPane(Number(b.getAttribute('data-pane'))); });
+  });
+
+  var pagerTimer = null;
+  columns.addEventListener('scroll', function () {
+    if (pagerTimer) return;
+    pagerTimer = requestAnimationFrame(function () { pagerTimer = null; syncPager(); });
+  }, { passive: true });
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-retmode]'), function (b) {
     b.addEventListener('click', function () {
@@ -831,6 +876,7 @@
     valuesToForm(active().values);
     applyPatternFields();
     applyView();
+    syncPager();
     loadPellets();
     refresh();
   }
