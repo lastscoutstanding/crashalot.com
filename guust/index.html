@@ -1,1 +1,345 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M'enfin! CrashALot.com</title>
+    <meta name="description" content="Het knutselhok van CrashALot: een wijnkelder, een horlogecafé en een ballistiekkaart voor luchtdruk.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💥</text></svg>">
+    <style>
+        /* Kleur per bestemming: elke tegel draagt de kleur van de site waar hij heen gaat */
+        :root {
+            --ink: #1a1a1a;
+            --paper: #fff9e6;
+            --guust-rood: #d32f2f;
+            --trui-groen: #2e7d32;
+            --wijn: #7b1e3a;
+            --horloge: #d96a41;
+            --baan: #6b7a2f;
+        }
 
+        body {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                              url('../img/GFChemieVoorBeginners.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: var(--ink);
+            font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        /* Header: handgetekende look */
+        header {
+            background-color: var(--paper);
+            border: 4px solid var(--ink);
+            padding: 30px;
+            margin: 20px 0 50px;
+            text-align: center;
+            border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
+            box-shadow: 10px 10px 0 #000;
+            max-width: 90%;
+            transform: rotate(-1deg);
+        }
+
+        h1 {
+            font-size: clamp(2rem, 7vw, 3.5rem);
+            text-transform: uppercase;
+            margin: 0;
+            letter-spacing: -2px;
+            color: var(--guust-rood);
+            line-height: 1.05;
+        }
+
+        .heel { white-space: nowrap; }
+
+        header p {
+            font-size: 1.2rem;
+            margin: 10px 0 0;
+            font-weight: bold;
+            color: var(--trui-groen);
+        }
+
+        /* Drie strip-panelen */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px 30px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .card {
+            --kleur: var(--ink);
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border: 3px solid var(--ink);
+            padding: 25px;
+            position: relative;
+            border-radius: 10px 100px 15px 80px/80px 15px 100px 10px;
+            box-shadow: 6px 6px 0 var(--ink);
+            transition: transform 0.2s, background-color 0.2s;
+            color: inherit;
+            text-decoration: none;
+        }
+        .card:nth-child(1) { --kleur: var(--wijn);    transform: rotate(-1.2deg); }
+        .card:nth-child(2) { --kleur: var(--horloge); transform: rotate(0.8deg); }
+        .card:nth-child(3) { --kleur: var(--baan);    transform: rotate(-0.5deg); }
+
+        .card:hover,
+        .card:focus-visible {
+            transform: scale(1.03) rotate(1deg);
+            background-color: #ffffcc;
+        }
+        .card:nth-child(2):hover,
+        .card:nth-child(2):focus-visible { transform: scale(1.03) rotate(-1deg); }
+
+        .card:focus-visible {
+            outline: 4px dashed #ffeb3b;
+            outline-offset: 6px;
+        }
+
+        .comic-bubble {
+            align-self: flex-start;
+            background: var(--ink);
+            color: #fff;
+            padding: 5px 15px;
+            transform: skew(-10deg);
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 8px;
+        }
+        .icon .vul { fill: var(--kleur); }
+
+        h2 {
+            margin: 0 0 8px;
+            text-decoration: underline;
+            text-decoration-color: var(--kleur);
+            text-decoration-thickness: 4px;
+            text-underline-offset: 5px;
+            font-size: 1.5rem;
+        }
+
+        p { line-height: 1.45; }
+
+        .card p { margin: 0 0 20px; flex: 1; }
+
+        /* Adres-stempel onderaan elke tegel */
+        .stempel {
+            align-self: flex-start;
+            border: 3px dashed var(--kleur);
+            color: var(--kleur);
+            padding: 4px 12px;
+            font-weight: bold;
+            transform: rotate(-2deg);
+            background: #fff;
+        }
+
+        .boom {
+            position: absolute;
+            top: -20px;
+            right: -14px;
+            background: #ffeb3b;
+            border: 2px solid #000;
+            padding: 5px 8px;
+            transform: rotate(15deg);
+            font-weight: bolder;
+        }
+
+        /* Footer + de knop waar je niet op moet drukken */
+        footer {
+            margin-top: auto;
+            padding: 50px 20px 30px;
+            color: #fff;
+            text-shadow: 2px 2px #000;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .niet-drukken {
+            font: inherit;
+            font-size: 0.95rem;
+            background: var(--guust-rood);
+            color: #fff;
+            text-shadow: none;
+            border: 3px solid #000;
+            border-radius: 50% 45% 50% 40%;
+            box-shadow: 4px 4px 0 #000;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transform: rotate(-3deg);
+        }
+        .niet-drukken:active { transform: rotate(-3deg) translate(3px, 3px); box-shadow: 1px 1px 0 #000; }
+        .niet-drukken:focus-visible { outline: 4px dashed #ffeb3b; outline-offset: 5px; }
+
+        .knal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            z-index: 10;
+            background: #ffeb3b;
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0 #000;
+            padding: 20px 34px;
+            font-size: clamp(2rem, 9vw, 4.5rem);
+            font-weight: bolder;
+            color: var(--guust-rood);
+            clip-path: polygon(0% 18%, 14% 0%, 28% 14%, 46% 0%, 58% 16%, 78% 2%, 84% 22%, 100% 20%, 90% 44%, 100% 64%, 84% 72%, 90% 100%, 64% 86%, 48% 100%, 36% 84%, 14% 98%, 16% 74%, 0% 70%, 10% 46%);
+            transform: translate(-50%, -50%) rotate(-8deg) scale(0);
+            pointer-events: none;
+        }
+
+        /* Alles valt om... en veert terug */
+        body.gecrasht .knal { animation: knal 1.6s ease-out; }
+        body.gecrasht .card:nth-child(1) { animation: omval-links 1.6s ease-in-out; }
+        body.gecrasht .card:nth-child(2) { animation: zak-in 1.6s ease-in-out; }
+        body.gecrasht .card:nth-child(3) { animation: omval-rechts 1.6s ease-in-out; }
+        body.gecrasht header { animation: schud 0.5s linear 2; }
+
+        @keyframes knal {
+            0%   { transform: translate(-50%, -50%) rotate(-8deg) scale(0); }
+            15%  { transform: translate(-50%, -50%) rotate(-8deg) scale(1.15); }
+            25%  { transform: translate(-50%, -50%) rotate(-4deg) scale(1); }
+            80%  { transform: translate(-50%, -50%) rotate(-4deg) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) rotate(-4deg) scale(1); opacity: 0; }
+        }
+        @keyframes omval-links {
+            0%, 100% { transform: rotate(-1.2deg); }
+            20%, 70% { transform: translate(-30px, 60px) rotate(-24deg); }
+        }
+        @keyframes zak-in {
+            0%, 100% { transform: rotate(0.8deg); }
+            20%, 70% { transform: translateY(90px) rotate(6deg) scaleY(0.9); }
+        }
+        @keyframes omval-rechts {
+            0%, 100% { transform: rotate(-0.5deg); }
+            20%, 70% { transform: translate(30px, 50px) rotate(21deg); }
+        }
+        @keyframes schud {
+            0%, 100% { transform: rotate(-1deg); }
+            25% { transform: translateX(-8px) rotate(-3deg); }
+            75% { transform: translateX(8px) rotate(1deg); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .card, .card:hover, .card:focus-visible { transition: none; }
+            body.gecrasht .card,
+            body.gecrasht header { animation: none; }
+            body.gecrasht .knal { animation: none; transform: translate(-50%, -50%) rotate(-4deg) scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>M'ENFIN! <span class="heel">CRASH-A-LOT</span></h1>
+        <p>— Voor als het weer eens vakkundig misgaat —</p>
+    </header>
+
+    <main class="grid">
+        <!-- Paneel 1: Wijnkelder -->
+        <a class="card" href="https://wijnkelder.eu">
+            <div class="boom">PLOP!</div>
+            <div class="comic-bubble">DE KELDER</div>
+            <svg class="icon" viewBox="0 0 64 64" aria-hidden="true">
+                <path class="vul" d="M18 8 h28 c1 14 -2 26 -14 28 c-12 -2 -15 -14 -14 -28z" stroke="#1a1a1a" stroke-width="3.5" stroke-linejoin="round"/>
+                <path d="M19 17 h26" stroke="#1a1a1a" stroke-width="3" fill="none"/>
+                <path d="M32 36 v18 M20 57 c6 -3 18 -3 24 0" stroke="#1a1a1a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                <path d="M26 12 q-2 5 0 10" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".7"/>
+            </svg>
+            <h2>WIJNKELDER</h2>
+            <p>De hele voorraad bijhouden en doorzoeken, met AI die de details van een fles opzoekt. Nooit meer die ene goede fles vergeten achterin het rek.</p>
+            <span class="stempel">wijnkelder.eu</span>
+        </a>
+
+        <!-- Paneel 2: Watch Café -->
+        <a class="card" href="https://watchcafe.eu">
+            <div class="boom">TIK-TAK!</div>
+            <div class="comic-bubble">SIOUX WATCH CAFÉ</div>
+            <svg class="icon" viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M24 4 h16 l2 12 M24 4 l-2 12 M22 48 l2 12 h16 l2 -12" stroke="#1a1a1a" stroke-width="3.5" fill="none" stroke-linejoin="round"/>
+                <circle class="vul" cx="32" cy="32" r="19" stroke="#1a1a1a" stroke-width="3.5"/>
+                <circle cx="32" cy="32" r="13" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+                <path d="M32 32 V23 M32 32 l7 4" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                <rect x="51" y="29" width="5" height="6" rx="1" fill="#1a1a1a"/>
+            </svg>
+            <h2>WATCH CAFÉ</h2>
+            <p>Onze maandelijkse horlogemeetup, plus meetgereedschap: loopt je horloge voor of achter, en hoe lang tikt hij door op één keer opwinden?</p>
+            <span class="stempel">watchcafe.eu</span>
+        </a>
+
+        <!-- Paneel 3: Range Card -->
+        <a class="card" href="../rangecard/">
+            <div class="boom">PAF!</div>
+            <div class="comic-bubble">OP DE BAAN</div>
+            <svg class="icon" viewBox="0 0 64 64" aria-hidden="true">
+                <circle class="vul" cx="32" cy="32" r="24" stroke="#1a1a1a" stroke-width="3.5"/>
+                <circle cx="32" cy="32" r="15" fill="#fff" stroke="#1a1a1a" stroke-width="3"/>
+                <circle cx="32" cy="32" r="6" fill="#d32f2f" stroke="#1a1a1a" stroke-width="2.5"/>
+                <path d="M32 2 v14 M32 48 v14 M2 32 h14 M48 32 h14" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <h2>RANGE CARD</h2>
+            <p>Ballistiek voor luchtdruk: baan van de kogel, overhouden op afstand en een kaartje om mee te nemen naar de schietbaan.</p>
+            <span class="stempel">crashalot.com/rangecard</span>
+        </a>
+    </main>
+
+    <div class="knal" aria-hidden="true">KRAKK!</div>
+
+    <footer>
+        <button class="niet-drukken" type="button">Niet op drukken</button>
+        <p id="spreuk" aria-live="polite">"M'enfin, ik wist niet dat dat knopje daarvoor was!"</p>
+        <p>&copy; <span id="jaar">2026</span> CrashALot.com</p>
+    </footer>
+
+    <script>
+        document.getElementById('jaar').textContent = new Date().getFullYear();
+
+        // Na elke druk op de knop een nieuwe smoes
+        const smoezen = [
+            '"M\'enfin, ik wist niet dat dat knopje daarvoor was!"',
+            '"Het stond er toch niet op dat je er niet op mocht drukken?"',
+            '"Dat was geen crash, dat was een ongeplande feature."',
+            '"Werkte gisteren nog. Denk ik."',
+            '"Volgens de handleiding kan dit helemaal niet."',
+            '"Rustig maar, het ruikt pas verbrand na de tweede keer."'
+        ];
+        let smoesNr = 0;
+        const knop = document.querySelector('.niet-drukken');
+        const spreuk = document.getElementById('spreuk');
+
+        knop.addEventListener('click', () => {
+            const body = document.body;
+            body.classList.remove('gecrasht');
+            void body.offsetWidth; // animatie opnieuw laten starten
+            body.classList.add('gecrasht');
+            smoesNr = (smoesNr % (smoezen.length - 1)) + 1;
+            spreuk.textContent = smoezen[smoesNr];
+            knop.textContent = 'Echt niet op drukken';
+        });
+
+        // Opruimen na afloop (ook als animaties uit staan bij reduced motion)
+        let opruimTimer;
+        knop.addEventListener('click', () => {
+            clearTimeout(opruimTimer);
+            opruimTimer = setTimeout(() => document.body.classList.remove('gecrasht'), 1700);
+        });
+    </script>
+
+</body>
+</html>
