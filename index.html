@@ -3,31 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrashALot | Beveiligde verbinding</title>
-    <meta name="description" content="Het hoofdkwartier van CrashALot: alle lopende operaties op één plek.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕵️</text></svg>">
+    <title>CrashALot | Projecten</title>
+    <meta name="description" content="Een verzameling projecten: webapps, tools en experimenten.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%23111'/><text x='50' y='68' font-family='Arial' font-weight='700' font-size='52' fill='%23ff6a33' text-anchor='middle'>C</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
     <style>
         /* =========================================================
            Tokens
            ========================================================= */
         :root {
-            --nacht: #0f1b26;         /* achtergrond: briefingruimte */
-            --staal: #1b2b38;         /* panelen */
-            --lijn: #34495a;          /* randen */
-            --tekst: #dfe6ea;
-            --gedempt: #93a5b2;
-            --manilla: #d8c08e;       /* dossiermap */
-            --manilla-donker: #b89d64;
-            --inkt: #2b2418;          /* typmachine-inkt */
-            --stempel: #b3261e;       /* stempels en alarm */
-            --uv: #8b5cf6;            /* UV-licht */
-            --uv-gloed: #f1ebff;
+            --zwart: #000;
+            --wit: #fff;
+            --tekst-donker: #141414;
+            --gedempt: #9a9a9a;
 
-            --interface: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
-            --typmachine: "Special Elite", "Courier New", Courier, monospace;
+            /* Tegelkleuren */
+            --grijs: #cfcfcf;
+            --gebroken-wit: #efefef;
+            --geel: #e8d84f;
+            --cyaan: #4fd8f2;
+            --oranje: #ff6a33;
+            --paars: #b57bf2;
+
+            --serif: "Newsreader", "Iowan Old Style", Georgia, "Times New Roman", serif;
+            --sans: "Instrument Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+
+            --rand: clamp(16px, 3vw, 32px);
+            --tussenruimte: clamp(12px, 1.6vw, 20px);
         }
 
         *, *::before, *::after { box-sizing: border-box; }
@@ -36,931 +40,383 @@
 
         body {
             min-height: 100vh;
-            background-color: var(--nacht);
-            background-image:
-                radial-gradient(ellipse at 50% 0%, rgba(80, 120, 150, 0.18), transparent 60%),
-                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-            background-size: 100% 100%, 48px 48px, 48px 48px;
-            color: var(--tekst);
-            font-family: var(--interface);
-            font-size: 1rem;
-            line-height: 1.5;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
+            background: var(--zwart);
+            color: var(--wit);
+            font-family: var(--sans);
+            font-size: 1rem;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
-
-        [hidden] { display: none !important; }
 
         a { color: inherit; }
 
         :focus-visible {
-            outline: 2px solid var(--uv);
+            outline: 2px solid var(--wit);
             outline-offset: 3px;
         }
 
-        .knop-link {
-            font: inherit;
-            background: none;
-            border: 0;
-            padding: 0;
-            color: var(--gedempt);
-            text-decoration: underline;
-            text-underline-offset: 3px;
-            cursor: pointer;
-        }
-        .knop-link:hover { color: var(--tekst); }
-
         /* =========================================================
-           Bovenbalk
+           Kop
            ========================================================= */
-        .balk {
+        .kop {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            gap: 16px;
-            padding: 14px clamp(16px, 4vw, 40px);
-            border-bottom: 1px solid var(--lijn);
-            font-size: 0.9rem;
-            color: var(--gedempt);
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px 32px;
+            padding: clamp(20px, 3vw, 32px) var(--rand);
+            max-width: 1320px;
+            width: 100%;
+            margin: 0 auto;
         }
 
         .merk {
-            font-weight: 600;
-            font-size: 1.05rem;
-            letter-spacing: 0.04em;
-            color: var(--tekst);
-        }
-
-        .status {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-variant-numeric: tabular-nums;
+            gap: 14px;
+            text-decoration: none;
         }
 
-        .lampje {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--stempel);
-            box-shadow: 0 0 8px var(--stempel);
-        }
-        body.ontgrendeld .lampje {
-            background: #4caf7a;
-            box-shadow: 0 0 8px #4caf7a;
+        .woordmerk {
+            font-family: var(--sans);
+            font-weight: 700;
+            font-size: clamp(1.9rem, 4vw, 2.6rem);
+            line-height: 1;
+            letter-spacing: -0.04em;
         }
 
-        main {
-            flex: 1;
-            width: 100%;
-            max-width: 1120px;
-            margin: 0 auto;
-            padding: clamp(24px, 5vw, 56px) clamp(16px, 4vw, 40px);
-        }
-
-        h1 {
-            font-weight: 500;
-            font-size: clamp(1.6rem, 4vw, 2.4rem);
-            line-height: 1.15;
-            margin: 0 0 8px;
-            letter-spacing: 0.01em;
-        }
-
-        .intro {
-            color: var(--gedempt);
-            margin: 0 0 32px;
-            max-width: 60ch;
-        }
-
-        /* =========================================================
-           Scherm 1: het slot
-           ========================================================= */
-        .slot-raster {
-            display: grid;
-            grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-            gap: clamp(24px, 4vw, 48px);
-            align-items: start;
-        }
-
-        /* Het document met onzichtbare inkt */
-        .document {
-            --x: -400px;
-            --y: -400px;
-            --r: 95px;
-            --pad: clamp(22px, 4vw, 40px);
-            position: relative;
-            background:
-                repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.025) 0 1px, transparent 1px 4px),
-                var(--manilla);
-            color: var(--inkt);
-            border-radius: 3px;
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), inset 0 0 60px rgba(120, 85, 30, 0.25);
-            touch-action: none;
-            cursor: none;
-            user-select: none;
-            -webkit-user-select: none;
-            overflow: hidden;
-        }
-
-        .doc-inhoud {
-            padding: var(--pad);
-            font-family: var(--typmachine);
-            font-size: clamp(0.95rem, 1.6vw, 1.05rem);
-            line-height: 1.75;
-        }
-
-        .doc-inhoud p { margin: 0 0 1em; }
-
-        .doc-kop {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 1.2em;
-        }
-
-        .doc-meta { margin: 0; }
-
-        .stempel {
-            display: inline-block;
-            font-family: var(--interface);
-            font-weight: 600;
-            letter-spacing: 0.12em;
-            color: var(--stempel);
-            border: 3px solid var(--stempel);
-            padding: 2px 12px;
-            transform: rotate(-7deg);
-            opacity: 0.85;
-            mix-blend-mode: multiply;
-        }
-
-        .codewoord-regel {
-            display: flex;
-            align-items: baseline;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .lege-regel {
-            display: inline-block;
-            min-width: 9ch;
-            border-bottom: 2px solid var(--inkt);
-            letter-spacing: 0.35em;
-            text-align: center;
-        }
-
-        .geheim { color: transparent; }
-
-        .kanttekening {
-            position: absolute;
-            right: var(--pad);
-            bottom: calc(var(--pad) - 6px);
-            transform: rotate(-4deg);
-            color: transparent;
-        }
-
-        /* De UV-laag: kopie van het document, alleen zichtbaar binnen de lichtbundel */
-        .uv-laag {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            background: radial-gradient(circle var(--r) at var(--x) var(--y), #3a2a6e 0%, #241a48 70%, #1d153b 100%);
-            -webkit-mask-image: radial-gradient(circle var(--r) at var(--x) var(--y), #000 62%, transparent 100%);
-            mask-image: radial-gradient(circle var(--r) at var(--x) var(--y), #000 62%, transparent 100%);
-        }
-
-        .uv-laag .doc-inhoud { color: rgba(225, 215, 255, 0.28); }
-        .uv-laag .stempel { color: rgba(225, 215, 255, 0.28); border-color: rgba(225, 215, 255, 0.28); mix-blend-mode: normal; }
-        .uv-laag .lege-regel { border-color: rgba(225, 215, 255, 0.28); }
-        .uv-laag .geheim,
-        .uv-laag .kanttekening {
-            color: var(--uv-gloed);
-            text-shadow: 0 0 6px var(--uv), 0 0 18px var(--uv);
-        }
-
-        /* Hele document belichten (toetsenbord / hulp) */
-        .document.volledig .uv-laag {
-            -webkit-mask-image: none;
-            mask-image: none;
-            background: #241a48;
-        }
-
-        /* Lamp-rand die de cursor vervangt */
-        .lamp-rand {
-            position: absolute;
-            left: var(--x);
-            top: var(--y);
-            width: calc(var(--r) * 2);
-            height: calc(var(--r) * 2);
-            margin: calc(var(--r) * -1) 0 0 calc(var(--r) * -1);
-            border-radius: 50%;
-            border: 1px solid rgba(190, 170, 255, 0.35);
-            pointer-events: none;
-        }
-        .document.volledig .lamp-rand { display: none; }
-
-        .toegang-stempel {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            z-index: 3;
-            font-size: clamp(1.4rem, 4vw, 2.2rem);
-            background: rgba(216, 192, 142, 0.75);
-            mix-blend-mode: normal;
-            transform: translate(-50%, -50%) rotate(-10deg);
-            white-space: nowrap;
-        }
-        .toegang-stempel.klap { animation: klap 0.35s cubic-bezier(.2, 1.6, .4, 1) both; }
-
-        @keyframes klap {
-            from { transform: translate(-50%, -50%) rotate(-10deg) scale(2.4); opacity: 0; }
-            to   { transform: translate(-50%, -50%) rotate(-10deg) scale(1); opacity: 0.9; }
-        }
-
-        /* Codepaneel */
-        .paneel {
-            background: var(--staal);
-            border: 1px solid var(--lijn);
-            border-radius: 6px;
-            padding: clamp(20px, 3vw, 28px);
-        }
-
-        .paneel h2 {
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin: 0 0 6px;
-        }
-
-        .paneel p {
-            margin: 0 0 18px;
-            color: var(--gedempt);
-            font-size: 0.95rem;
-        }
-
-        label {
-            display: block;
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-        }
-
-        .code-veld {
-            width: 100%;
-            font-family: var(--typmachine);
-            font-size: 1.6rem;
-            letter-spacing: 0.4em;
+        .ondertitel {
+            font-family: var(--serif);
+            font-size: 0.66rem;
+            line-height: 1.25;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
-            text-align: center;
-            padding: 12px 10px 12px calc(10px + 0.4em);
-            color: var(--tekst);
-            background: #0c151e;
-            border: 1px solid var(--lijn);
-            border-radius: 4px;
-        }
-        .code-veld:focus-visible { outline-offset: 0; border-color: var(--uv); }
-        .code-veld.fout { animation: schud 0.35s linear; border-color: var(--stempel); }
-
-        @keyframes schud {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            75% { transform: translateX(8px); }
+            color: var(--wit);
         }
 
-        .knop {
-            display: inline-block;
-            width: 100%;
-            margin-top: 12px;
-            font: inherit;
-            font-weight: 600;
-            letter-spacing: 0.03em;
-            padding: 12px 18px;
-            color: #fff;
-            background: var(--stempel);
-            border: 0;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .knop:hover { background: #c83128; }
-
-        .melding {
-            min-height: 1.5em;
-            margin-top: 12px;
-            font-size: 0.95rem;
-        }
-        .melding.fout { color: #ff8a80; }
-
-        .hint {
-            margin-top: 18px;
-            padding-top: 16px;
-            border-top: 1px solid var(--lijn);
-            font-size: 0.95rem;
-            color: var(--tekst);
-        }
-
-        .extra {
+        .navigatie ul {
             display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
-            margin-top: 18px;
-            font-size: 0.9rem;
-        }
-
-        /* =========================================================
-           Scherm 2: het bericht dat zichzelf vernietigt
-           ========================================================= */
-        .bericht {
-            max-width: 640px;
-            margin: clamp(0px, 6vh, 60px) auto 0;
-            padding: clamp(24px, 4vw, 40px);
-            background: #0a1219;
-            border: 1px solid var(--lijn);
-            border-radius: 6px;
-            box-shadow: 0 0 0 6px rgba(52, 73, 90, 0.25), 0 30px 80px rgba(0, 0, 0, 0.6);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .bericht::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 3px);
-        }
-
-        .bericht-tekst {
-            font-family: var(--typmachine);
-            font-size: clamp(1.05rem, 2.2vw, 1.25rem);
-            line-height: 1.7;
-            min-height: 9em;
-            white-space: pre-line;
-        }
-
-        .typcursor {
-            display: inline-block;
-            width: 0.6em;
-            height: 1.1em;
-            vertical-align: -0.15em;
-            background: var(--tekst);
-            animation: knipper 1s steps(1) infinite;
-        }
-        @keyframes knipper { 50% { opacity: 0; } }
-
-        .bericht .knop { margin-top: 24px; }
-
-        .aftellen {
-            font-family: var(--interface);
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #ff8a80;
-            margin-top: 20px;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .bericht.vernietig { animation: tv-uit 0.8s ease-in forwards; }
-
-        @keyframes tv-uit {
-            0%   { transform: scale(1, 1); filter: brightness(1); opacity: 1; }
-            35%  { transform: scale(1, 1); filter: brightness(2.2) contrast(1.4); }
-            70%  { transform: scale(1.04, 0.012); filter: brightness(3); opacity: 1; }
-            100% { transform: scale(0, 0.012); filter: brightness(3); opacity: 0; }
-        }
-
-        /* =========================================================
-           Scherm 3: de dossiers
-           ========================================================= */
-        .dossier-kop {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
             flex-wrap: wrap;
-            gap: 12px 24px;
-            margin-bottom: 64px;
-        }
-        .dossier-kop .intro { margin: 0; }
-        #titel-dossiers:focus { outline: none; }
-
-        .dossiers {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-            gap: 44px 28px;
+            gap: 6px 28px;
             list-style: none;
             margin: 0;
             padding: 0;
         }
 
-        .map {
+        .navigatie a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: var(--wit);
+            padding: 4px 0;
+            background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+            transition: background-size 0.25s ease;
+        }
+        .navigatie a:hover { background-size: 100% 1px; }
+
+        /* =========================================================
+           Tegelraster
+           ========================================================= */
+        main {
+            flex: 1;
+            width: 100%;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: clamp(8px, 2vw, 24px) var(--rand) clamp(40px, 6vw, 72px);
+        }
+
+        .raster {
+            display: flex;
+            gap: var(--tussenruimte);
+            align-items: flex-start;
+        }
+
+        .kolom {
+            flex: 1 1 0;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--tussenruimte);
+        }
+
+        /* Verspringende kolommen, zoals in een collectie-overzicht */
+        .kolom:nth-child(2) { margin-top: clamp(40px, 6vw, 88px); }
+        .kolom:nth-child(3) { margin-top: clamp(16px, 2.5vw, 32px); }
+
+        .tegel {
             position: relative;
             display: flex;
             flex-direction: column;
-            min-height: 100%;
-            padding: 26px 24px 22px;
-            background:
-                repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.025) 0 1px, transparent 1px 4px),
-                var(--manilla);
-            color: var(--inkt);
-            border-radius: 0 6px 6px 6px;
-            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45), inset 0 0 40px rgba(120, 85, 30, 0.2);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            min-height: 220px;
+            padding: clamp(18px, 2vw, 24px) clamp(18px, 2vw, 24px) 0;
+            background: var(--kleur, var(--grijs));
+            color: var(--tekst-donker);
+            border-radius: 2px;
+            transition: filter 0.2s ease;
+        }
+        .tegel.hoog { min-height: 320px; }
+
+        .tegel-titel {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: clamp(1.7rem, 2.6vw, 2.15rem);
+            line-height: 1.05;
+            letter-spacing: -0.01em;
+            margin: 0;
+            max-width: 12ch;
         }
 
-        /* Tabje bovenaan de map */
-        .map::before {
-            content: attr(data-code);
-            position: absolute;
-            left: 0;
-            bottom: 100%;
-            max-width: 85%;
-            padding: 5px 18px 3px 14px;
-            background: var(--manilla-donker);
-            color: var(--inkt);
-            font-family: var(--interface);
-            font-weight: 600;
-            font-size: 0.85rem;
-            letter-spacing: 0.03em;
-            border-radius: 6px 12px 0 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .tegel-tekst {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 14px 0 20px;
+            max-width: 34ch;
+            opacity: 0.8;
         }
 
-        .map:has(a:hover),
-        .map:has(a:focus-visible) {
-            transform: translateY(-4px) rotate(-0.4deg);
-            box-shadow: 0 22px 44px rgba(0, 0, 0, 0.55), inset 0 0 40px rgba(120, 85, 30, 0.2);
-        }
-
-        .map .stempel {
-            position: absolute;
-            top: 18px;
-            right: 16px;
-            font-size: 0.8rem;
-            padding: 1px 8px;
-            border-width: 2px;
-        }
-        .map[data-status="archief"] .stempel { color: #3f5a73; border-color: #3f5a73; }
-        .map[data-status="geheim"] .stempel { color: var(--inkt); border-color: var(--inkt); }
-
-        .map h3 {
-            font-family: var(--interface);
-            font-weight: 600;
-            font-size: 1.35rem;
-            line-height: 1.2;
-            margin: 0 90px 12px 0;
-        }
-
-        .map p {
-            font-family: var(--typmachine);
-            font-size: 0.98rem;
-            line-height: 1.65;
-            margin: 0 0 20px;
-            flex: 1;
-        }
-
-        .zwart {
-            background: var(--inkt);
-            color: transparent;
-            border-radius: 1px;
-            padding: 0 0.2em;
-            -webkit-box-decoration-break: clone;
-            box-decoration-break: clone;
-        }
-
-        .map-voet {
+        .tegel-voet {
             display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
-            gap: 4px 12px;
-            border-top: 1px dashed rgba(43, 36, 24, 0.4);
-            padding-top: 14px;
-            font-family: var(--interface);
-            font-size: 0.9rem;
+            align-items: center;
+            gap: 10px;
+            margin-top: auto;
+            margin-left: calc(clamp(18px, 2vw, 24px) * -1);
+            margin-right: calc(clamp(18px, 2vw, 24px) * -1);
+            padding: 14px clamp(18px, 2vw, 24px);
+            border-top: 1px solid rgba(0, 0, 0, 0.14);
+            font-size: 0.82rem;
+            font-weight: 500;
         }
 
-        .map a {
-            white-space: nowrap;
-            font-weight: 600;
-            text-decoration: underline;
-            text-decoration-thickness: 2px;
-            text-underline-offset: 4px;
+        .rondje {
+            flex: none;
+            display: grid;
+            place-items: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--tekst-donker);
+            color: var(--kleur, var(--grijs));
+            font-size: 0.72rem;
+            font-weight: 700;
         }
-        /* Hele map klikbaar */
-        .map a::after {
+
+        .label-rechts {
+            margin-left: auto;
+            opacity: 0.6;
+            white-space: nowrap;
+        }
+
+        /* Hele tegel klikbaar via de titel-link */
+        .tegel a {
+            text-decoration: none;
+        }
+        .tegel a::after {
             content: "";
             position: absolute;
             inset: 0;
-            border-radius: inherit;
         }
-        .map a:focus-visible { outline: none; }
-        .map:has(a:focus-visible) { outline: 3px solid var(--uv); outline-offset: 4px; }
+        .tegel:has(a:hover) { filter: brightness(1.06); }
+        .tegel:has(a:hover) .tegel-titel {
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 5px;
+        }
+        .tegel a:focus-visible { outline: none; }
+        .tegel:has(a:focus-visible) { outline: 2px solid var(--wit); outline-offset: 4px; }
 
-        .adres {
-            color: rgba(43, 36, 24, 0.7);
-            white-space: nowrap;
-        }
+        .tegel.stil { background: transparent; color: var(--gedempt); border: 1px dashed #3a3a3a; }
+        .tegel.stil .tegel-voet { border-top-color: #2a2a2a; }
+        .tegel.stil .rondje { background: #2a2a2a; color: var(--gedempt); }
 
-        /* Mappen worden één voor één op tafel gelegd */
-        .dossiers.uitdelen .map {
-            animation: leg-neer 0.5s cubic-bezier(.2, .8, .3, 1) both;
-            animation-delay: calc(var(--i) * 110ms);
-        }
-        @keyframes leg-neer {
-            from { opacity: 0; transform: translateY(40px) rotate(var(--draai)); }
-            to   { opacity: 1; transform: none; }
-        }
-
-        footer {
-            padding: 24px clamp(16px, 4vw, 40px);
-            border-top: 1px solid var(--lijn);
-            color: var(--gedempt);
-            font-size: 0.85rem;
+        /* =========================================================
+           Voet
+           ========================================================= */
+        .voet {
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 8px 24px;
+            max-width: 1320px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 24px var(--rand) 32px;
+            border-top: 1px solid #222;
+            color: var(--gedempt);
+            font-size: 0.85rem;
         }
+        .voet a { color: var(--wit); text-underline-offset: 3px; }
 
         /* =========================================================
-           Responsief en rustige beweging
+           Responsief
            ========================================================= */
-        @media (max-width: 820px) {
-            .slot-raster { grid-template-columns: 1fr; }
-            .document { --r: 80px; }
-        }
-
-        @media (hover: none) {
-            .document { cursor: auto; }
+        @media (max-width: 560px) {
+            .kolom:nth-child(n) { margin-top: 0; }
+            .tegel, .tegel.hoog { min-height: 0; }
+            .tegel-titel { max-width: none; }
+            .navigatie ul { gap: 6px 20px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-delay: 0ms !important;
-                transition: none !important;
-            }
-            .typcursor { animation: none; }
+            * { transition: none !important; }
         }
     </style>
 </head>
 <body>
 
-    <header class="balk">
-        <span class="merk">CrashALot</span>
-        <span class="status">
-            <span class="lampje" aria-hidden="true"></span>
-            <span id="status-tekst">Beveiligde verbinding</span>
-            <span id="klok" aria-hidden="true"></span>
-        </span>
+    <header class="kop">
+        <a class="merk" href="./" aria-label="CrashALot, naar de homepage">
+            <span class="woordmerk">CRASHALOT</span>
+            <span class="ondertitel" aria-hidden="true">Webapps<br>tools en<br>experimenten</span>
+        </a>
+        <nav class="navigatie" aria-label="Projecten">
+            <ul id="navigatie"></ul>
+        </nav>
     </header>
 
     <main>
-
-        <!-- ===================== SCHERM 1: SLOT ===================== -->
-        <section id="scherm-slot" aria-labelledby="titel-slot">
-            <h1 id="titel-slot">Toegang tot de dossiers</h1>
-            <p class="intro">Alleen voor agenten met het juiste codewoord. Het staat op de briefing hieronder, geschreven met onzichtbare inkt.</p>
-
-            <div class="slot-raster">
-                <div class="document" id="document">
-                    <div class="doc-inhoud">
-                        <div class="doc-kop">
-                            <p class="doc-meta">Briefing 0417<br>Aan: nieuwe agent<br>Van: het hoofdkwartier</p>
-                            <span class="stempel">GEHEIM</span>
-                        </div>
-                        <p>Welkom. Achter deze deur liggen alle lopende operaties van het hoofdkwartier.</p>
-                        <p>Beweeg de UV-lamp uit uw uitrusting over dit document. Dat is uw muis, of op een telefoon uw vinger.</p>
-                        <p class="codewoord-regel">Codewoord: <span class="lege-regel"><span class="geheim">FLATER</span></span></p>
-                        <p>Na lezing vernietigen.</p>
-                        <span class="kanttekening">Niet doorvertellen.</span>
-                    </div>
-                    <div class="uv-laag" aria-hidden="true"></div>
-                    <div class="lamp-rand" aria-hidden="true"></div>
-                </div>
-
-                <div class="paneel">
-                    <h2>Codewoord invoeren</h2>
-                    <p>Zes letters. Hoofdletters maken niet uit.</p>
-                    <form id="code-form" autocomplete="off">
-                        <label for="code">Codewoord</label>
-                        <input class="code-veld" id="code" name="code" type="text" maxlength="6"
-                               inputmode="text" autocapitalize="characters" spellcheck="false" autocomplete="off">
-                        <button class="knop" type="submit">Ontgrendelen</button>
-                        <div class="melding" id="melding" aria-live="polite"></div>
-                    </form>
-
-                    <div class="hint" id="hint" hidden>
-                        Tip: schijn met de lamp op de lege regel achter "Codewoord".
-                    </div>
-
-                    <div class="extra">
-                        <button class="knop-link" type="button" id="belicht">Hele document belichten</button>
-                        <button class="knop-link" type="button" id="nooddeur">Direct naar de dossiers</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===================== SCHERM 2: BERICHT ===================== -->
-        <section id="scherm-bericht" hidden aria-live="polite">
-            <div class="bericht" id="bericht">
-                <div class="bericht-tekst"><span id="bericht-tekst"></span><span class="typcursor" aria-hidden="true"></span></div>
-                <button class="knop" type="button" id="accepteer" hidden>Missie accepteren</button>
-                <div class="aftellen" id="aftellen" hidden></div>
-            </div>
-        </section>
-
-        <!-- ===================== SCHERM 3: DOSSIERS ===================== -->
-        <section id="scherm-dossiers" hidden aria-labelledby="titel-dossiers">
-            <div class="dossier-kop">
-                <div>
-                    <h1 id="titel-dossiers" tabindex="-1">Lopende operaties</h1>
-                    <p class="intro">Elk dossier leidt naar een project van het hoofdkwartier.</p>
-                </div>
-                <button class="knop-link" type="button" id="vergrendel">Opnieuw vergrendelen</button>
-            </div>
-            <ul class="dossiers" id="dossiers"></ul>
-        </section>
+        <h1 class="visueel-verborgen" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Projecten van CrashALot</h1>
+        <div class="raster" id="raster"></div>
 
         <noscript>
-            <h1>Lopende operaties</h1>
             <ul>
                 <li><a href="https://wijnkelder.eu">Wijnkelder</a></li>
                 <li><a href="https://watchcafe.eu">Sioux Watch Café</a></li>
                 <li><a href="rangecard/">Range Card</a></li>
+                <li><a href="hoofdkwartier/">Het hoofdkwartier (archief)</a></li>
+                <li><a href="guust/">M'enfin! Crash-a-lot (archief)</a></li>
             </ul>
         </noscript>
     </main>
 
-    <footer>
-        <span>&copy; <span id="jaar">2026</span> CrashALot.com</span>
-        <span>Dit hoofdkwartier bestaat officieel niet.</span>
+    <footer class="voet">
+        <span>&copy; <span id="jaar">2026</span> CrashALot</span>
+        <span>Eerdere versies: <a href="hoofdkwartier/">Het hoofdkwartier</a> en <a href="guust/">M'enfin!</a></span>
     </footer>
 
     <script>
     (() => {
         /* =========================================================
-           DOSSIERS — hier voeg je nieuwe projecten toe.
-           status: "actief", "archief" of "geheim" (geheim = geen link)
+           PROJECTEN — hier voeg je tegels toe of pas je ze aan.
+           kleur: grijs, gebroken-wit, geel, cyaan, oranje, paars
+           hoog: true maakt de tegel hoger
+           nav:  true zet het project ook bovenin de navigatie
+           Zonder url wordt het een stille tegel (niet klikbaar).
            ========================================================= */
-        const DOSSIERS = [
+        const PROJECTEN = [
             {
-                code: "Operatie Kelder",
-                naam: "Wijnkelder",
-                status: "actief",
+                titel: "Wijnkelder",
+                tekst: "Voorraadbeheer voor een wijnkelder, met zoeken en automatisch opgezochte wijninformatie.",
                 url: "https://wijnkelder.eu",
-                adres: "wijnkelder.eu",
-                briefing: "Toezicht op een ondergrondse voorraad. Geen fles verdwijnt ongemerkt: alles wordt geregistreerd, doorzocht en door een AI-analist nagetrokken."
+                label: "wijnkelder.eu",
+                status: "Live",
+                kleur: "paars",
+                hoog: true,
+                nav: true
             },
             {
-                code: "Operatie Tijdzone",
-                naam: "Sioux Watch Café",
-                status: "actief",
+                titel: "Sioux Watch Café",
+                tekst: "Website van de maandelijkse horlogemeetup, met tools om de nauwkeurigheid van je horloge te meten.",
                 url: "https://watchcafe.eu",
-                adres: "watchcafe.eu",
-                briefing: "Maandelijkse ontmoeting van horlogeliefhebbers. Agenten meten hoeveel hun uurwerk voor- of achterloopt en hoe lang het doortikt."
+                label: "watchcafe.eu",
+                status: "Live",
+                kleur: "oranje",
+                nav: true,
+                navTitel: "Watch Café"
             },
             {
-                code: "Operatie Ballistiek",
-                naam: "Range Card",
-                status: "actief",
+                titel: "Range Card",
+                tekst: "Ballistiekcalculator voor luchtdruk: kogelbaan, correctie per afstand en een kaart voor op de baan.",
                 url: "rangecard/",
-                adres: "crashalot.com/rangecard",
-                briefing: "Berekening van kogelbanen voor luchtdruk. Levert de benodigde correctie op elke afstand en een kaart voor op de schietbaan."
+                label: "crashalot.com/rangecard",
+                status: "Live",
+                kleur: "geel",
+                hoog: true,
+                nav: true
             },
             {
-                code: "Operatie Flater",
-                naam: "De vorige homepage",
-                status: "archief",
+                titel: "Het hoofdkwartier",
+                tekst: "Vorige homepage: een geheime briefingruimte met onzichtbare inkt.",
+                url: "hoofdkwartier/",
+                label: "Archief",
+                kleur: "grijs"
+            },
+            {
+                titel: "M'enfin! Crash-a-lot",
+                tekst: "De allereerste homepage, in stripstijl.",
                 url: "guust/",
-                adres: "crashalot.com/guust",
-                briefing: "Gearchiveerd materiaal uit de beginjaren van het hoofdkwartier. Bevat stripfiguren, knallen en een onverklaarbaar aantal ongelukken."
+                label: "Archief",
+                kleur: "gebroken-wit",
+                hoog: true
             },
             {
-                code: "Operatie ████",
-                naam: "In voorbereiding",
-                status: "geheim",
-                briefing: "Details over deze operatie zijn [zwart]nog niet vrijgegeven[/zwart]. Doelwit: [zwart]onbekend[/zwart]. Verwachte start: [zwart]binnenkort[/zwart]."
+                titel: "Volgend project",
+                tekst: "In ontwikkeling.",
+                label: "Binnenkort"
             }
         ];
 
-        const CODEWOORD = "FLATER";
-        const OPSLAG_SLEUTEL = "crashalot-toegang";
-        const STEMPELS = { actief: "ACTIEF", archief: "ARCHIEF", geheim: "GEHEIM" };
-
         const $ = (s) => document.querySelector(s);
-        const rustig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        const wacht = (ms) => new Promise((r) => setTimeout(r, rustig ? 0 : ms));
+        const esc = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-        const opslag = {
-            lees() { try { return localStorage.getItem(OPSLAG_SLEUTEL) === "ja"; } catch { return false; } },
-            zet() { try { localStorage.setItem(OPSLAG_SLEUTEL, "ja"); } catch {} },
-            wis() { try { localStorage.removeItem(OPSLAG_SLEUTEL); } catch {} }
-        };
-
-        /* ---------- Klok en jaar ---------- */
-        const klok = $("#klok");
-        const tik = () => {
-            klok.textContent = new Date().toLocaleTimeString("nl-NL", { hour: "2-digit", minute: "2-digit" });
-        };
-        tik();
-        setInterval(tik, 10000);
         $("#jaar").textContent = new Date().getFullYear();
 
-        /* ---------- Dossiers opbouwen ---------- */
-        function veiligeTekst(tekst) {
-            const div = document.createElement("div");
-            div.textContent = tekst;
-            return div.innerHTML
-                .replace(/\[zwart\]/g, '<span class="zwart">')
-                .replace(/\[\/zwart\]/g, "</span>");
+        /* Navigatie */
+        $("#navigatie").innerHTML = PROJECTEN
+            .filter((p) => p.nav && p.url)
+            .map((p) => `<li><a href="${esc(p.url)}">${esc(p.navTitel || p.titel)}</a></li>`)
+            .join("");
+
+        /* Tegels */
+        function maakTegel(p) {
+            const art = document.createElement("article");
+            art.className = "tegel" + (p.hoog ? " hoog" : "") + (p.url ? "" : " stil");
+            if (p.url && p.kleur) art.style.setProperty("--kleur", `var(--${p.kleur})`);
+
+            const titel = p.url
+                ? `<a href="${esc(p.url)}">${esc(p.titel)}</a>`
+                : esc(p.titel);
+
+            art.innerHTML = `
+                <h2 class="tegel-titel">${titel}</h2>
+                ${p.tekst ? `<p class="tegel-tekst">${esc(p.tekst)}</p>` : ""}
+                <div class="tegel-voet">
+                    <span class="rondje" aria-hidden="true">${esc(p.titel.replace(/[^A-Za-zÀ-ÿ]/g, "").charAt(0).toUpperCase())}</span>
+                    <span>${esc(p.label)}</span>
+                    ${p.status ? `<span class="label-rechts">${esc(p.status)}</span>` : ""}
+                </div>`;
+            return art;
         }
 
-        function bouwDossiers() {
-            const lijst = $("#dossiers");
-            lijst.innerHTML = "";
-            DOSSIERS.forEach((d, i) => {
-                const li = document.createElement("li");
-                li.className = "map";
-                li.dataset.code = d.code;
-                li.dataset.status = d.status;
-                li.style.setProperty("--i", i);
-                li.style.setProperty("--draai", (i % 2 ? 3 : -3) + "deg");
+        const raster = $("#raster");
+        const tegels = PROJECTEN.map(maakTegel);
 
-                const link = d.url
-                    ? `<a href="${d.url}">Dossier openen</a><span class="adres">${d.adres || ""}</span>`
-                    : `<span>Toegang geweigerd</span>`;
+        function aantalKolommen() {
+            const b = window.innerWidth;
+            if (b <= 560) return 1;
+            if (b <= 900) return 2;
+            return 3;
+        }
 
-                li.innerHTML = `
-                    <span class="stempel">${STEMPELS[d.status] || "GEHEIM"}</span>
-                    <h3>${veiligeTekst(d.naam)}</h3>
-                    <p>${veiligeTekst(d.briefing)}</p>
-                    <div class="map-voet">${link}</div>`;
-                lijst.appendChild(li);
+        let huidig = 0;
+        function verdeel() {
+            const n = aantalKolommen();
+            if (n === huidig) return;
+            huidig = n;
+            raster.innerHTML = "";
+            const kolommen = Array.from({ length: n }, () => {
+                const k = document.createElement("div");
+                k.className = "kolom";
+                raster.appendChild(k);
+                return k;
             });
+            /* Van links naar rechts vullen, rij voor rij: leesvolgorde blijft logisch */
+            tegels.forEach((t, i) => kolommen[i % n].appendChild(t));
         }
 
-        /* ---------- Schermwissels ---------- */
-        const schermen = {
-            slot: $("#scherm-slot"),
-            bericht: $("#scherm-bericht"),
-            dossiers: $("#scherm-dossiers")
-        };
-        function toon(naam) {
-            Object.entries(schermen).forEach(([k, el]) => { el.hidden = k !== naam; });
-        }
-
-        function toonDossiers(uitdelen) {
-            bouwDossiers();
-            document.body.classList.add("ontgrendeld");
-            $("#status-tekst").textContent = "Toegang verleend";
-            const lijst = $("#dossiers");
-            lijst.classList.toggle("uitdelen", !!uitdelen);
-            toon("dossiers");
-            $("#titel-dossiers").focus({ preventScroll: true });
-            window.scrollTo(0, 0);
-        }
-
-        /* ---------- De UV-lamp ---------- */
-        const doc = $("#document");
-        const uvLaag = doc.querySelector(".uv-laag");
-        const kopie = doc.querySelector(".doc-inhoud").cloneNode(true);
-        uvLaag.appendChild(kopie);
-
-        function zetLamp(e) {
-            const r = doc.getBoundingClientRect();
-            doc.style.setProperty("--x", (e.clientX - r.left) + "px");
-            doc.style.setProperty("--y", (e.clientY - r.top) + "px");
-        }
-        function doofLamp() {
-            doc.style.setProperty("--x", "-400px");
-            doc.style.setProperty("--y", "-400px");
-        }
-        doc.addEventListener("pointermove", zetLamp);
-        doc.addEventListener("pointerdown", zetLamp);
-        doc.addEventListener("pointerleave", doofLamp);
-        doc.addEventListener("pointerup", (e) => { if (e.pointerType === "touch") doofLamp(); });
-
-        $("#belicht").addEventListener("click", (e) => {
-            const aan = doc.classList.toggle("volledig");
-            e.currentTarget.textContent = aan ? "Lamp weer uitzetten" : "Hele document belichten";
-        });
-
-        /* Hint na 15 seconden */
-        const hintTimer = setTimeout(() => {
-            if (!schermen.slot.hidden) $("#hint").hidden = false;
-        }, 15000);
-
-        /* ---------- Codewoord ---------- */
-        const veld = $("#code");
-        const melding = $("#melding");
-        let bezig = false;
-
-        function controleer() {
-            if (bezig) return;
-            const invoer = veld.value.trim().toUpperCase();
-            if (invoer === CODEWOORD) {
-                ontgrendel();
-            } else if (invoer.length > 0) {
-                melding.textContent = "Onjuist codewoord. Probeer het opnieuw.";
-                melding.className = "melding fout";
-                veld.classList.remove("fout");
-                void veld.offsetWidth;
-                veld.classList.add("fout");
-                veld.select();
-            }
-        }
-
-        $("#code-form").addEventListener("submit", (e) => {
-            e.preventDefault();
-            controleer();
-        });
-        veld.addEventListener("input", () => {
-            melding.textContent = "";
-            melding.className = "melding";
-            if (veld.value.length === CODEWOORD.length) controleer();
-        });
-
-        $("#nooddeur").addEventListener("click", () => {
-            clearTimeout(hintTimer);
-            toonDossiers(false);
-        });
-
-        /* ---------- Ontgrendelen: stempel, bericht, zelfvernietiging ---------- */
-        async function ontgrendel() {
-            bezig = true;
-            clearTimeout(hintTimer);
-            veld.blur();
-            melding.textContent = "Codewoord juist.";
-            melding.className = "melding";
-            opslag.zet();
-
-            const stempel = document.createElement("span");
-            stempel.className = "stempel toegang-stempel klap";
-            stempel.textContent = "TOEGANG VERLEEND";
-            doofLamp();
-            doc.appendChild(stempel);
-            $("#status-tekst").textContent = "Toegang verleend";
-            document.body.classList.add("ontgrendeld");
-
-            await wacht(1200);
-            toon("bericht");
-            window.scrollTo(0, 0);
-            await typ(
-                "Goedendag, agent.\n\n" +
-                "Uw missie, mocht u die accepteren: de lopende operaties van het hoofdkwartier inspecteren.\n\n" +
-                "Dit bericht vernietigt zichzelf na lezing."
-            );
-            const knop = $("#accepteer");
-            knop.hidden = false;
-            knop.focus();
-        }
-
-        async function typ(tekst) {
-            const doel = $("#bericht-tekst");
-            if (rustig) { doel.textContent = tekst; return; }
-            let overslaan = false;
-            const sla = () => { overslaan = true; };
-            $("#bericht").addEventListener("click", sla, { once: true });
-            for (let i = 1; i <= tekst.length; i++) {
-                if (overslaan) { doel.textContent = tekst; break; }
-                doel.textContent = tekst.slice(0, i);
-                const teken = tekst[i - 1];
-                await wacht(teken === "\n" ? 180 : teken === "," || teken === "." ? 120 : 22);
-            }
-        }
-
-        $("#accepteer").addEventListener("click", async (e) => {
-            e.stopPropagation();
-            e.currentTarget.hidden = true;
-            const af = $("#aftellen");
-            af.hidden = false;
-            for (let n = 3; n > 0; n--) {
-                af.textContent = `Zelfvernietiging over ${n}`;
-                await wacht(800);
-            }
-            af.textContent = "Zelfvernietiging";
-            const bericht = $("#bericht");
-            if (!rustig) {
-                bericht.classList.add("vernietig");
-                await new Promise((r) => bericht.addEventListener("animationend", r, { once: true }));
-            }
-            toonDossiers(true);
-        });
-
-        /* ---------- Opnieuw vergrendelen ---------- */
-        $("#vergrendel").addEventListener("click", () => {
-            opslag.wis();
-            location.reload();
-        });
-
-        /* ---------- Start ---------- */
-        if (opslag.lees()) {
-            clearTimeout(hintTimer);
-            toonDossiers(false);
-        }
+        verdeel();
+        window.addEventListener("resize", verdeel);
     })();
     </script>
 
