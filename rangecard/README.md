@@ -16,6 +16,7 @@ folder from GitHub Pages.
 | `theme.js` | Theme switching and persistence. |
 | `app.css` | Layout only. No colours. |
 | `print.css` | Print rules: redefines the theme tokens for paper and reshapes the page into a cut-out card. |
+| `manifest.webmanifest` | Makes the tool installable to a home screen. Icons: `favicon.svg`, `favicon.ico`, `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `apple-touch-icon.png`. |
 | `pellets.txt` | Pellet library: calibre, brand, model, head size, weight, BC. Plain text, edit by hand. |
 | `check.html` | Bare validation page for comparing the engine against a reference. Not linked from the app. |
 
@@ -26,7 +27,10 @@ Drop the folder into the repo that already serves the site:
 ```
 /               index.html   (the tile page)
 /rangecard/     index.html, app.js, ballistics.js, reticle.js, theme.css,
-                theme.js, app.css, print.css, pellets.txt
+                theme.js, app.css, print.css, pellets.txt,
+                manifest.webmanifest, favicon.svg, favicon.ico,
+                icon-192.png, icon-512.png, icon-maskable-512.png,
+                apple-touch-icon.png
 ```
 
 Nothing else to configure. GitHub Pages serves subfolders as-is, so it goes
@@ -48,6 +52,29 @@ Adding a third theme (a high-contrast daylight variant, say) takes one block in
 
 One rule keeps this working: no colour may appear anywhere except `theme.css`.
 Everything else uses `var(--…)`.
+
+## Installing to a home screen
+
+On iOS: Share, then Add to Home Screen. There is no install prompt; Safari
+never offers one. It launches without browser chrome, under its own icon, and
+the status bar sits over the page, which is why the layout uses safe-area
+insets.
+
+This is worth doing for a reason that has nothing to do with looks. Safari
+deletes a site's script-writable storage — localStorage included — after seven
+days without interaction. A tool used once a month would lose its profiles
+every time. Home screen apps are exempt and run their own counter.
+
+Two caveats. A home screen app has historically kept its own localStorage,
+separate from the Safari tab, so profiles made in the browser may not appear in
+the installed app: export to JSON and import them back. And storage can still
+be evicted when the device runs low on space, so the JSON export stays the
+backup of record.
+
+Offline is not done yet. Without a service worker the installed app still needs
+the network. That is the next step, and it is deliberately held back: a service
+worker caches the app, and while files still change weekly you would spend your
+time fighting a stale cache instead of the code.
 
 ## Storage
 
