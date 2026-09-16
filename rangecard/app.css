@@ -49,13 +49,22 @@ body {
 .columns::-webkit-scrollbar { display: none; }
 .columns > * { flex: 0 0 100%; scroll-snap-align: start; }
 
-.pager { display: flex; gap: 1px; background: var(--line); border: 1px solid var(--line);
-         border-radius: var(--radius-sm); overflow: hidden; margin: 0 0 14px; }
+/* Two dots under the panes rather than a pager bar: it says you can swipe
+ * without spending a row of screen on saying it. Still buttons, so they can be
+ * tapped and read out. */
+.pager { display: flex; justify-content: center; gap: 7px; padding: 9px 0 3px; flex: none; }
 .pager button {
-  flex: 1; border: 0; border-radius: 0; padding: 8px 12px; font-size: 14px;
-  background: var(--panel); color: var(--text-dim);
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--line-strong);
+  transition: width .15s ease, background-color .15s ease;
 }
-.pager button[aria-pressed="true"] { background: var(--panel-raised); color: var(--accent); }
+.pager button[aria-pressed="true"] { width: 20px; background: var(--accent); }
+.pager button:hover { background: var(--text-dim); }
+.pager button[aria-pressed="true"]:hover { background: var(--accent); }
 
 /* One plot at a time, on any screen. The segmented pair is the only control,
  * so what it says is what you get. */
@@ -167,6 +176,10 @@ details[open] > summary { margin-bottom: 10px; }
   body {
     height: 100vh;
     height: 100dvh;
+    /* --app-height tracks the visual viewport, so the shell shrinks when the
+     * keyboard covers half the screen instead of leaving a blank block behind
+     * it. See setAppHeight() in app.js. */
+    height: var(--app-height, 100dvh);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -200,7 +213,7 @@ details[open] > summary { margin-bottom: 10px; }
   .table-wrap table { min-width: 430px; }
   .table-wrap th, .table-wrap td { padding: 6px; }
   .readout strong { font-size: 17px; }
-  .readouts { grid-template-columns: repeat(2, 1fr); }
+  .readouts { grid-template-columns: repeat(3, 1fr); }
   .readout { padding: 7px 8px; }
   .readout span { font-size: 11px; }
   .readout strong small { font-size: 11px; }

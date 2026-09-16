@@ -509,6 +509,30 @@
    * of this does anything. */
   var columns = document.querySelector('.columns');
 
+  /* Keep the shell the size of what is actually visible.
+   *
+   * When the keyboard opens, iOS shrinks the visual viewport but leaves the
+   * layout viewport alone, and scrolls the whole page up to reveal the focused
+   * field. A shell pinned to 100dvh with overflow hidden then has its lower
+   * half sitting behind the keyboard, which is the black block: it is the page,
+   * just no longer on screen. Sizing to visualViewport.height instead follows
+   * the keyboard up and back down, and undoing the page scroll puts the shell
+   * back where it belongs. */
+  function setAppHeight() {
+    var vv = window.visualViewport;
+    var h = vv ? vv.height : window.innerHeight;
+    document.documentElement.style.setProperty('--app-height', Math.round(h) + 'px');
+    if (window.scrollY) window.scrollTo(0, 0);
+  }
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', setAppHeight);
+    window.visualViewport.addEventListener('scroll', setAppHeight);
+  }
+  window.addEventListener('orientationchange', function () {
+    setTimeout(setAppHeight, 120);
+  });
+
   function goPane(i) {
     var pane = columns.children[i];
     if (!pane) return;
@@ -650,6 +674,7 @@
   var resizeTimer = null;
   var lastNarrow = null;
   window.addEventListener('resize', function () {
+    setAppHeight();
     var narrow = (window.innerWidth || 640) < 560;
     if (narrow === lastNarrow) return;   // only redraw when the layout flips
     lastNarrow = narrow;
@@ -873,6 +898,7 @@
     valuesToForm(active().values);
     applyPatternFields();
     applyView();
+    setAppHeight();
     syncPager();
     loadPellets();
     refresh();
