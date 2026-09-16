@@ -523,7 +523,30 @@
     var h = vv ? vv.height : window.innerHeight;
     document.documentElement.style.setProperty('--app-height', Math.round(h) + 'px');
     if (window.scrollY) window.scrollTo(0, 0);
+    keepFocusVisible();
   }
+
+  /* Shrinking the shell can leave the field you are typing in behind the
+   * keyboard. Nudge it back, but only when it is genuinely clipped: on a laptop
+   * every click on a visible input would otherwise jump the page. */
+  function keepFocusVisible() {
+    var a = document.activeElement;
+    if (!a || (a.tagName !== 'INPUT' && a.tagName !== 'SELECT')) return;
+    if (a.type === 'checkbox' || a.type === 'file') return;
+    if (!a.getBoundingClientRect || !a.scrollIntoView) return;
+
+    var vv = window.visualViewport;
+    var limit = vv ? vv.height : window.innerHeight;
+    var r = a.getBoundingClientRect();
+    if (r.bottom > limit - 8 || r.top < 8) {
+      a.scrollIntoView({ block: 'center', inline: 'nearest' });
+    }
+  }
+
+  // Moving between fields while the keyboard is already open fires no resize.
+  document.addEventListener('focusin', function () {
+    setTimeout(keepFocusVisible, 60);
+  });
 
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', setAppHeight);
