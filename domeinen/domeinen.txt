@@ -151,6 +151,15 @@ tekst-en: An expressive name for a sleep blog, a mattress comparison site, a sle
 sjabloon: slaap
 kleur: #6366f1
 
+[onmeunig.com]
+naam: Onmeunig
+slogan: Onmeunig groot, gewoon uit Twente
+slogan-en: Tremendously good, straight from Twente
+tekst: Twents en Achterhoeks voor "enorm" of "ontzettend". Een woord dat in één keer een streek en een karakter oproept, en dat je nergens anders tegenkomt. Sterk voor een streekmerk, brouwerij, foodconcept, webwinkel of evenement dat groots wil uitpakken met een knipoog.
+tekst-en: Dialect from the east of the Netherlands meaning "enormous" or "tremendous". A word that instantly calls up a region and a character, and one you will not find anywhere else. Strong for a regional brand, a brewery, a food concept, a web shop or an event that wants to go big with a wink.
+sjabloon: kaart
+kleur: #15803d
+
 [sonofawatch.nl]
 naam: Son of a Watch
 slogan: Horloges met een eigenwijs karakter
