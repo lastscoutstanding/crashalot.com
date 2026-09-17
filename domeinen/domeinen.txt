@@ -117,8 +117,8 @@ tekst: Een sprekende naam voor een slaapblog, matrassenvergelijker, slaapcoach o
 sjabloon: slaap
 kleur: #6366f1
 
-[sonofawarch.nl]
-naam: Son of a Warch
+[sonofawatch.nl]
+naam: Son of a Watch
 slogan: Horloges met een eigenwijs karakter
 tekst: Een brutale naam met een knipoog die blijft hangen. Perfect voor een eigenzinnig horlogemerk, een vintage-winkel of een lifestylemerk met humor.
 sjabloon: horloges
@@ -144,6 +144,7 @@ slogan: Slim, snel en Europees
 tekst: Een korte, klankrijke .eu-naam van vijf letters. Geschikt voor een Europees techmerk, platform of dienst.
 sjabloon: tech
 kleur: #38bdf8
+tonen: nee
 
 # ---------------------------------------------------------------------
 #  Niet getoond: in gebruik of doorgestuurd. Zet tonen op ja om ze
