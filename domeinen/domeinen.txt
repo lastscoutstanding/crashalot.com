@@ -135,7 +135,7 @@ kleur: #be123c
 
 [denkstapsprong.nl]
 naam: Denk Stap Sprong
-slogan: Eerst denken, dan stappen, dan springen
+slogan: Eerst denken, dan een stap, dan springen
 slogan-en: Think first, then step, then leap
 tekst: Een Nederlandse naam met een verhaal: van nadenken via kleine stappen naar de grote sprong. Ideaal voor een coach, trainer, adviesbureau of innovatieprogramma.
 tekst-en: A Dutch name with a story: from thinking, through small steps, to the big leap. Ideal for a coach, trainer, consultancy or innovation programme.
