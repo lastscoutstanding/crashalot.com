@@ -12,6 +12,15 @@
 #             Die vervangt dan het sjabloon.
 #  tonen      nee = domein staat niet op de pagina
 #
+#  TWEE TALEN
+#  Zet -en achter een sleutel voor de Engelse versie:
+#    naam-en, slogan-en, tekst-en
+#  Ontbreekt de Engelse regel, dan gebruikt de pagina het Nederlands.
+#  Een slogan die al Engels is (bv. "Tag it. Track it. Done.") hoeft
+#  dus geen slogan-en.
+#  De vaste teksten van de pagina zelf (knoppen, labels, koppen) staan
+#  in index.html, bij TEKSTEN bovenin het script.
+#
 #  Sjablonen:
 #  saas        Softwaredienst met dashboard
 #  app         App-landingspagina met telefoon
@@ -29,14 +38,18 @@
 [servicetag.net]
 naam: ServiceTag
 slogan: Elk apparaat zijn eigen servicehistorie
+slogan-en: Every device with its own service history
 tekst: Een korte, internationale naam voor een platform rond onderhoud, garantie of asset tracking. ServiceTag zegt meteen wat het doet: een label met de hele geschiedenis erachter. Samen met servicetag.nl over te nemen.
+tekst-en: A short, international name for a platform around maintenance, warranty or asset tracking. ServiceTag says exactly what it does: a label with the whole history behind it. Available together with servicetag.nl.
 sjabloon: saas
 kleur: #2563eb
 
 [servicetag.nl]
 naam: ServiceTag
 slogan: Onderhoud en garantie, met één scan geregeld
+slogan-en: Maintenance and warranty, sorted with a single scan
 tekst: De Nederlandse tegenhanger van servicetag.net. Een sterke naam voor een installateur, leverancier of servicebedrijf dat klanten via QR-labels wil bedienen.
+tekst-en: The Dutch counterpart to servicetag.net. A strong name for an installer, supplier or service company that wants to serve its customers through QR labels.
 sjabloon: saas
 kleur: #0f766e
 
@@ -44,104 +57,133 @@ kleur: #0f766e
 naam: Taqqer
 slogan: Tag it. Track it. Done.
 tekst: Een pakkende naam die klinkt als "tagger", maar er als merk uitspringt. Geschikt voor een startup rond labels, tracking, taakbeheer of social tagging. Samen met taqqer.nl over te nemen.
+tekst-en: A catchy name that sounds like "tagger" but stands out as a brand. Suited to a startup around labels, tracking, task management or social tagging. Available together with taqqer.nl.
 sjabloon: app
 kleur: #c026d3
 
 [taqqer.nl]
 naam: Taqqer
 slogan: Alles getagd, niets meer kwijt
+slogan-en: Everything tagged, nothing lost
 tekst: De Nederlandse versie van taqqer.com. Neem ze samen over voor één herkenbaar merk in binnen- en buitenland.
+tekst-en: The Dutch version of taqqer.com. Take both for one recognisable brand at home and abroad.
 sjabloon: app
 kleur: #7c3aed
 
 [tqqr.nl]
 naam: TQQR
 slogan: Vier letters. Onvergetelijk.
+slogan-en: Four letters. Unforgettable.
 tekst: Een ultrakorte, eigenzinnige naam in echte startupstijl. Een goede kandidaat voor een app, een korte-linkdienst of een techmerk dat wil opvallen.
+tekst-en: An ultra-short, distinctive name in true startup style. A good candidate for an app, a link shortener or a tech brand that wants to stand out.
 sjabloon: saas
 kleur: #16a34a
 
 [apptech.nl]
 naam: AppTech
 slogan: Apps die gewoon werken
+slogan-en: Apps that simply work
 tekst: Kort, zakelijk en direct duidelijk. Ideaal voor een appbouwer, softwarebureau of IT-dienstverlener die een naam zoekt die klanten in één keer onthouden.
+tekst-en: Short, businesslike and immediately clear. Ideal for an app builder, software studio or IT service provider looking for a name customers remember at once.
 sjabloon: app
 kleur: #0284c7
 
 [k2electronics.com]
 naam: K2 Electronics
 slogan: Elektronica, ontwikkeld tot in het kleinste detail
+slogan-en: Electronics engineered down to the smallest detail
 tekst: Een krachtige .com-naam voor een elektronica-ontwikkelaar, producent of distributeur. Kort, internationaal en makkelijk uit te spreken in elke taal.
+tekst-en: A powerful .com name for an electronics developer, manufacturer or distributor. Short, international and easy to pronounce in any language.
 sjabloon: tech
 kleur: #f59e0b
 
 [k2innovation.nl]
 naam: K2 Innovation
 slogan: Samen naar de top van uw markt
+slogan-en: Together to the top of your market
 tekst: Vernoemd naar een van de zwaarste bergen ter wereld: een naam met ambitie. Geschikt voor een innovatiebureau, techbedrijf of consultancy die hoog wil mikken.
+tekst-en: Named after one of the toughest mountains in the world: a name with ambition. Suited to an innovation studio, tech company or consultancy that aims high.
 sjabloon: bureau
 kleur: #4d7c0f
 
 [krominnovation.com]
 naam: Krom Innovation
 slogan: Van idee naar werkend product
+slogan-en: From idea to working product
 tekst: Een professionele naam voor een innovatie- of ontwikkelbureau, of voor een onderneming met de naam Krom. Ook beschikbaar als krominnovation.nl.
+tekst-en: A professional name for an innovation or development agency, or for a company carrying the Krom name. Also available as krominnovation.nl.
 sjabloon: bureau
 kleur: #0e7490
 
 [krominnovation.nl]
 naam: Krom Innovation
 slogan: Innovatie met Nederlandse nuchterheid
+slogan-en: Innovation with Dutch pragmatism
 tekst: De Nederlandse versie van krominnovation.com. Samen een complete basis voor een innovatiebureau dat zowel lokaal als internationaal werkt.
+tekst-en: The Dutch version of krominnovation.com. Together they form a complete base for an innovation agency working both locally and internationally.
 sjabloon: bureau
 kleur: #9f1239
 
 [kromonline.nl]
 naam: Krom Online
 slogan: De familie Krom, altijd bij de hand
+slogan-en: The Krom family, always at hand
 tekst: Een eigen plek online voor iedereen met de achternaam Krom, of voor een bedrijf dat die naam draagt. Voor een familiesite, portfolio of webwinkel.
+tekst-en: An online home for anyone with the surname Krom, or for a company carrying that name. For a family site, a portfolio or a web shop.
 sjabloon: persoonlijk
 kleur: #be123c
 
 [denkstapsprong.nl]
 naam: Denk Stap Sprong
 slogan: Eerst denken, dan stappen, dan springen
+slogan-en: Think first, then step, then leap
 tekst: Een Nederlandse naam met een verhaal: van nadenken via kleine stappen naar de grote sprong. Ideaal voor een coach, trainer, adviesbureau of innovatieprogramma.
+tekst-en: A Dutch name with a story: from thinking, through small steps, to the big leap. Ideal for a coach, trainer, consultancy or innovation programme.
 sjabloon: bureau
 kleur: #ea580c
 
 [sleepguide.nl]
 naam: Sleepguide
 slogan: Beter slapen begint vanavond
+slogan-en: Better sleep starts tonight
 tekst: Een sprekende naam voor een slaapblog, matrassenvergelijker, slaapcoach of app. Internationaal herkenbaar, met een vertrouwde Nederlandse extensie.
+tekst-en: An expressive name for a sleep blog, a mattress comparison site, a sleep coach or an app. Internationally recognisable, with a trusted Dutch extension.
 sjabloon: slaap
 kleur: #6366f1
 
 [sonofawatch.nl]
 naam: Son of a Watch
 slogan: Horloges met een eigenwijs karakter
+slogan-en: Watches with a mind of their own
 tekst: Een brutale naam met een knipoog die blijft hangen. Perfect voor een eigenzinnig horlogemerk, een vintage-winkel of een lifestylemerk met humor.
+tekst-en: A cheeky name with a wink that sticks. Perfect for a characterful watch brand, a vintage shop or a lifestyle label with humour.
 sjabloon: horloges
 kleur: #b45309
 
 [n52e6.nl]
 naam: N52E6
 slogan: 52° noord, 6° oost
+slogan-en: 52° north, 6° east
 tekst: Een coördinaat als domeinnaam. Het punt op 52° noorderbreedte en 6° oosterlengte ligt in Gelderland, vlak bij Arnhem. Mooi voor een regionaal merk, outdoorbedrijf of navigatiedienst.
+tekst-en: A coordinate as a domain name. The point at 52° north and 6° east lies in Gelderland, close to Arnhem. Nice for a regional brand, an outdoor company or a navigation service.
 sjabloon: kaart
 kleur: #dc2626
 
 [lastscoutstanding.com]
 naam: Last Scout Standing
 slogan: Wie houdt het het langst vol?
+slogan-en: Who lasts the longest?
 tekst: Een naam met filmische spanning. Denk aan een game, survivalevenement, podcast of teambuildingconcept waarin maar één winnaar overblijft.
+tekst-en: A name with cinematic tension. Think of a game, a survival event, a podcast or a team-building concept in which only one winner remains.
 sjabloon: game
 kleur: #f97316
 
 [sloux.eu]
 naam: Sloux
 slogan: Slim, snel en Europees
+slogan-en: Smart, fast and European
 tekst: Een korte, klankrijke .eu-naam van vijf letters. Geschikt voor een Europees techmerk, platform of dienst.
+tekst-en: A short, sonorous five-letter .eu name. Suited to a European tech brand, platform or service.
 sjabloon: tech
 kleur: #38bdf8
 tonen: nee
@@ -154,7 +196,9 @@ tonen: nee
 [crashalot.nl]
 naam: CrashALot
 slogan: Webapps, tools en experimenten
+slogan-en: Web apps, tools and experiments
 tekst: Een speelse, makkelijk te onthouden naam voor een studio, blog of techmerk.
+tekst-en: A playful, memorable name for a studio, a blog or a tech brand.
 sjabloon: game
 kleur: #ff6a33
 tonen: nee
@@ -162,7 +206,9 @@ tonen: nee
 [watchcafe.nl]
 naam: Watch Café
 slogan: Waar horlogeliefhebbers samenkomen
+slogan-en: Where watch lovers meet
 tekst: Een warme naam voor een horlogecommunity, meetup of speciaalzaak.
+tekst-en: A warm name for a watch community, a meetup or a specialist shop.
 sjabloon: horloges
 kleur: #d96a41
 tonen: nee
@@ -170,7 +216,9 @@ tonen: nee
 [appliedtechnologies.nl]
 naam: Applied Technologies
 slogan: Technologie die in de praktijk werkt
+slogan-en: Technology that works in practice
 tekst: Een zakelijke, internationale naam voor een technisch ontwikkel- of ingenieursbureau.
+tekst-en: A businesslike, international name for a technical development or engineering firm.
 sjabloon: tech
 kleur: #22d3ee
 tonen: nee

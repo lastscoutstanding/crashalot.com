@@ -65,8 +65,8 @@
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 12px 32px;
-            padding-top: clamp(20px, 3vw, 32px);
-            padding-bottom: clamp(20px, 3vw, 32px);
+            padding-top: clamp(16px, 2vw, 22px);
+            padding-bottom: clamp(16px, 2vw, 22px);
         }
 
         .merk {
@@ -110,6 +110,75 @@
             font-size: 0.85rem;
         }
         .voet a { color: var(--wit); text-underline-offset: 3px; }
+
+        /* Taalkeuze */
+        .kop-rechts-groep {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .taalkeuze {
+            position: relative;
+            display: inline-flex;
+            padding: 3px;
+            border: 1px solid #3a3a3a;
+            border-radius: 999px;
+            background: #0d0d0d;
+        }
+        .taalkeuze .schuif {
+            position: absolute;
+            top: 3px;
+            bottom: 3px;
+            left: 3px;
+            width: calc(50% - 3px);
+            border-radius: 999px;
+            background: var(--wit);
+            transition: transform 0.22s ease;
+        }
+        .taalkeuze[data-taal="en"] .schuif { transform: translateX(100%); }
+        .taalkeuze button {
+            position: relative;
+            z-index: 1;
+            font: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            min-width: 46px;
+            padding: 5px 4px;
+            color: var(--gedempt);
+            background: none;
+            border: 0;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: color 0.22s ease;
+        }
+        .taalkeuze button[aria-pressed="true"] { color: var(--zwart); }
+
+        /* Bolletje met chevron naar de andere domeinnamen */
+        .naar-beneden {
+            display: grid;
+            place-items: center;
+            width: 46px;
+            height: 46px;
+            margin: 4px auto clamp(16px, 2.5vw, 22px);
+            color: var(--wit);
+            background: #141414;
+            border: 1px solid #3a3a3a;
+            border-radius: 50%;
+            cursor: pointer;
+            animation: wipp 2.6s ease-in-out infinite;
+        }
+        .naar-beneden:hover { background: #222; border-color: var(--wit); }
+        .naar-beneden svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .naar-beneden[hidden] { display: none; }
+
+        @keyframes wipp {
+            0%, 62%, 100% { transform: translateY(0); }
+            72% { transform: translateY(6px); }
+            82% { transform: translateY(0); }
+        }
 
         /* =========================================================
            Het browservenster
@@ -174,10 +243,12 @@
            ========================================================= */
         .uitgelicht {
             display: grid;
-            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-            gap: clamp(28px, 5vw, 72px);
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+            gap: clamp(20px, 3vw, 44px);
             align-items: start;
-            padding: clamp(8px, 2vw, 24px) 0 clamp(56px, 8vw, 104px);
+            width: 100%;
+            max-width: 76%;
+            padding: 0 0 clamp(16px, 2vw, 24px);
         }
 
         .uitgelicht .venster {
@@ -205,20 +276,20 @@
         .domein-titel {
             font-family: var(--serif);
             font-weight: 400;
-            font-size: clamp(2.4rem, 5vw, 4rem);
-            line-height: 1;
+            font-size: clamp(1.9rem, 3vw, 2.6rem);
+            line-height: 1.02;
             letter-spacing: -0.02em;
-            margin: 0 0 20px;
+            margin: 0 0 10px;
             overflow-wrap: anywhere;
         }
         .domein-titel:focus { outline: none; }
 
         .domein-tekst {
             font-family: var(--serif);
-            font-size: clamp(1.1rem, 1.5vw, 1.25rem);
-            line-height: 1.6;
+            font-size: clamp(1rem, 1.15vw, 1.1rem);
+            line-height: 1.55;
             color: #d6d6d6;
-            margin: 0 0 20px;
+            margin: 0 0 16px;
             max-width: 52ch;
         }
 
@@ -227,7 +298,7 @@
             flex-wrap: wrap;
             align-items: center;
             gap: 8px;
-            margin: 0 0 28px;
+            margin: 0 0 14px;
             font-size: 0.9rem;
             color: var(--gedempt);
         }
@@ -246,18 +317,18 @@
         /* Formulier */
         .formulier {
             border-top: 1px solid var(--lijn);
-            padding-top: 24px;
+            padding-top: 14px;
         }
         .formulier h2 {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 600;
-            margin: 0 0 16px;
+            margin: 0 0 8px;
         }
 
         .velden {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 10px;
         }
         .veld-breed { grid-column: 1 / -1; }
 
@@ -265,28 +336,28 @@
             display: block;
             font-size: 0.85rem;
             color: var(--gedempt);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         input, textarea {
             width: 100%;
             font: inherit;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--wit);
             background: var(--veld);
             border: 1px solid #333;
             border-radius: 6px;
-            padding: 10px 12px;
+            padding: 8px 12px;
         }
-        textarea { min-height: 110px; resize: vertical; }
+        textarea { min-height: 62px; resize: vertical; }
         input:focus-visible, textarea:focus-visible { outline: none; border-color: var(--wit); }
 
         .versturen {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            gap: 12px 20px;
-            margin-top: 16px;
+            gap: 10px 18px;
+            margin-top: 12px;
         }
 
         .knop {
@@ -296,7 +367,7 @@
             background: var(--wit);
             border: 0;
             border-radius: 6px;
-            padding: 11px 22px;
+            padding: 10px 20px;
             cursor: pointer;
         }
         .knop:hover { background: #e5e5e5; }
@@ -305,7 +376,7 @@
         .direct { font-size: 0.9rem; color: var(--gedempt); }
         .direct a { color: var(--wit); text-underline-offset: 3px; }
 
-        .melding { margin: 12px 0 0; font-size: 0.95rem; min-height: 1.5em; }
+        .melding { margin: 10px 0 0; font-size: 0.95rem; min-height: 1.3em; }
         .melding.fout { color: #ff8a80; }
 
         /* =========================================================
@@ -318,13 +389,13 @@
             flex-wrap: wrap;
             gap: 8px 24px;
             border-top: 1px solid var(--lijn);
-            padding-top: 28px;
-            margin-bottom: 28px;
+            padding-top: 18px;
+            margin-bottom: 18px;
         }
         .suggesties-kop h2 {
             font-family: var(--serif);
             font-weight: 400;
-            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-size: clamp(1.4rem, 2.2vw, 1.8rem);
             margin: 0;
         }
         .suggesties-kop p { margin: 0; color: var(--gedempt); }
@@ -355,8 +426,12 @@
             to   { opacity: 1; transform: none; }
         }
 
+        @media (max-width: 1100px) {
+            .uitgelicht { max-width: 100%; }
+        }
         @media (max-width: 860px) {
             .uitgelicht { grid-template-columns: 1fr; }
+            .naar-beneden { animation: none; }
         }
         @media (max-width: 480px) {
             .velden { grid-template-columns: 1fr; }
@@ -757,15 +832,26 @@
     <header class="paginakop">
         <a class="merk" href="../" aria-label="CrashALot, naar de homepage">
             <span class="woordmerk">CRASHALOT</span>
-            <span class="ondertitel" aria-hidden="true">Webapps<br>tools en<br>experimenten</span>
+            <span class="ondertitel" id="ondertitel" aria-hidden="true">Webapps<br>tools en<br>experimenten</span>
         </a>
-        <span class="kop-rechts">Domeinnamen te koop</span>
+        <span class="kop-rechts-groep">
+            <span class="kop-rechts" id="kop-rechts">Domeinnamen te koop</span>
+            <span class="taalkeuze" id="taalkeuze" data-taal="nl" role="group" aria-label="Taal / Language">
+                <span class="schuif" aria-hidden="true"></span>
+                <button type="button" data-taal="nl" aria-pressed="true" lang="nl">NL</button>
+                <button type="button" data-taal="en" aria-pressed="false" lang="en">EN</button>
+            </span>
+        </span>
     </header>
 
     <main>
         <section class="uitgelicht" id="uitgelicht" aria-live="polite">
-            <p class="laden">Domeinnamen laden…</p>
+            <p class="laden" id="laden">Domeinnamen laden…</p>
         </section>
+
+        <button class="naar-beneden" id="naar-beneden" type="button" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
 
         <section aria-labelledby="titel-suggesties" id="suggesties-blok" hidden>
             <div class="suggesties-kop">
@@ -778,7 +864,7 @@
 
     <footer class="voet">
         <span>&copy; <span id="jaar">2026</span> CrashALot</span>
-        <span>Vragen? Mail naar <a id="voet-mail" href="mailto:info@crashalot.com">info@crashalot.com</a></span>
+        <span><span id="voet-vraag">Vragen? Mail naar</span> <a id="voet-mail" href="mailto:info@crashalot.com">info@crashalot.com</a></span>
     </footer>
 
     <script>
@@ -796,7 +882,89 @@
         };
 
         const SJABLONEN = ["saas", "app", "tech", "bureau", "slaap", "horloges", "kaart", "persoonlijk", "game"];
-        const SLEUTELS = ["naam", "slogan", "tekst", "sjabloon", "kleur", "afbeelding", "tonen"];
+        /* Sleutels uit domeinen.txt. Alles met -en erachter is de Engelse versie. */
+        const SLEUTELS = ["naam", "slogan", "tekst", "sjabloon", "kleur", "afbeelding", "tonen",
+                          "naam-en", "slogan-en", "tekst-en"];
+
+        /* =========================================================
+           VASTE TEKSTEN van de pagina zelf, per taal.
+           De teksten per domein staan in domeinen.txt.
+           ========================================================= */
+        const TEKSTEN = {
+            nl: {
+                kopRechts: "Domeinnamen te koop",
+                ondertitel: "Webapps<br>tools en<br>experimenten",
+                status: "Deze domeinnaam is te koop",
+                ook: "Ook beschikbaar:",
+                formTitel: (d) => `Interesse in ${d}?`,
+                labelNaam: "Naam",
+                labelEmail: "E-mailadres",
+                labelBericht: "Bericht",
+                hintBericht: "Bijvoorbeeld wat u met de naam wilt doen, of een indicatie van uw bod.",
+                verstuur: "Verstuur bericht",
+                ofMail: "of mail naar",
+                suggestiesTitel: "Andere beschikbare domeinnamen",
+                aantal: (n) => `${n} andere namen`,
+                bekijk: (d) => `Bekijk ${d}`,
+                naarBeneden: "Bekijk de andere domeinnamen",
+                voetVraag: "Vragen? Mail naar",
+                laden: "Domeinnamen laden…",
+                paginatitel: (d) => `${d} is te koop | CrashALot`,
+                onderwerp: (d) => `Interesse in ${d}`,
+                validatie: "Vul uw naam en een geldig e-mailadres in.",
+                mailGeopend: "Uw mailprogramma wordt geopend met het bericht klaar om te versturen.",
+                bezig: "Bezig met versturen…",
+                gelukt: "Bedankt! Uw bericht is verstuurd. U hoort snel van mij.",
+                mislukt: (m) => `Versturen lukte niet. Mail gerust direct naar ${m}.`,
+                lijstFout: (m) => `De lijst met domeinnamen kon niet geladen worden. Mail voor informatie naar <a href="mailto:${m}">${m}</a>.`,
+                geenTekst: "Deze domeinnaam is beschikbaar voor overname.",
+                /* Knopteksten op de nep-websites */
+                knop: {
+                    gratis: "Probeer gratis", start: "Start nu", demo: "Bekijk demo",
+                    engineering: "Engineering en productie", contact: "Neem contact op",
+                    gids: "Lees de gids", shop: "Shop nu", route: "Route plannen", speel: "Speel nu"
+                }
+            },
+            en: {
+                kopRechts: "Domain names for sale",
+                ondertitel: "Web apps<br>tools and<br>experiments",
+                status: "This domain name is for sale",
+                ook: "Also available:",
+                formTitel: (d) => `Interested in ${d}?`,
+                labelNaam: "Name",
+                labelEmail: "Email address",
+                labelBericht: "Message",
+                hintBericht: "For example what you would use the name for, or an indication of your offer.",
+                verstuur: "Send message",
+                ofMail: "or email",
+                suggestiesTitel: "Other available domain names",
+                aantal: (n) => `${n} other names`,
+                bekijk: (d) => `View ${d}`,
+                naarBeneden: "See the other domain names",
+                voetVraag: "Questions? Email",
+                laden: "Loading domain names…",
+                paginatitel: (d) => `${d} is for sale | CrashALot`,
+                onderwerp: (d) => `Interested in ${d}`,
+                validatie: "Please enter your name and a valid email address.",
+                mailGeopend: "Your email program will open with the message ready to send.",
+                bezig: "Sending…",
+                gelukt: "Thank you. Your message has been sent and I will get back to you soon.",
+                mislukt: (m) => `Sending did not work. Feel free to email ${m} directly.`,
+                lijstFout: (m) => `The list of domain names could not be loaded. For information, email <a href="mailto:${m}">${m}</a>.`,
+                geenTekst: "This domain name is available.",
+                knop: {
+                    gratis: "Try for free", start: "Get started", demo: "Watch demo",
+                    engineering: "Engineering and production", contact: "Get in touch",
+                    gids: "Read the guide", shop: "Shop now", route: "Plan route", speel: "Play now"
+                }
+            }
+        };
+
+        const TAAL_SLEUTEL = "crashalot-taal";
+        let taal = "nl";
+        const T = () => TEKSTEN[taal];
+        /* Veld uit domeinen.txt in de gekozen taal, met het Nederlands als terugval */
+        const veld = (d, sleutel) => (taal === "en" ? d[sleutel + "-en"] || d[sleutel] : d[sleutel]) || "";
 
         const $ = (s) => document.querySelector(s);
         const esc = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -825,7 +993,7 @@
                 }
                 if (!huidig) continue;
 
-                const paar = regel.match(/^([a-zA-Z]+)\s*:\s*(.*)$/);
+                const paar = regel.match(/^([a-zA-Z]+(?:-[a-zA-Z]+)?)\s*:\s*(.*)$/);
                 if (paar && SLEUTELS.includes(paar[1].toLowerCase())) {
                     laatsteSleutel = paar[1].toLowerCase();
                     huidig[laatsteSleutel] = paar[2].trim();
@@ -840,8 +1008,6 @@
                 .map((d) => ({
                     ...d,
                     naam: d.naam || stam(d.domein).charAt(0).toUpperCase() + stam(d.domein).slice(1),
-                    slogan: d.slogan || "",
-                    tekst: d.tekst || "Deze domeinnaam is beschikbaar voor overname.",
                     sjabloon: SJABLONEN.includes((d.sjabloon || "").toLowerCase()) ? d.sjabloon.toLowerCase() : "saas",
                     kleur: /^#[0-9a-f]{3,8}$/i.test(d.kleur || "") ? d.kleur : "#2563eb"
                 }))
@@ -860,12 +1026,12 @@
 
         const SJABLOON = {
             saas: (d) => `
-                <div class="nav"><span class="logo"><i></i>${d.naam}</span>${links()}<span class="knopje">Probeer gratis</span></div>
+                <div class="nav"><span class="logo"><i></i>${d.naam}</span>${links()}<span class="knopje">${T().knop.gratis}</span></div>
                 <div class="hero">
                     <div>
                         <div class="kop">${d.slogan || d.naam}</div>
                         ${balken(2)}
-                        <div class="knoppen"><span class="knopje">Start nu</span><span class="knopje rand">Bekijk demo</span></div>
+                        <div class="knoppen"><span class="knopje">${T().knop.start}</span><span class="knopje rand">${T().knop.demo}</span></div>
                     </div>
                     <div class="paneel">
                         <div class="paneel-kop"><i></i><span class="balk"></span></div>
@@ -898,9 +1064,9 @@
                 <div class="nav"><span class="logo"><i></i>${d.naam}</span>${links()}</div>
                 <div class="tech-hero">
                     <div>
-                        <div class="regel">Engineering en productie</div>
+                        <div class="regel">${T().knop.engineering}</div>
                         <div class="kop">${d.slogan || d.naam}</div>
-                        <span class="knopje">Neem contact op</span>
+                        <span class="knopje">${T().knop.contact}</span>
                     </div>
                     <div class="chip"><div class="kern">${initialen(d.naam)}</div></div>
                 </div>`,
@@ -916,12 +1082,12 @@
             slaap: (d) => `
                 <div class="sterren"></div><i class="maan"></i>
                 <div class="nav"><span class="logo licht"><i></i>${d.naam}</span>${links(true)}</div>
-                <div class="slaap-hero"><div class="kop serif">${d.slogan || d.naam}</div><span class="knopje wit">Lees de gids</span></div>
+                <div class="slaap-hero"><div class="kop serif">${d.slogan || d.naam}</div><span class="knopje wit">${T().knop.gids}</span></div>
                 <div class="artikelen">${Array.from({ length: 3 }, () => `<div><i></i>${balken(2, true)}</div>`).join("")}</div>`,
 
             horloges: (d) => `
                 <div class="nav"><span class="logo"><i></i>${d.naam}</span>${links()}<span class="mandje"></span></div>
-                <div class="banner"><div class="kop">${d.slogan || d.naam}</div><span class="knopje wit">Shop nu</span></div>
+                <div class="banner"><div class="kop">${d.slogan || d.naam}</div><span class="knopje wit">${T().knop.shop}</span></div>
                 <div class="producten">${[249, 189, 415, 329].map((p) =>
                     `<div><div class="product"><i class="wijzerplaat"></i></div><span class="balk"></span><span class="prijs">€ ${p}</span></div>`).join("")}</div>`,
 
@@ -938,7 +1104,7 @@
                     <path d="M70 100 L100 60 L160 64" fill="none" stroke="#f7e3a4" stroke-width="1.6"/>
                 </svg>
                 <div class="pin"><span>${d.naam}</span><i></i></div>
-                <div class="kaartje"><span class="logo"><i></i>${d.naam}</span><div class="kop">${d.slogan || d.naam}</div>${balken(2)}<span class="knopje">Route plannen</span></div>`,
+                <div class="kaartje"><span class="logo"><i></i>${d.naam}</span><div class="kop">${d.slogan || d.naam}</div>${balken(2)}<span class="knopje">${T().knop.route}</span></div>`,
 
             persoonlijk: (d) => `
                 <div class="omslag"></div>
@@ -951,7 +1117,7 @@
                 <div class="hud"><span>HIGHSCORE 004200</span><span>LEVEL 1</span></div>
                 <div class="titel">${d.naam}</div>
                 <div class="sub">${d.slogan}</div>
-                <span class="knopje">Speel nu</span>
+                <span class="knopje">${T().knop.speel}</span>
                 <svg class="silhouet" viewBox="0 0 160 30" preserveAspectRatio="none" aria-hidden="true">
                     <path d="M0 30 V22 L6 12 L12 22 L16 8 L22 22 L26 16 L32 24 L40 18 L48 26 L56 14 L62 24 L70 30Z"/>
                     <path d="M70 30 L80 20 L90 30Z"/>
@@ -963,7 +1129,7 @@
             if (d.afbeelding) {
                 return `<img src="${esc(d.afbeelding)}" alt="" loading="lazy">`;
             }
-            const veilig = { ...d, naam: esc(d.naam), slogan: esc(d.slogan) };
+            const veilig = { ...d, naam: esc(veld(d, "naam") || d.naam), slogan: esc(veld(d, "slogan")) };
             return `<div class="p p-${d.sjabloon}" style="--c:${d.kleur}">${SJABLOON[d.sjabloon](veilig)}</div>`;
         }
 
@@ -979,13 +1145,67 @@
             </${tag}>`;
         }
 
+        /* ---------- Taal en het bolletje met de chevron ---------- */
+        const taalLink = (domein) => `?d=${encodeURIComponent(domein)}&taal=${taal}`;
+
+        function beginTaal() {
+            const uitUrl = (new URLSearchParams(location.search).get("taal") || "").toLowerCase();
+            if (uitUrl === "nl" || uitUrl === "en") return uitUrl;
+            try {
+                const bewaard = localStorage.getItem(TAAL_SLEUTEL);
+                if (bewaard === "nl" || bewaard === "en") return bewaard;
+            } catch {}
+            return (navigator.language || "nl").toLowerCase().startsWith("nl") ? "nl" : "en";
+        }
+
+        function vasteTeksten() {
+            document.documentElement.lang = taal;
+            $("#kop-rechts").textContent = T().kopRechts;
+            $("#ondertitel").innerHTML = T().ondertitel;
+            $("#titel-suggesties").textContent = T().suggestiesTitel;
+            $("#voet-vraag").textContent = T().voetVraag;
+            $("#naar-beneden").setAttribute("aria-label", T().naarBeneden);
+            const laden = $("#laden");
+            if (laden) laden.textContent = T().laden;
+            const keuze = $("#taalkeuze");
+            keuze.dataset.taal = taal;
+            keuze.querySelectorAll("button").forEach((b) =>
+                b.setAttribute("aria-pressed", String(b.dataset.taal === taal)));
+        }
+
+        function zetTaal(nieuw) {
+            taal = nieuw;
+            try { localStorage.setItem(TAAL_SLEUTEL, taal); } catch {}
+            vasteTeksten();
+            if (actief) toonDomein(actief, { geschiedenis: "replace", animatie: false });
+        }
+
+        $("#taalkeuze").addEventListener("click", (e) => {
+            const b = e.target.closest("button[data-taal]");
+            if (b && b.dataset.taal !== taal) zetTaal(b.dataset.taal);
+        });
+
+        $("#naar-beneden").addEventListener("click", () => {
+            $("#suggesties-blok").scrollIntoView({
+                behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+                block: "start"
+            });
+        });
+
+        /* Het bolletje wipt tot de bezoeker de andere namen in beeld heeft */
+        if ("IntersectionObserver" in window) {
+            new IntersectionObserver((rijen) => {
+                if (rijen.some((r) => r.isIntersecting)) $("#naar-beneden").style.animation = "none";
+            }, { threshold: 0.15 }).observe($("#suggesties-blok"));
+        }
+
         /* ---------- Pagina opbouwen ---------- */
         let LIJST = [];
         let actief = null;
 
         function toonDomein(d, { geschiedenis = "push", animatie = true, focus = false } = {}) {
             actief = d;
-            document.title = `${d.domein} is te koop | CrashALot`;
+            document.title = T().paginatitel(d.domein);
 
             const zusjes = LIJST.filter((x) => x !== d && stam(x.domein) === stam(d.domein));
             const blok = $("#uitgelicht");
@@ -993,32 +1213,32 @@
             blok.innerHTML = `
                 ${venster(d)}
                 <div class="tekst-kolom">
-                    <p class="status" style="--accent:${d.kleur}"><i aria-hidden="true"></i>Deze domeinnaam is te koop</p>
+                    <p class="status" style="--accent:${d.kleur}"><i aria-hidden="true"></i>${T().status}</p>
                     <h1 class="domein-titel" tabindex="-1">${esc(d.domein)}</h1>
-                    <p class="domein-tekst">${esc(d.tekst)}</p>
-                    ${zusjes.length ? `<div class="ook">Ook beschikbaar: ${zusjes.map((z) =>
+                    <p class="domein-tekst">${esc(veld(d, "tekst") || T().geenTekst)}</p>
+                    ${zusjes.length ? `<div class="ook">${T().ook} ${zusjes.map((z) =>
                         `<button type="button" data-domein="${esc(z.domein)}">${esc(z.domein)}</button>`).join("")}</div>` : ""}
 
                     <form class="formulier" id="formulier" novalidate>
-                        <h2>Interesse in ${esc(d.domein)}?</h2>
+                        <h2>${T().formTitel(esc(d.domein))}</h2>
                         <div class="velden">
                             <div>
-                                <label for="f-naam">Naam</label>
+                                <label for="f-naam">${T().labelNaam}</label>
                                 <input id="f-naam" name="naam" type="text" autocomplete="name" required>
                             </div>
                             <div>
-                                <label for="f-email">E-mailadres</label>
+                                <label for="f-email">${T().labelEmail}</label>
                                 <input id="f-email" name="email" type="email" autocomplete="email" required>
                             </div>
                             <div class="veld-breed">
-                                <label for="f-bericht">Bericht</label>
-                                <textarea id="f-bericht" name="bericht" placeholder="Bijvoorbeeld wat u met de naam wilt doen, of een indicatie van uw bod."></textarea>
+                                <label for="f-bericht">${T().labelBericht}</label>
+                                <textarea id="f-bericht" name="bericht" placeholder="${T().hintBericht}"></textarea>
                             </div>
                         </div>
                         <input type="hidden" name="domein" value="${esc(d.domein)}">
                         <div class="versturen">
-                            <button class="knop" type="submit">Verstuur bericht</button>
-                            <span class="direct">of mail naar <a href="mailto:${esc(CONFIG.email)}?subject=${encodeURIComponent("Interesse in " + d.domein)}">${esc(CONFIG.email)}</a></span>
+                            <button class="knop" type="submit">${T().verstuur}</button>
+                            <span class="direct">${T().ofMail} <a href="mailto:${esc(CONFIG.email)}?subject=${encodeURIComponent(T().onderwerp(d.domein))}">${esc(CONFIG.email)}</a></span>
                         </div>
                         <p class="melding" id="melding" aria-live="polite"></p>
                     </form>
@@ -1035,13 +1255,15 @@
             const rest = LIJST.filter((x) => x !== d);
             rest.sort((a, b) => (stam(b.domein) === stam(d.domein)) - (stam(a.domein) === stam(d.domein)));
             $("#suggesties").innerHTML = rest.map((x) =>
-                `<li>${venster(x, "a", `href="?d=${encodeURIComponent(x.domein)}" data-domein="${esc(x.domein)}" aria-label="Bekijk ${esc(x.domein)}"`)}</li>`
+                `<li>${venster(x, "a", `href="${taalLink(x.domein)}" data-domein="${esc(x.domein)}" aria-label="${esc(T().bekijk(x.domein))}"`)}</li>`
             ).join("");
-            $("#aantal").textContent = `${rest.length} andere namen`;
+            $("#aantal").textContent = T().aantal(rest.length);
             $("#suggesties-blok").hidden = rest.length === 0;
+            $("#naar-beneden").hidden = rest.length === 0;
 
             const url = new URL(location.href);
             url.searchParams.set("d", d.domein);
+            url.searchParams.set("taal", taal);
             if (geschiedenis === "push") history.pushState({ d: d.domein }, "", url);
             if (geschiedenis === "replace") history.replaceState({ d: d.domein }, "", url);
 
@@ -1098,25 +1320,25 @@
             const bericht = form.bericht.value.trim();
 
             if (!naam || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                melding.textContent = "Vul uw naam en een geldig e-mailadres in.";
+                melding.textContent = T().validatie;
                 melding.className = "melding fout";
                 (!naam ? form.naam : form.email).focus();
                 return;
             }
 
-            const onderwerp = `Interesse in ${actief.domein}`;
+            const onderwerp = T().onderwerp(actief.domein);
 
             if (!CONFIG.formulierAdres) {
-                const inhoud = `Domein: ${actief.domein}\nNaam: ${naam}\nE-mail: ${email}\n\n${bericht}`;
+                const inhoud = `${onderwerp}\n\n${naam}\n${email}\n\n${bericht}`;
                 location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(onderwerp)}&body=${encodeURIComponent(inhoud)}`;
-                melding.textContent = "Uw mailprogramma wordt geopend met het bericht klaar om te versturen.";
+                melding.textContent = T().mailGeopend;
                 melding.className = "melding";
                 return;
             }
 
             const knop = form.querySelector("button[type=submit]");
             knop.disabled = true;
-            melding.textContent = "Bezig met versturen…";
+            melding.textContent = T().bezig;
             melding.className = "melding";
             try {
                 const data = new FormData(form);
@@ -1128,9 +1350,9 @@
                 });
                 if (!antwoord.ok) throw new Error(antwoord.status);
                 form.reset();
-                melding.textContent = "Bedankt! Uw bericht is verstuurd. U hoort snel van mij.";
+                melding.textContent = T().gelukt;
             } catch {
-                melding.textContent = `Versturen lukte niet. Mail gerust direct naar ${CONFIG.email}.`;
+                melding.textContent = T().mislukt(CONFIG.email);
                 melding.className = "melding fout";
             } finally {
                 knop.disabled = false;
@@ -1138,6 +1360,9 @@
         }
 
         /* ---------- Start ---------- */
+        taal = beginTaal();
+        vasteTeksten();
+
         fetch(CONFIG.bestand, { cache: "no-cache" })
             .then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); })
             .then((tekst) => {
@@ -1146,7 +1371,7 @@
                 toonDomein(gevraagd(), { geschiedenis: "replace", animatie: false });
             })
             .catch(() => {
-                $("#uitgelicht").innerHTML = `<p class="laden">De lijst met domeinnamen kon niet geladen worden. Mail voor informatie naar <a href="mailto:${CONFIG.email}">${CONFIG.email}</a>.</p>`;
+                $("#uitgelicht").innerHTML = `<p class="laden">${T().lijstFout(CONFIG.email)}</p>`;
             });
     })();
     </script>
