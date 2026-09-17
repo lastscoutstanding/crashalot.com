@@ -1,0 +1,175 @@
+# =====================================================================
+#  DOMEINNAMEN TE KOOP
+#  Elk domein begint met de naam tussen [haken], gevolgd door regels
+#  in de vorm  sleutel: waarde
+#
+#  naam       Merknaam die op het nep-websiteje staat
+#  slogan     Kopregel op het websiteje
+#  tekst      Verkooptekst naast de tegel (mag over meerdere regels)
+#  sjabloon   Hoe het websiteje eruitziet (zie lijst hieronder)
+#  kleur      Hoofdkleur van het websiteje, als #hexcode
+#  afbeelding (optioneel) eigen screenshot, bv. img/servicetag.png
+#             Die vervangt dan het sjabloon.
+#  tonen      nee = domein staat niet op de pagina
+#
+#  Sjablonen:
+#  saas        Softwaredienst met dashboard
+#  app         App-landingspagina met telefoon
+#  tech        Donkere pagina met printplaat en chip
+#  bureau      Rustig advies- of innovatiebureau
+#  slaap       Nachthemel met maan en artikelen
+#  horloges    Webwinkel met horloges
+#  kaart       Landkaart met een locatiepin
+#  persoonlijk Persoonlijke of familiepagina
+#  game        Game of evenement
+#
+#  Regels die met # beginnen worden genegeerd.
+# =====================================================================
+
+[servicetag.net]
+naam: ServiceTag
+slogan: Elk apparaat zijn eigen servicehistorie
+tekst: Een korte, internationale naam voor een platform rond onderhoud, garantie of asset tracking. ServiceTag zegt meteen wat het doet: een label met de hele geschiedenis erachter. Samen met servicetag.nl over te nemen.
+sjabloon: saas
+kleur: #2563eb
+
+[servicetag.nl]
+naam: ServiceTag
+slogan: Onderhoud en garantie, met één scan geregeld
+tekst: De Nederlandse tegenhanger van servicetag.net. Een sterke naam voor een installateur, leverancier of servicebedrijf dat klanten via QR-labels wil bedienen.
+sjabloon: saas
+kleur: #0f766e
+
+[taqqer.com]
+naam: Taqqer
+slogan: Tag it. Track it. Done.
+tekst: Een pakkende naam die klinkt als "tagger", maar er als merk uitspringt. Geschikt voor een startup rond labels, tracking, taakbeheer of social tagging. Samen met taqqer.nl over te nemen.
+sjabloon: app
+kleur: #c026d3
+
+[taqqer.nl]
+naam: Taqqer
+slogan: Alles getagd, niets meer kwijt
+tekst: De Nederlandse versie van taqqer.com. Neem ze samen over voor één herkenbaar merk in binnen- en buitenland.
+sjabloon: app
+kleur: #7c3aed
+
+[tqqr.nl]
+naam: TQQR
+slogan: Vier letters. Onvergetelijk.
+tekst: Een ultrakorte, eigenzinnige naam in echte startupstijl. Een goede kandidaat voor een app, een korte-linkdienst of een techmerk dat wil opvallen.
+sjabloon: saas
+kleur: #16a34a
+
+[apptech.nl]
+naam: AppTech
+slogan: Apps die gewoon werken
+tekst: Kort, zakelijk en direct duidelijk. Ideaal voor een appbouwer, softwarebureau of IT-dienstverlener die een naam zoekt die klanten in één keer onthouden.
+sjabloon: app
+kleur: #0284c7
+
+[k2electronics.com]
+naam: K2 Electronics
+slogan: Elektronica, ontwikkeld tot in het kleinste detail
+tekst: Een krachtige .com-naam voor een elektronica-ontwikkelaar, producent of distributeur. Kort, internationaal en makkelijk uit te spreken in elke taal.
+sjabloon: tech
+kleur: #f59e0b
+
+[k2innovation.nl]
+naam: K2 Innovation
+slogan: Samen naar de top van uw markt
+tekst: Vernoemd naar een van de zwaarste bergen ter wereld: een naam met ambitie. Geschikt voor een innovatiebureau, techbedrijf of consultancy die hoog wil mikken.
+sjabloon: bureau
+kleur: #4d7c0f
+
+[krominnovation.com]
+naam: Krom Innovation
+slogan: Van idee naar werkend product
+tekst: Een professionele naam voor een innovatie- of ontwikkelbureau, of voor een onderneming met de naam Krom. Ook beschikbaar als krominnovation.nl.
+sjabloon: bureau
+kleur: #0e7490
+
+[krominnovation.nl]
+naam: Krom Innovation
+slogan: Innovatie met Nederlandse nuchterheid
+tekst: De Nederlandse versie van krominnovation.com. Samen een complete basis voor een innovatiebureau dat zowel lokaal als internationaal werkt.
+sjabloon: bureau
+kleur: #9f1239
+
+[kromonline.nl]
+naam: Krom Online
+slogan: De familie Krom, altijd bij de hand
+tekst: Een eigen plek online voor iedereen met de achternaam Krom, of voor een bedrijf dat die naam draagt. Voor een familiesite, portfolio of webwinkel.
+sjabloon: persoonlijk
+kleur: #be123c
+
+[denkstapsprong.nl]
+naam: Denk Stap Sprong
+slogan: Eerst denken, dan stappen, dan springen
+tekst: Een Nederlandse naam met een verhaal: van nadenken via kleine stappen naar de grote sprong. Ideaal voor een coach, trainer, adviesbureau of innovatieprogramma.
+sjabloon: bureau
+kleur: #ea580c
+
+[sleepguide.nl]
+naam: Sleepguide
+slogan: Beter slapen begint vanavond
+tekst: Een sprekende naam voor een slaapblog, matrassenvergelijker, slaapcoach of app. Internationaal herkenbaar, met een vertrouwde Nederlandse extensie.
+sjabloon: slaap
+kleur: #6366f1
+
+[sonofawarch.nl]
+naam: Son of a Warch
+slogan: Horloges met een eigenwijs karakter
+tekst: Een brutale naam met een knipoog die blijft hangen. Perfect voor een eigenzinnig horlogemerk, een vintage-winkel of een lifestylemerk met humor.
+sjabloon: horloges
+kleur: #b45309
+
+[n52e6.nl]
+naam: N52E6
+slogan: 52° noord, 6° oost
+tekst: Een coördinaat als domeinnaam. Het punt op 52° noorderbreedte en 6° oosterlengte ligt in Gelderland, vlak bij Arnhem. Mooi voor een regionaal merk, outdoorbedrijf of navigatiedienst.
+sjabloon: kaart
+kleur: #dc2626
+
+[lastscoutstanding.com]
+naam: Last Scout Standing
+slogan: Wie houdt het het langst vol?
+tekst: Een naam met filmische spanning. Denk aan een game, survivalevenement, podcast of teambuildingconcept waarin maar één winnaar overblijft.
+sjabloon: game
+kleur: #f97316
+
+[sloux.eu]
+naam: Sloux
+slogan: Slim, snel en Europees
+tekst: Een korte, klankrijke .eu-naam van vijf letters. Geschikt voor een Europees techmerk, platform of dienst.
+sjabloon: tech
+kleur: #38bdf8
+
+# ---------------------------------------------------------------------
+#  Niet getoond: in gebruik of doorgestuurd. Zet tonen op ja om ze
+#  alsnog op de pagina te zetten.
+# ---------------------------------------------------------------------
+
+[crashalot.nl]
+naam: CrashALot
+slogan: Webapps, tools en experimenten
+tekst: Een speelse, makkelijk te onthouden naam voor een studio, blog of techmerk.
+sjabloon: game
+kleur: #ff6a33
+tonen: nee
+
+[watchcafe.nl]
+naam: Watch Café
+slogan: Waar horlogeliefhebbers samenkomen
+tekst: Een warme naam voor een horlogecommunity, meetup of speciaalzaak.
+sjabloon: horloges
+kleur: #d96a41
+tonen: nee
+
+[appliedtechnologies.nl]
+naam: Applied Technologies
+slogan: Technologie die in de praktijk werkt
+tekst: Een zakelijke, internationale naam voor een technisch ontwikkel- of ingenieursbureau.
+sjabloon: tech
+kleur: #22d3ee
+tonen: nee

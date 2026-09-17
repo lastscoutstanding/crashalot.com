@@ -1,1 +1,1155 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domeinnaam te koop | CrashALot</title>
+    <meta name="description" content="Deze domeinnaam is te koop. Neem contact op of bekijk andere beschikbare domeinnamen.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%23000'/><text x='50' y='68' font-family='Arial' font-weight='700' font-size='52' fill='%23ff6a33' text-anchor='middle'>C</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================================
+           Tokens (zelfde huisstijl als de homepage)
+           ========================================================= */
+        :root {
+            --zwart: #000;
+            --wit: #fff;
+            --gedempt: #9a9a9a;
+            --lijn: #262626;
+            --veld: #121212;
 
+            --serif: "Newsreader", "Iowan Old Style", Georgia, "Times New Roman", serif;
+            --sans: "Instrument Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+
+            --rand: clamp(16px, 3vw, 32px);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { margin: 0; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--zwart);
+            color: var(--wit);
+            font-family: var(--sans);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: inherit; }
+        :focus-visible { outline: 2px solid var(--wit); outline-offset: 3px; }
+
+        .verborgen {
+            position: absolute; width: 1px; height: 1px; overflow: hidden;
+            clip: rect(0 0 0 0); white-space: nowrap;
+        }
+
+        /* =========================================================
+           Kop en voet
+           ========================================================= */
+        .paginakop, .voet, main {
+            width: 100%;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding-left: var(--rand);
+            padding-right: var(--rand);
+        }
+
+        .paginakop {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px 32px;
+            padding-top: clamp(20px, 3vw, 32px);
+            padding-bottom: clamp(20px, 3vw, 32px);
+        }
+
+        .merk {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+        .woordmerk {
+            font-weight: 700;
+            font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+        .ondertitel {
+            font-family: var(--serif);
+            font-size: 0.66rem;
+            line-height: 1.25;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .kop-rechts {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--gedempt);
+        }
+        .kop-rechts a { color: var(--wit); text-underline-offset: 3px; }
+
+        main { flex: 1; padding-bottom: clamp(48px, 7vw, 96px); }
+
+        .voet {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px 24px;
+            padding-top: 24px;
+            padding-bottom: 32px;
+            border-top: 1px solid var(--lijn);
+            color: var(--gedempt);
+            font-size: 0.85rem;
+        }
+        .voet a { color: var(--wit); text-underline-offset: 3px; }
+
+        /* =========================================================
+           Het browservenster
+           ========================================================= */
+        .venster {
+            display: block;
+            background: #1d1d1f;
+            border: 1px solid #2c2c2e;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+            text-decoration: none;
+            color: var(--wit);
+        }
+
+        .venster-balk {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 9px 12px;
+            background: #2a2a2c;
+            border-bottom: 1px solid #000;
+        }
+
+        .stipjes { display: flex; gap: 6px; flex: none; }
+        .stipjes i { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
+        .stipjes i:nth-child(2) { background: #febc2e; }
+        .stipjes i:nth-child(3) { background: #28c840; }
+
+        .adres {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 5px 12px;
+            background: #111113;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            color: var(--wit);
+        }
+        .adres svg { flex: none; width: 11px; height: 11px; fill: #8e8e93; }
+        .adres span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .scherm {
+            position: relative;
+            aspect-ratio: 16 / 10;
+            container-type: inline-size;
+            overflow: hidden;
+            background: #fff;
+        }
+        .scherm img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; object-position: top;
+        }
+
+        /* =========================================================
+           Uitgelicht domein
+           ========================================================= */
+        .uitgelicht {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+            gap: clamp(28px, 5vw, 72px);
+            align-items: start;
+            padding: clamp(8px, 2vw, 24px) 0 clamp(56px, 8vw, 104px);
+        }
+
+        .uitgelicht .venster {
+            border-radius: 14px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px #2c2c2e;
+        }
+        .uitgelicht .venster-balk { padding: 12px 16px; }
+        .uitgelicht .stipjes i { width: 12px; height: 12px; }
+        .uitgelicht .adres { font-size: clamp(15px, 1.6vw, 18px); padding: 7px 14px; }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 0 14px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--gedempt);
+        }
+        .status i {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: var(--accent, #28c840);
+        }
+
+        .domein-titel {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: clamp(2.4rem, 5vw, 4rem);
+            line-height: 1;
+            letter-spacing: -0.02em;
+            margin: 0 0 20px;
+            overflow-wrap: anywhere;
+        }
+        .domein-titel:focus { outline: none; }
+
+        .domein-tekst {
+            font-family: var(--serif);
+            font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+            line-height: 1.6;
+            color: #d6d6d6;
+            margin: 0 0 20px;
+            max-width: 52ch;
+        }
+
+        .ook {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin: 0 0 28px;
+            font-size: 0.9rem;
+            color: var(--gedempt);
+        }
+        .ook button {
+            font: inherit;
+            font-weight: 600;
+            color: var(--wit);
+            background: none;
+            border: 1px solid #3a3a3a;
+            border-radius: 999px;
+            padding: 3px 12px;
+            cursor: pointer;
+        }
+        .ook button:hover { border-color: var(--wit); }
+
+        /* Formulier */
+        .formulier {
+            border-top: 1px solid var(--lijn);
+            padding-top: 24px;
+        }
+        .formulier h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0 0 16px;
+        }
+
+        .velden {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .veld-breed { grid-column: 1 / -1; }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--gedempt);
+            margin-bottom: 6px;
+        }
+
+        input, textarea {
+            width: 100%;
+            font: inherit;
+            font-size: 1rem;
+            color: var(--wit);
+            background: var(--veld);
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 10px 12px;
+        }
+        textarea { min-height: 110px; resize: vertical; }
+        input:focus-visible, textarea:focus-visible { outline: none; border-color: var(--wit); }
+
+        .versturen {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            margin-top: 16px;
+        }
+
+        .knop {
+            font: inherit;
+            font-weight: 600;
+            color: var(--zwart);
+            background: var(--wit);
+            border: 0;
+            border-radius: 6px;
+            padding: 11px 22px;
+            cursor: pointer;
+        }
+        .knop:hover { background: #e5e5e5; }
+        .knop:disabled { opacity: 0.6; cursor: default; }
+
+        .direct { font-size: 0.9rem; color: var(--gedempt); }
+        .direct a { color: var(--wit); text-underline-offset: 3px; }
+
+        .melding { margin: 12px 0 0; font-size: 0.95rem; min-height: 1.5em; }
+        .melding.fout { color: #ff8a80; }
+
+        /* =========================================================
+           Suggesties
+           ========================================================= */
+        .suggesties-kop {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px 24px;
+            border-top: 1px solid var(--lijn);
+            padding-top: 28px;
+            margin-bottom: 28px;
+        }
+        .suggesties-kop h2 {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            margin: 0;
+        }
+        .suggesties-kop p { margin: 0; color: var(--gedempt); }
+
+        .suggesties {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: clamp(20px, 2.4vw, 32px) clamp(16px, 2vw, 24px);
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .suggesties .venster { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .suggesties .venster:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 26px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px #555;
+        }
+        .suggesties .venster:focus-visible { outline-offset: 4px; }
+
+        .laden { color: var(--gedempt); padding: 40px 0; }
+
+        /* Nieuw uitgelicht domein komt kort in beeld */
+        .uitgelicht.wissel .venster { animation: wissel 0.45s cubic-bezier(.2, .8, .3, 1); }
+        .uitgelicht.wissel .tekst-kolom { animation: wissel 0.45s 0.06s cubic-bezier(.2, .8, .3, 1) both; }
+        @keyframes wissel {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: none; }
+        }
+
+        @media (max-width: 860px) {
+            .uitgelicht { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .velden { grid-template-columns: 1fr; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+        }
+
+        /* =========================================================
+           NEP-WEBSITES (sjablonen)
+           Alles schaalt mee met de breedte van het scherm (cqw),
+           dus hetzelfde sjabloon werkt groot en klein.
+           ========================================================= */
+        .p {
+            --c: #2563eb;
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            font-family: var(--sans);
+            font-size: 2.4cqw;
+            line-height: 1.2;
+            color: #111;
+            text-align: left;
+        }
+        .p * { box-sizing: border-box; }
+
+        .p .balk {
+            display: block;
+            height: 0.45em;
+            border-radius: 1em;
+            background: rgba(0, 0, 0, 0.13);
+            margin-bottom: 0.55em;
+        }
+        .p .balk.licht { background: rgba(255, 255, 255, 0.3); }
+        .p .kort { width: 55%; }
+
+        .p .nav {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1.2em;
+            padding: 1em 1.5em;
+        }
+        .p .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.45em;
+            font-weight: 700;
+            font-size: 1.05em;
+            white-space: nowrap;
+        }
+        .p .logo i { width: 1em; height: 1em; border-radius: 0.25em; background: var(--c); }
+        .p .logo.licht i { background: #fff; }
+        .p .links { display: flex; gap: 0.8em; margin-left: auto; }
+        .p .links b { width: 2.6em; height: 0.4em; border-radius: 1em; background: rgba(0, 0, 0, 0.16); }
+        .p .links.licht b { background: rgba(255, 255, 255, 0.3); }
+
+        .p .knopje {
+            display: inline-block;
+            background: var(--c);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.75em;
+            padding: 0.6em 1.1em;
+            border-radius: 2em;
+            white-space: nowrap;
+        }
+        .p .knopje.rand { background: transparent; color: var(--c); box-shadow: inset 0 0 0 0.12em var(--c); }
+        .p .knopje.wit { background: #fff; color: #111; }
+
+        .p .kop {
+            font-size: 2em;
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.45em;
+        }
+        .p .serif { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; }
+
+        /* ---------- saas ---------- */
+        .p-saas { background: linear-gradient(160deg, #fff 50%, color-mix(in srgb, var(--c) 16%, #fff)); }
+        .p-saas .hero {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 1.6em;
+            align-items: center;
+            padding: 1.8em 1.5em 0;
+        }
+        .p-saas .knoppen { display: flex; gap: 0.5em; margin-top: 1em; }
+        .p-saas .paneel {
+            background: #fff;
+            border-radius: 0.8em;
+            box-shadow: 0 0.6em 1.8em rgba(0, 0, 0, 0.13);
+            padding: 1em;
+            height: 12em;
+            display: flex;
+            flex-direction: column;
+        }
+        .p-saas .paneel-kop { display: flex; gap: 0.5em; align-items: center; }
+        .p-saas .paneel-kop i { width: 1.4em; height: 1.4em; border-radius: 50%; background: color-mix(in srgb, var(--c) 25%, #fff); }
+        .p-saas .paneel-kop .balk { flex: 1; margin: 0; }
+        .p-saas .staven { flex: 1; display: flex; align-items: flex-end; gap: 0.5em; margin-top: 1em; }
+        .p-saas .staven i { flex: 1; background: var(--c); border-radius: 0.25em 0.25em 0 0; }
+        .p-saas .staven i:nth-child(odd) { opacity: 0.45; }
+
+        /* ---------- app ---------- */
+        .p-app {
+            background: linear-gradient(135deg, var(--c), color-mix(in srgb, var(--c) 50%, #000));
+            color: #fff;
+            display: grid;
+            grid-template-columns: 1.25fr 0.75fr;
+            gap: 1em;
+            padding: 0 1.8em 0 2.2em;
+        }
+        .p-app .app-tekst { align-self: center; }
+        .p-app .logo { margin-bottom: 1.2em; }
+        .p-app .kop { font-size: 2.2em; }
+        .p-app .stores { display: flex; gap: 0.5em; margin-top: 1.2em; }
+        .p-app .stores span {
+            background: #000; color: #fff;
+            font-size: 0.65em; font-weight: 600;
+            padding: 0.7em 1.1em; border-radius: 0.6em;
+        }
+        .p-app .telefoon {
+            align-self: end;
+            justify-self: center;
+            width: 9em;
+            height: 18.5em;
+            margin-bottom: -4em;
+            background: #0d0d0d;
+            border-radius: 1.5em;
+            padding: 0.5em;
+            box-shadow: 0 1em 2.5em rgba(0, 0, 0, 0.35);
+        }
+        .p-app .tel-scherm {
+            height: 100%;
+            background: #fff;
+            border-radius: 1.1em;
+            padding: 1em 0.7em;
+            color: #111;
+        }
+        .p-app .tel-kop { font-weight: 700; font-size: 0.8em; color: var(--c); margin-bottom: 1em; }
+        .p-app .rij { display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.8em; }
+        .p-app .rij i { flex: none; width: 1.6em; height: 1.6em; border-radius: 50%; background: color-mix(in srgb, var(--c) 30%, #fff); }
+        .p-app .rij .balk { flex: 1; margin: 0; }
+
+        /* ---------- tech ---------- */
+        .p-tech { background: #070b16; color: #e5e7eb; }
+        .p-tech .printplaat { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .p-tech .printplaat path, .p-tech .printplaat circle { stroke: var(--c); fill: none; opacity: 0.35; }
+        .p-tech .links b { background: rgba(255, 255, 255, 0.22); }
+        .p-tech .tech-hero {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 1.5em;
+            align-items: center;
+            padding: 2.2em 1.5em 0;
+        }
+        .p-tech .regel { font-size: 0.75em; color: var(--c); margin-bottom: 0.8em; font-weight: 600; }
+        .p-tech .kop { font-size: 2.1em; }
+        .p-tech .knopje { color: #070b16; margin-top: 0.4em; }
+        .p-tech .chip {
+            position: relative;
+            justify-self: center;
+            width: 7.5em;
+            height: 7.5em;
+            border: 0.15em solid var(--c);
+            border-radius: 0.6em;
+            display: grid;
+            place-items: center;
+            background: #070b16;
+        }
+        .p-tech .chip::before, .p-tech .chip::after {
+            content: "";
+            position: absolute;
+            border: 0 dashed var(--c);
+        }
+        .p-tech .chip::before { left: 0.9em; right: 0.9em; top: -1.1em; bottom: -1.1em; border-top-width: 0.9em; border-bottom-width: 0.9em; }
+        .p-tech .chip::after { top: 0.9em; bottom: 0.9em; left: -1.1em; right: -1.1em; border-left-width: 0.9em; border-right-width: 0.9em; }
+        .p-tech .kern {
+            width: 4.4em;
+            height: 4.4em;
+            border-radius: 0.3em;
+            background: color-mix(in srgb, var(--c) 22%, #070b16);
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            color: var(--c);
+            font-size: 1.1em;
+        }
+
+        /* ---------- bureau ---------- */
+        .p-bureau { background: #f4f2ee; color: #1c1917; }
+        .p-bureau .logo { font-family: var(--serif); font-weight: 500; font-size: 1.2em; }
+        .p-bureau .logo i { border-radius: 50%; }
+        .p-bureau .bureau-hero {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 1.5em;
+            align-items: center;
+            padding: 1.4em 1.8em 1.2em;
+        }
+        .p-bureau .kop { font-size: 2.3em; line-height: 1.08; }
+        .p-bureau .vormen { position: relative; height: 10em; }
+        .p-bureau .vormen i { position: absolute; }
+        /* variant 1: cirkel en blok */
+        .p-bureau .v1 .a { right: 2.4em; top: 0; width: 7.5em; height: 7.5em; border-radius: 50%; background: var(--c); }
+        .p-bureau .v1 .b { right: 0; bottom: 0; width: 5em; height: 5.5em; background: #1c1917; }
+        /* variant 0: bergtoppen */
+        .p-bureau .v0 .a { right: 0; bottom: 0; width: 11em; height: 9.5em; background: var(--c); clip-path: polygon(0 100%, 42% 12%, 58% 40%, 72% 0, 100% 100%); }
+        .p-bureau .v0 .b { right: 4.7em; top: 0.4em; width: 3em; height: 2.6em; background: #fff; clip-path: polygon(50% 0, 100% 100%, 70% 80%, 50% 100%, 30% 80%, 0 100%); opacity: 0.9; }
+        /* variant 2: boog met lijnen */
+        .p-bureau .v2 .a { right: 1em; bottom: 0; width: 9em; height: 4.5em; border-radius: 9em 9em 0 0; background: var(--c); }
+        .p-bureau .v2 .b { right: 1em; top: 0.5em; width: 9em; height: 4em; background: repeating-linear-gradient(180deg, #1c1917 0 0.25em, transparent 0.25em 0.9em); }
+        /* variant 3: trap met een sprong */
+        .p-bureau .v3 .a { right: 3.2em; bottom: 0; width: 7.5em; height: 7em; background: var(--c); clip-path: polygon(0 100%, 0 67%, 33% 67%, 33% 33%, 67% 33%, 67% 0, 100% 0, 100% 100%); }
+        .p-bureau .v3 .b { right: 0.2em; top: 0; width: 2.2em; height: 2.2em; border-radius: 50%; background: #1c1917; }
+        .p-bureau .diensten {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2em;
+            padding: 1.2em 1.8em;
+            border-top: 0.08em solid rgba(0, 0, 0, 0.12);
+        }
+        .p-bureau .diensten i { display: block; width: 1.2em; height: 1.2em; background: var(--c); margin-bottom: 0.7em; }
+
+        /* ---------- slaap ---------- */
+        .p-slaap {
+            background: linear-gradient(180deg, #060a1c 10%, color-mix(in srgb, var(--c) 55%, #060a1c) 100%);
+            color: #fff;
+        }
+        .p-slaap .sterren {
+            position: absolute; inset: 0;
+            background-image:
+                radial-gradient(circle, rgba(255,255,255,.9) 0.07em, transparent 0.09em),
+                radial-gradient(circle, rgba(255,255,255,.6) 0.05em, transparent 0.07em);
+            background-size: 6.3em 4.1em, 3.7em 5.3em;
+            background-position: 0 0, 1.9em 2.2em;
+        }
+        .p-slaap .maan {
+            position: absolute;
+            right: 3.2em;
+            top: 3.6em;
+            width: 5em;
+            height: 5em;
+            border-radius: 50%;
+            box-shadow: inset -1.4em 0.5em 0 0 #fde68a;
+        }
+        .p-slaap .slaap-hero { position: relative; padding: 1.6em 2em 1.4em; max-width: 64%; }
+        .p-slaap .kop { font-size: 2.4em; }
+        .p-slaap .knopje { margin-top: 0.3em; }
+        .p-slaap .artikelen { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9em; padding: 0 2em; }
+        .p-slaap .artikelen > div { background: rgba(255, 255, 255, 0.08); border-radius: 0.6em; padding: 0.7em; }
+        .p-slaap .artikelen i { display: block; height: 3em; border-radius: 0.4em; background: rgba(255, 255, 255, 0.14); margin-bottom: 0.6em; }
+
+        /* ---------- horloges ---------- */
+        .p-horloges { background: #fff; }
+        .p-horloges .mandje { width: 1.2em; height: 1em; border: 0.15em solid #111; border-radius: 0 0 0.35em 0.35em; }
+        .p-horloges .banner {
+            margin: 0 1.5em;
+            background: var(--c);
+            color: #fff;
+            border-radius: 0.7em;
+            padding: 1.4em 1.6em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1em;
+        }
+        .p-horloges .banner .kop { font-size: 1.6em; margin: 0; max-width: 72%; }
+        .p-horloges .producten { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.9em; padding: 1.1em 1.5em; }
+        .p-horloges .product {
+            aspect-ratio: 1;
+            background: #f3f1ec;
+            border-radius: 0.6em;
+            display: grid;
+            place-items: center;
+            margin-bottom: 0.6em;
+        }
+        .p-horloges .wijzerplaat {
+            position: relative;
+            width: 58%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: #fff;
+            border: 0.4em solid #27272a;
+        }
+        .p-horloges .product:nth-child(odd) .wijzerplaat { background: #1f2937; border-color: color-mix(in srgb, var(--c) 70%, #fde68a); }
+        .p-horloges .wijzerplaat::before, .p-horloges .wijzerplaat::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 50%;
+            width: 0.18em;
+            background: var(--c);
+            transform-origin: 50% 100%;
+            border-radius: 1em;
+        }
+        .p-horloges .wijzerplaat::before { height: 38%; transform: translateX(-50%) rotate(-40deg); }
+        .p-horloges .wijzerplaat::after { height: 26%; transform: translateX(-50%) rotate(70deg); }
+        .p-horloges .prijs { font-size: 0.7em; font-weight: 700; }
+
+        /* ---------- kaart ---------- */
+        .p-kaart { background: #e6ede1; }
+        .p-kaart .landkaart { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .p-kaart .pin {
+            position: absolute;
+            left: 68%;
+            top: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: translate(-50%, -100%);
+        }
+        .p-kaart .pin span {
+            background: #111; color: #fff;
+            font-size: 0.65em; font-weight: 700;
+            padding: 0.4em 0.8em; border-radius: 0.4em;
+            margin-bottom: 0.7em;
+            white-space: nowrap;
+        }
+        .p-kaart .pin i {
+            position: relative;
+            width: 2.2em; height: 2.2em;
+            background: var(--c);
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            box-shadow: 0 0.3em 0.7em rgba(0, 0, 0, 0.3);
+        }
+        .p-kaart .pin i::after {
+            content: "";
+            position: absolute;
+            inset: 32%;
+            background: #fff;
+            border-radius: 50%;
+        }
+        .p-kaart .kaartje {
+            position: absolute;
+            left: 1.5em;
+            top: 1.5em;
+            width: 44%;
+            background: #fff;
+            border-radius: 0.8em;
+            padding: 1.1em;
+            box-shadow: 0 0.6em 1.6em rgba(0, 0, 0, 0.16);
+        }
+        .p-kaart .kaartje .logo { margin-bottom: 0.9em; }
+        .p-kaart .kaartje .kop { font-size: 1.5em; }
+
+        /* ---------- persoonlijk ---------- */
+        .p-persoonlijk { background: #fff; text-align: center; }
+        .p-persoonlijk .omslag { height: 7em; background: linear-gradient(120deg, var(--c), color-mix(in srgb, var(--c) 35%, #fcd9a8)); }
+        .p-persoonlijk .avatar {
+            width: 4.6em; height: 4.6em;
+            margin: -2.3em auto 0;
+            border-radius: 50%;
+            border: 0.3em solid #fff;
+            background: color-mix(in srgb, var(--c) 18%, #fff);
+            color: var(--c);
+            font-weight: 700;
+            display: grid; place-items: center;
+        }
+        .p-persoonlijk .naam { font-size: 1.9em; margin-top: 0.25em; }
+        .p-persoonlijk .sub { font-size: 0.85em; color: #6b7280; margin: 0.3em 3em 0; }
+        .p-persoonlijk .posts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9em; padding: 1.3em 1.8em; text-align: left; }
+        .p-persoonlijk .posts i { display: block; height: 3.6em; border-radius: 0.4em; background: color-mix(in srgb, var(--c) 22%, #fff); margin-bottom: 0.6em; }
+
+        /* ---------- game ---------- */
+        .p-game {
+            background: linear-gradient(180deg, #140b2b 0%, #3a1b47 55%, color-mix(in srgb, var(--c) 80%, #3a1b47) 100%);
+            color: #fff;
+            text-align: center;
+        }
+        .p-game .hud {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.2em 1.5em;
+            font-size: 0.7em;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: #fde68a;
+        }
+        .p-game .titel {
+            font-size: 2.8em;
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 0.95;
+            margin: 0.5em 0.6em 0;
+            text-shadow: 0.07em 0.07em 0 var(--c), 0.14em 0.14em 0 #000;
+        }
+        .p-game .sub { font-size: 0.9em; opacity: 0.85; margin: 1em 0 1em; }
+        .p-game .silhouet { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 30%; fill: #0b0616; }
+    </style>
+</head>
+<body>
+
+    <header class="paginakop">
+        <a class="merk" href="../" aria-label="CrashALot, naar de homepage">
+            <span class="woordmerk">CRASHALOT</span>
+            <span class="ondertitel" aria-hidden="true">Webapps<br>tools en<br>experimenten</span>
+        </a>
+        <span class="kop-rechts">Domeinnamen te koop</span>
+    </header>
+
+    <main>
+        <section class="uitgelicht" id="uitgelicht" aria-live="polite">
+            <p class="laden">Domeinnamen laden…</p>
+        </section>
+
+        <section aria-labelledby="titel-suggesties" id="suggesties-blok" hidden>
+            <div class="suggesties-kop">
+                <h2 id="titel-suggesties">Andere beschikbare domeinnamen</h2>
+                <p id="aantal"></p>
+            </div>
+            <ul class="suggesties" id="suggesties"></ul>
+        </section>
+    </main>
+
+    <footer class="voet">
+        <span>&copy; <span id="jaar">2026</span> CrashALot</span>
+        <span>Vragen? Mail naar <a id="voet-mail" href="mailto:info@crashalot.com">info@crashalot.com</a></span>
+    </footer>
+
+    <script>
+    (() => {
+        /* =========================================================
+           INSTELLINGEN
+           ========================================================= */
+        const CONFIG = {
+            email: "info@crashalot.com",
+            // Leeg laten: het formulier opent het mailprogramma van de bezoeker.
+            // Of vul een formulierdienst in (bv. https://formspree.io/f/abcdwxyz),
+            // dan wordt het bericht direct verstuurd.
+            formulierAdres: "",
+            bestand: "domeinen.txt"
+        };
+
+        const SJABLONEN = ["saas", "app", "tech", "bureau", "slaap", "horloges", "kaart", "persoonlijk", "game"];
+        const SLEUTELS = ["naam", "slogan", "tekst", "sjabloon", "kleur", "afbeelding", "tonen"];
+
+        const $ = (s) => document.querySelector(s);
+        const esc = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+        const stam = (domein) => domein.split(".")[0];
+
+        $("#jaar").textContent = new Date().getFullYear();
+        $("#voet-mail").href = "mailto:" + CONFIG.email;
+        $("#voet-mail").textContent = CONFIG.email;
+
+        /* ---------- domeinen.txt inlezen ---------- */
+        function leesLijst(tekst) {
+            const lijst = [];
+            let huidig = null;
+            let laatsteSleutel = null;
+
+            for (const ruw of tekst.split(/\r?\n/)) {
+                const regel = ruw.trim();
+                if (!regel || regel.startsWith("#")) continue;
+
+                const kop = regel.match(/^\[(.+)\]$/);
+                if (kop) {
+                    huidig = { domein: kop[1].trim().toLowerCase().replace(/^www\./, "") };
+                    lijst.push(huidig);
+                    laatsteSleutel = null;
+                    continue;
+                }
+                if (!huidig) continue;
+
+                const paar = regel.match(/^([a-zA-Z]+)\s*:\s*(.*)$/);
+                if (paar && SLEUTELS.includes(paar[1].toLowerCase())) {
+                    laatsteSleutel = paar[1].toLowerCase();
+                    huidig[laatsteSleutel] = paar[2].trim();
+                } else if (laatsteSleutel) {
+                    huidig[laatsteSleutel] += " " + regel;
+                }
+            }
+
+            const perSjabloon = {};
+            return lijst
+                .filter((d) => !/^(nee|no|false|0)$/i.test(d.tonen || ""))
+                .map((d) => ({
+                    ...d,
+                    naam: d.naam || stam(d.domein).charAt(0).toUpperCase() + stam(d.domein).slice(1),
+                    slogan: d.slogan || "",
+                    tekst: d.tekst || "Deze domeinnaam is beschikbaar voor overname.",
+                    sjabloon: SJABLONEN.includes((d.sjabloon || "").toLowerCase()) ? d.sjabloon.toLowerCase() : "saas",
+                    kleur: /^#[0-9a-f]{3,8}$/i.test(d.kleur || "") ? d.kleur : "#2563eb"
+                }))
+                .map((d) => {
+                    /* Opeenvolgende domeinen met hetzelfde sjabloon krijgen een andere variant */
+                    d.variant = perSjabloon[d.sjabloon] = (perSjabloon[d.sjabloon] ?? -1) + 1;
+                    return d;
+                });
+        }
+
+        /* ---------- Nep-websites ---------- */
+        const balken = (n, licht) => Array.from({ length: n }, (_, i) =>
+            `<span class="balk${licht ? " licht" : ""}${i === n - 1 ? " kort" : ""}"></span>`).join("");
+        const links = (licht) => `<span class="links${licht ? " licht" : ""}"><b></b><b></b><b></b></span>`;
+        const initialen = (naam) => naam.split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+
+        const SJABLOON = {
+            saas: (d) => `
+                <div class="nav"><span class="logo"><i></i>${d.naam}</span>${links()}<span class="knopje">Probeer gratis</span></div>
+                <div class="hero">
+                    <div>
+                        <div class="kop">${d.slogan || d.naam}</div>
+                        ${balken(2)}
+                        <div class="knoppen"><span class="knopje">Start nu</span><span class="knopje rand">Bekijk demo</span></div>
+                    </div>
+                    <div class="paneel">
+                        <div class="paneel-kop"><i></i><span class="balk"></span></div>
+                        <div class="staven">${[45, 70, 55, 85, 60, 95, 75].map((h) => `<i style="height:${h}%"></i>`).join("")}</div>
+                    </div>
+                </div>`,
+
+            app: (d) => `
+                <div class="app-tekst">
+                    <span class="logo licht"><i></i>${d.naam}</span>
+                    <div class="kop">${d.slogan || d.naam}</div>
+                    ${balken(2, true)}
+                    <div class="stores"><span>App Store</span><span>Google Play</span></div>
+                </div>
+                <div class="telefoon"><div class="tel-scherm">
+                    <div class="tel-kop">${d.naam}</div>
+                    ${Array.from({ length: 5 }, () => `<div class="rij"><i></i><span class="balk"></span></div>`).join("")}
+                </div></div>`,
+
+            tech: (d) => `
+                <svg class="printplaat" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                    <path d="M0 78 H40 L52 66 H96 L104 58 H160" stroke-width=".6"/>
+                    <path d="M0 90 H62 L70 82 H130 L140 92 H160" stroke-width=".6"/>
+                    <path d="M118 0 V22 L128 32 V48" stroke-width=".6"/>
+                    <path d="M146 0 V14 L138 22 V40" stroke-width=".6"/>
+                    <path d="M20 100 V86 L28 78" stroke-width=".6"/>
+                    <circle cx="96" cy="66" r="1.4" stroke-width=".6"/><circle cx="128" cy="48" r="1.4" stroke-width=".6"/>
+                    <circle cx="138" cy="40" r="1.4" stroke-width=".6"/><circle cx="130" cy="82" r="1.4" stroke-width=".6"/>
+                </svg>
+                <div class="nav"><span class="logo"><i></i>${d.naam}</span>${links()}</div>
+                <div class="tech-hero">
+                    <div>
+                        <div class="regel">Engineering en productie</div>
+                        <div class="kop">${d.slogan || d.naam}</div>
+                        <span class="knopje">Neem contact op</span>
+                    </div>
+                    <div class="chip"><div class="kern">${initialen(d.naam)}</div></div>
+                </div>`,
+
+            bureau: (d) => `
+                <div class="nav"><span class="logo"><i></i>${d.naam}</span>${links()}</div>
+                <div class="bureau-hero">
+                    <div><div class="kop serif">${d.slogan || d.naam}</div>${balken(2)}</div>
+                    <div class="vormen v${d.variant % 4}"><i class="a"></i><i class="b"></i></div>
+                </div>
+                <div class="diensten">${Array.from({ length: 3 }, () => `<div><i></i>${balken(2)}</div>`).join("")}</div>`,
+
+            slaap: (d) => `
+                <div class="sterren"></div><i class="maan"></i>
+                <div class="nav"><span class="logo licht"><i></i>${d.naam}</span>${links(true)}</div>
+                <div class="slaap-hero"><div class="kop serif">${d.slogan || d.naam}</div><span class="knopje wit">Lees de gids</span></div>
+                <div class="artikelen">${Array.from({ length: 3 }, () => `<div><i></i>${balken(2, true)}</div>`).join("")}</div>`,
+
+            horloges: (d) => `
+                <div class="nav"><span class="logo"><i></i>${d.naam}</span>${links()}<span class="mandje"></span></div>
+                <div class="banner"><div class="kop">${d.slogan || d.naam}</div><span class="knopje wit">Shop nu</span></div>
+                <div class="producten">${[249, 189, 415, 329].map((p) =>
+                    `<div><div class="product"><i class="wijzerplaat"></i></div><span class="balk"></span><span class="prijs">€ ${p}</span></div>`).join("")}</div>`,
+
+            kaart: (d) => `
+                <svg class="landkaart" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                    <g stroke="#d3dfcd" stroke-width=".4">${Array.from({ length: 9 }, (_, i) => `<path d="M${i * 20} 0 V100"/><path d="M0 ${i * 14} H160"/>`).join("")}</g>
+                    <g fill="none" stroke="#bccfb3" stroke-width=".5">
+                        <path d="M88 20 C112 10 140 22 146 44 C152 66 128 80 104 74 C82 68 70 36 88 20Z"/>
+                        <path d="M96 30 C112 24 132 32 136 46 C140 60 122 68 106 64 C92 60 84 38 96 30Z"/>
+                        <path d="M104 40 C114 38 124 42 125 49 C126 56 116 58 108 56 C100 54 98 43 104 40Z"/>
+                    </g>
+                    <path d="M0 70 C30 60 50 84 80 78 C110 72 120 92 160 86" fill="none" stroke="#8fc3e3" stroke-width="3"/>
+                    <path d="M20 0 C40 30 60 40 108 52 C130 58 150 50 160 40" fill="none" stroke="#fff" stroke-width="2.2"/>
+                    <path d="M70 100 L100 60 L160 64" fill="none" stroke="#f7e3a4" stroke-width="1.6"/>
+                </svg>
+                <div class="pin"><span>${d.naam}</span><i></i></div>
+                <div class="kaartje"><span class="logo"><i></i>${d.naam}</span><div class="kop">${d.slogan || d.naam}</div>${balken(2)}<span class="knopje">Route plannen</span></div>`,
+
+            persoonlijk: (d) => `
+                <div class="omslag"></div>
+                <div class="avatar">${initialen(d.naam)}</div>
+                <div class="naam serif">${d.naam}</div>
+                <div class="sub">${d.slogan}</div>
+                <div class="posts">${Array.from({ length: 3 }, () => `<div><i></i>${balken(2)}</div>`).join("")}</div>`,
+
+            game: (d) => `
+                <div class="hud"><span>HIGHSCORE 004200</span><span>LEVEL 1</span></div>
+                <div class="titel">${d.naam}</div>
+                <div class="sub">${d.slogan}</div>
+                <span class="knopje">Speel nu</span>
+                <svg class="silhouet" viewBox="0 0 160 30" preserveAspectRatio="none" aria-hidden="true">
+                    <path d="M0 30 V22 L6 12 L12 22 L16 8 L22 22 L26 16 L32 24 L40 18 L48 26 L56 14 L62 24 L70 30Z"/>
+                    <path d="M70 30 L80 20 L90 30Z"/>
+                    <path d="M96 30 V24 L104 10 L110 22 L116 6 L124 22 L130 14 L138 24 L146 12 L154 24 L160 18 V30Z"/>
+                </svg>`
+        };
+
+        function nepSite(d) {
+            if (d.afbeelding) {
+                return `<img src="${esc(d.afbeelding)}" alt="" loading="lazy">`;
+            }
+            const veilig = { ...d, naam: esc(d.naam), slogan: esc(d.slogan) };
+            return `<div class="p p-${d.sjabloon}" style="--c:${d.kleur}">${SJABLOON[d.sjabloon](veilig)}</div>`;
+        }
+
+        const slot = `<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 5V3.5a3 3 0 0 1 6 0V5h.5A1.5 1.5 0 0 1 11 6.5v4A1.5 1.5 0 0 1 9.5 12h-7A1.5 1.5 0 0 1 1 10.5v-4A1.5 1.5 0 0 1 2.5 5H3Zm1.5 0h3V3.5a1.5 1.5 0 0 0-3 0V5Z"/></svg>`;
+
+        function venster(d, tag = "div", extra = "") {
+            return `<${tag} class="venster" ${extra}>
+                <div class="venster-balk">
+                    <span class="stipjes" aria-hidden="true"><i></i><i></i><i></i></span>
+                    <span class="adres">${slot}<span>${esc(d.domein)}</span></span>
+                </div>
+                <div class="scherm" aria-hidden="true">${nepSite(d)}</div>
+            </${tag}>`;
+        }
+
+        /* ---------- Pagina opbouwen ---------- */
+        let LIJST = [];
+        let actief = null;
+
+        function toonDomein(d, { geschiedenis = "push", animatie = true, focus = false } = {}) {
+            actief = d;
+            document.title = `${d.domein} is te koop | CrashALot`;
+
+            const zusjes = LIJST.filter((x) => x !== d && stam(x.domein) === stam(d.domein));
+            const blok = $("#uitgelicht");
+
+            blok.innerHTML = `
+                ${venster(d)}
+                <div class="tekst-kolom">
+                    <p class="status" style="--accent:${d.kleur}"><i aria-hidden="true"></i>Deze domeinnaam is te koop</p>
+                    <h1 class="domein-titel" tabindex="-1">${esc(d.domein)}</h1>
+                    <p class="domein-tekst">${esc(d.tekst)}</p>
+                    ${zusjes.length ? `<div class="ook">Ook beschikbaar: ${zusjes.map((z) =>
+                        `<button type="button" data-domein="${esc(z.domein)}">${esc(z.domein)}</button>`).join("")}</div>` : ""}
+
+                    <form class="formulier" id="formulier" novalidate>
+                        <h2>Interesse in ${esc(d.domein)}?</h2>
+                        <div class="velden">
+                            <div>
+                                <label for="f-naam">Naam</label>
+                                <input id="f-naam" name="naam" type="text" autocomplete="name" required>
+                            </div>
+                            <div>
+                                <label for="f-email">E-mailadres</label>
+                                <input id="f-email" name="email" type="email" autocomplete="email" required>
+                            </div>
+                            <div class="veld-breed">
+                                <label for="f-bericht">Bericht</label>
+                                <textarea id="f-bericht" name="bericht" placeholder="Bijvoorbeeld wat u met de naam wilt doen, of een indicatie van uw bod."></textarea>
+                            </div>
+                        </div>
+                        <input type="hidden" name="domein" value="${esc(d.domein)}">
+                        <div class="versturen">
+                            <button class="knop" type="submit">Verstuur bericht</button>
+                            <span class="direct">of mail naar <a href="mailto:${esc(CONFIG.email)}?subject=${encodeURIComponent("Interesse in " + d.domein)}">${esc(CONFIG.email)}</a></span>
+                        </div>
+                        <p class="melding" id="melding" aria-live="polite"></p>
+                    </form>
+                </div>`;
+
+            blok.classList.remove("wissel");
+            if (animatie) { void blok.offsetWidth; blok.classList.add("wissel"); }
+
+            blok.querySelectorAll(".ook button").forEach((b) =>
+                b.addEventListener("click", () => kies(b.dataset.domein)));
+            $("#formulier").addEventListener("submit", verstuur);
+
+            /* Suggesties: naamgenoten eerst, daarna de rest in lijstvolgorde */
+            const rest = LIJST.filter((x) => x !== d);
+            rest.sort((a, b) => (stam(b.domein) === stam(d.domein)) - (stam(a.domein) === stam(d.domein)));
+            $("#suggesties").innerHTML = rest.map((x) =>
+                `<li>${venster(x, "a", `href="?d=${encodeURIComponent(x.domein)}" data-domein="${esc(x.domein)}" aria-label="Bekijk ${esc(x.domein)}"`)}</li>`
+            ).join("");
+            $("#aantal").textContent = `${rest.length} andere namen`;
+            $("#suggesties-blok").hidden = rest.length === 0;
+
+            const url = new URL(location.href);
+            url.searchParams.set("d", d.domein);
+            if (geschiedenis === "push") history.pushState({ d: d.domein }, "", url);
+            if (geschiedenis === "replace") history.replaceState({ d: d.domein }, "", url);
+
+            if (focus) {
+                window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+                blok.querySelector(".domein-titel").focus({ preventScroll: true });
+            }
+        }
+
+        function kies(domein) {
+            const d = LIJST.find((x) => x.domein === domein);
+            if (d) toonDomein(d, { focus: true });
+        }
+
+        $("#suggesties").addEventListener("click", (e) => {
+            const a = e.target.closest("a[data-domein]");
+            if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+            e.preventDefault();
+            kies(a.dataset.domein);
+        });
+
+        window.addEventListener("popstate", () => {
+            const d = gevraagd();
+            if (d) toonDomein(d, { geschiedenis: "geen", focus: false });
+        });
+
+        /* Welk domein typte de bezoeker in? */
+        function gevraagd() {
+            const zoek = (naam) => LIJST.find((x) => x.domein === naam);
+            const schoon = (s) => (s || "").toLowerCase().trim().replace(/^www\./, "");
+
+            const q = new URLSearchParams(location.search);
+            const uitUrl = zoek(schoon(q.get("d") || q.get("domein")));
+            if (uitUrl) return uitUrl;
+
+            const uitHost = zoek(schoon(location.hostname));
+            if (uitHost) return uitHost;
+
+            try {
+                const uitVerwijzer = zoek(schoon(new URL(document.referrer).hostname));
+                if (uitVerwijzer) return uitVerwijzer;
+            } catch {}
+
+            return LIJST[0];
+        }
+
+        /* ---------- Formulier ---------- */
+        async function verstuur(e) {
+            e.preventDefault();
+            const form = e.currentTarget;
+            const melding = form.querySelector("#melding");
+            const naam = form.naam.value.trim();
+            const email = form.email.value.trim();
+            const bericht = form.bericht.value.trim();
+
+            if (!naam || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                melding.textContent = "Vul uw naam en een geldig e-mailadres in.";
+                melding.className = "melding fout";
+                (!naam ? form.naam : form.email).focus();
+                return;
+            }
+
+            const onderwerp = `Interesse in ${actief.domein}`;
+
+            if (!CONFIG.formulierAdres) {
+                const inhoud = `Domein: ${actief.domein}\nNaam: ${naam}\nE-mail: ${email}\n\n${bericht}`;
+                location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(onderwerp)}&body=${encodeURIComponent(inhoud)}`;
+                melding.textContent = "Uw mailprogramma wordt geopend met het bericht klaar om te versturen.";
+                melding.className = "melding";
+                return;
+            }
+
+            const knop = form.querySelector("button[type=submit]");
+            knop.disabled = true;
+            melding.textContent = "Bezig met versturen…";
+            melding.className = "melding";
+            try {
+                const data = new FormData(form);
+                data.append("_subject", onderwerp);
+                const antwoord = await fetch(CONFIG.formulierAdres, {
+                    method: "POST",
+                    body: data,
+                    headers: { Accept: "application/json" }
+                });
+                if (!antwoord.ok) throw new Error(antwoord.status);
+                form.reset();
+                melding.textContent = "Bedankt! Uw bericht is verstuurd. U hoort snel van mij.";
+            } catch {
+                melding.textContent = `Versturen lukte niet. Mail gerust direct naar ${CONFIG.email}.`;
+                melding.className = "melding fout";
+            } finally {
+                knop.disabled = false;
+            }
+        }
+
+        /* ---------- Start ---------- */
+        fetch(CONFIG.bestand, { cache: "no-cache" })
+            .then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); })
+            .then((tekst) => {
+                LIJST = leesLijst(tekst);
+                if (!LIJST.length) throw new Error("leeg");
+                toonDomein(gevraagd(), { geschiedenis: "replace", animatie: false });
+            })
+            .catch(() => {
+                $("#uitgelicht").innerHTML = `<p class="laden">De lijst met domeinnamen kon niet geladen worden. Mail voor informatie naar <a href="mailto:${CONFIG.email}">${CONFIG.email}</a>.</p>`;
+            });
+    })();
+    </script>
+
+</body>
+</html>
