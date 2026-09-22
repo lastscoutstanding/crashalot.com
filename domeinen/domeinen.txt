@@ -133,6 +133,24 @@ tekst-en: An online home for anyone with the surname Krom, or for a company carr
 sjabloon: persoonlijk
 kleur: #be123c
 
+[dutchbusinessforum.com]
+naam: Dutch Business Forum
+slogan: Zakendoen in en met Nederland begint hier
+slogan-en: Doing business in and with the Netherlands starts here
+tekst: Een heldere, internationale naam voor een zakelijk platform, netwerkorganisatie of evenement rond het Nederlandse bedrijfsleven. De naam zegt precies wat het is en werkt voor buitenlandse bedrijven die de Nederlandse markt op willen. Samen met dutchbusinessforum.nl over te nemen.
+tekst-en: A clear, international name for a business platform, networking organisation or event around Dutch business. The name says exactly what it is and works well for foreign companies looking to enter the Dutch market. Available together with dutchbusinessforum.nl.
+sjabloon: bureau
+kleur: #1e3a8a
+
+[dutchbusinessforum.nl]
+naam: Dutch Business Forum
+slogan: Waar ondernemers elkaar ontmoeten
+slogan-en: Where entrepreneurs meet
+tekst: De Nederlandse tegenhanger van dutchbusinessforum.com. Een sterke naam voor een ondernemersnetwerk, kennisplatform, vakbeurs of online community voor het mkb. Neem ze samen over voor één herkenbaar merk in binnen- en buitenland.
+tekst-en: The Dutch counterpart to dutchbusinessforum.com. A strong name for an entrepreneurs' network, knowledge platform, trade fair or online community for small and medium-sized businesses. Take both for one recognisable brand at home and abroad.
+sjabloon: bureau
+kleur: #c2410c
+
 [denkstapsprong.nl]
 naam: Denk Stap Sprong
 slogan: Eerst denken, dan een stap, dan springen
@@ -187,6 +205,11 @@ tekst-en: A name with cinematic tension. Think of a game, a survival event, a po
 sjabloon: game
 kleur: #f97316
 
+# ---------------------------------------------------------------------
+#  Niet getoond: in gebruik of doorgestuurd. Zet tonen op ja om ze
+#  alsnog op de pagina te zetten.
+# ---------------------------------------------------------------------
+
 [sloux.eu]
 naam: Sloux
 slogan: Slim, snel en Europees
@@ -196,11 +219,6 @@ tekst-en: A short, sonorous five-letter .eu name. Suited to a European tech bran
 sjabloon: tech
 kleur: #38bdf8
 tonen: nee
-
-# ---------------------------------------------------------------------
-#  Niet getoond: in gebruik of doorgestuurd. Zet tonen op ja om ze
-#  alsnog op de pagina te zetten.
-# ---------------------------------------------------------------------
 
 [crashalot.nl]
 naam: CrashALot
