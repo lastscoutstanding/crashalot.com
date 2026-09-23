@@ -883,7 +883,7 @@
 
         const SJABLONEN = ["saas", "app", "tech", "bureau", "slaap", "horloges", "kaart", "persoonlijk", "game"];
         /* Sleutels uit domeinen.txt. Alles met -en erachter is de Engelse versie. */
-        const SLEUTELS = ["naam", "slogan", "tekst", "sjabloon", "kleur", "afbeelding", "tonen",
+        const SLEUTELS = ["naam", "slogan", "tekst", "sjabloon", "kleur", "afbeelding", "tonen", "verwant",
                           "naam-en", "slogan-en", "tekst-en"];
 
         /* =========================================================
@@ -1145,6 +1145,25 @@
             </${tag}>`;
         }
 
+        /* ---------- Verwante domeinnamen ----------
+           Automatisch: dezelfde naam met een andere extensie.
+           Handmatig: de regel  verwant: naam1.nl, naam2.com  in domeinen.txt.
+           Zo'n verwijzing werkt twee kanten op, dus één keer noemen is genoeg. */
+        const genoemd = (d) => (d.verwant || "")
+            .toLowerCase()
+            .split(/[,;]/)
+            .map((x) => x.trim().replace(/^www\./, ""))
+            .filter(Boolean);
+
+        function verwanten(d) {
+            const eigen = genoemd(d);
+            return LIJST.filter((x) => x !== d && (
+                stam(x.domein) === stam(d.domein) ||
+                eigen.includes(x.domein) ||
+                genoemd(x).includes(d.domein)
+            ));
+        }
+
         /* ---------- Taal en het bolletje met de chevron ---------- */
         const taalLink = (domein) => `?d=${encodeURIComponent(domein)}&taal=${taal}`;
 
@@ -1207,7 +1226,7 @@
             actief = d;
             document.title = T().paginatitel(d.domein);
 
-            const zusjes = LIJST.filter((x) => x !== d && stam(x.domein) === stam(d.domein));
+            const zusjes = verwanten(d);
             const blok = $("#uitgelicht");
 
             blok.innerHTML = `
@@ -1251,9 +1270,10 @@
                 b.addEventListener("click", () => kies(b.dataset.domein)));
             $("#formulier").addEventListener("submit", verstuur);
 
-            /* Suggesties: naamgenoten eerst, daarna de rest in lijstvolgorde */
+            /* Suggesties: verwante namen eerst, daarna de rest in lijstvolgorde */
+            const verwantSet = new Set(zusjes.map((z) => z.domein));
             const rest = LIJST.filter((x) => x !== d);
-            rest.sort((a, b) => (stam(b.domein) === stam(d.domein)) - (stam(a.domein) === stam(d.domein)));
+            rest.sort((a, b) => verwantSet.has(b.domein) - verwantSet.has(a.domein));
             $("#suggesties").innerHTML = rest.map((x) =>
                 `<li>${venster(x, "a", `href="${taalLink(x.domein)}" data-domein="${esc(x.domein)}" aria-label="${esc(T().bekijk(x.domein))}"`)}</li>`
             ).join("");

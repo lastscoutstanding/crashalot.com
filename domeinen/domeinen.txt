@@ -11,6 +11,13 @@
 #  afbeelding (optioneel) eigen screenshot, bv. img/servicetag.png
 #             Die vervangt dan het sjabloon.
 #  tonen      nee = domein staat niet op de pagina
+#  verwant    (optioneel) andere domeinnamen die erbij horen, met een
+#             komma ertussen, bv.  verwant: taqqer.com, taqqer.nl
+#             Ze verschijnen dan bij "Ook beschikbaar" en staan
+#             vooraan in de suggesties. Dezelfde naam met een andere
+#             extensie wordt al automatisch gekoppeld, dus die hoeft
+#             hier niet bij. Eén keer noemen is genoeg: de koppeling
+#             werkt aan beide kanten.
 #
 #  TWEE TALEN
 #  Zet -en achter een sleutel voor de Engelse versie:
@@ -71,6 +78,7 @@ sjabloon: app
 kleur: #7c3aed
 
 [tqqr.nl]
+verwant: taqqer.com, taqqer.nl
 naam: TQQR
 slogan: Vier letters. Onvergetelijk.
 slogan-en: Four letters. Unforgettable.
@@ -98,6 +106,7 @@ sjabloon: tech
 kleur: #f59e0b
 
 [k2innovation.nl]
+verwant: k2electronics.com
 naam: K2 Innovation
 slogan: Samen naar de top van uw markt
 slogan-en: Together to the top of your market
@@ -125,6 +134,7 @@ sjabloon: bureau
 kleur: #9f1239
 
 [kromonline.nl]
+verwant: krominnovation.com, krominnovation.nl
 naam: Krom Online
 slogan: De familie Krom, altijd bij de hand
 slogan-en: The Krom family, always at hand
