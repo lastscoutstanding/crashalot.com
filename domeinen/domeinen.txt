@@ -116,24 +116,6 @@ tekst-en: Named after one of the toughest mountains in the world: a name with am
 sjabloon: bureau
 kleur: #4d7c0f
 
-[krominnovation.com]
-naam: Krom Innovation
-slogan: Van idee naar werkend product
-slogan-en: From idea to working product
-tekst: Een professionele naam voor een innovatie- of ontwikkelbureau, of voor een onderneming met de naam Krom. Ook beschikbaar als krominnovation.nl.
-tekst-en: A professional name for an innovation or development agency, or for a company carrying the Krom name. Also available as krominnovation.nl.
-sjabloon: bureau
-kleur: #0e7490
-
-[krominnovation.nl]
-naam: Krom Innovation
-slogan: Innovatie met Nederlandse nuchterheid
-slogan-en: Innovation with Dutch pragmatism
-tekst: De Nederlandse versie van krominnovation.com. Samen een complete basis voor een innovatiebureau dat zowel lokaal als internationaal werkt.
-tekst-en: The Dutch version of krominnovation.com. Together they form a complete base for an innovation agency working both locally and internationally.
-sjabloon: bureau
-kleur: #9f1239
-
 [kromonline.nl]
 verwant: krominnovation.com, krominnovation.nl
 naam: Krom Online
@@ -260,3 +242,24 @@ tekst-en: A businesslike, international name for a technical development or engi
 sjabloon: tech
 kleur: #22d3ee
 tonen: ja
+
+
+[krominnovation.com] OPGEZEGD
+naam: Krom Innovation
+slogan: Van idee naar werkend product
+slogan-en: From idea to working product
+tekst: Een professionele naam voor een innovatie- of ontwikkelbureau, of voor een onderneming met de naam Krom. Ook beschikbaar als krominnovation.nl.
+tekst-en: A professional name for an innovation or development agency, or for a company carrying the Krom name. Also available as krominnovation.nl.
+sjabloon: bureau
+kleur: #0e7490
+tonen: nee
+
+[krominnovation.nl] OPGEZEGD
+naam: Krom Innovation
+slogan: Innovatie met Nederlandse nuchterheid
+slogan-en: Innovation with Dutch pragmatism
+tekst: De Nederlandse versie van krominnovation.com. Samen een complete basis voor een innovatiebureau dat zowel lokaal als internationaal werkt.
+tekst-en: The Dutch version of krominnovation.com. Together they form a complete base for an innovation agency working both locally and internationally.
+sjabloon: bureau
+kleur: #9f1239
+tonen: nee
