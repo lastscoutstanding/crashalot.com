@@ -88,6 +88,7 @@ sjabloon: saas
 kleur: #16a34a
 
 [apptech.nl]
+verwant: appliedtechnologies.nl
 naam: AppTech
 slogan: Apps die gewoon werken
 slogan-en: Apps that simply work
@@ -238,7 +239,7 @@ tekst: Een speelse, makkelijk te onthouden naam voor een studio, blog of techmer
 tekst-en: A playful, memorable name for a studio, a blog or a tech brand.
 sjabloon: game
 kleur: #ff6a33
-tonen: nee
+tonen: ja
 
 [watchcafe.nl]
 naam: Watch Café
@@ -248,7 +249,7 @@ tekst: Een warme naam voor een horlogecommunity, meetup of speciaalzaak.
 tekst-en: A warm name for a watch community, a meetup or a specialist shop.
 sjabloon: horloges
 kleur: #d96a41
-tonen: nee
+tonen: ja
 
 [appliedtechnologies.nl]
 naam: Applied Technologies
@@ -258,4 +259,4 @@ tekst: Een zakelijke, internationale naam voor een technisch ontwikkel- of ingen
 tekst-en: A businesslike, international name for a technical development or engineering firm.
 sjabloon: tech
 kleur: #22d3ee
-tonen: nee
+tonen: ja
