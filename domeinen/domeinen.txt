@@ -144,6 +144,15 @@ tekst-en: The Dutch counterpart to dutchbusinessforum.com. A strong name for an 
 sjabloon: bureau
 kleur: #c2410c
 
+[aindhoven.com]
+naam: AIndhoven
+slogan: Waar AI en Brainport samenkomen
+slogan-en: Where AI and Brainport meet
+tekst: Twee namen in één: lees het als AI + Eindhoven en je hebt meteen een merk voor alles wat met kunstmatige intelligentie in de Brainport-regio te maken heeft. Denk aan een AI-startup, een techcommunity, een meetup of een vacaturesite. Daarnaast vangt de naam de bezoekers op die zich vertypen bij het zoeken naar Eindhoven.
+tekst-en: Two names in one: read it as AI + Eindhoven and you have an instant brand for anything involving artificial intelligence in the Brainport region. Think of an AI startup, a tech community, a meetup or a job board. On top of that, the name catches visitors who mistype when searching for Eindhoven.
+sjabloon: tech
+kleur: #7c3aed
+
 [denkstapsprong.nl]
 naam: Denk Stap Sprong
 slogan: Eerst denken, dan een stap, dan springen
