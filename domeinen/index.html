@@ -162,7 +162,7 @@
             place-items: center;
             width: 46px;
             height: 46px;
-            margin: 4px auto clamp(16px, 2.5vw, 22px);
+            margin: 0 auto clamp(14px, 2vw, 18px);
             color: var(--wit);
             background: #141414;
             border: 1px solid #3a3a3a;
@@ -276,7 +276,7 @@
         .domein-titel {
             font-family: var(--serif);
             font-weight: 400;
-            font-size: clamp(1.9rem, 3vw, 2.6rem);
+            font-size: clamp(1.8rem, 2.6vw, 2.3rem);
             line-height: 1.02;
             letter-spacing: -0.02em;
             margin: 0 0 10px;
@@ -289,7 +289,7 @@
             font-size: clamp(1rem, 1.15vw, 1.1rem);
             line-height: 1.55;
             color: #d6d6d6;
-            margin: 0 0 16px;
+            margin: 0 0 12px;
             max-width: 52ch;
         }
 
@@ -298,7 +298,7 @@
             flex-wrap: wrap;
             align-items: center;
             gap: 8px;
-            margin: 0 0 14px;
+            margin: 0 0 12px;
             font-size: 0.9rem;
             color: var(--gedempt);
         }
@@ -317,18 +317,18 @@
         /* Formulier */
         .formulier {
             border-top: 1px solid var(--lijn);
-            padding-top: 14px;
+            padding-top: 12px;
         }
         .formulier h2 {
             font-size: 1.05rem;
             font-weight: 600;
-            margin: 0 0 8px;
+            margin: 0 0 6px;
         }
 
         .velden {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 8px;
         }
         .veld-breed { grid-column: 1 / -1; }
 
@@ -349,15 +349,35 @@
             border-radius: 6px;
             padding: 8px 12px;
         }
-        textarea { min-height: 62px; resize: vertical; }
+        textarea { min-height: 54px; resize: vertical; }
+
+        select {
+            width: 100%;
+            font: inherit;
+            font-size: 0.95rem;
+            color: var(--wit);
+            background: var(--veld);
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 8px 12px;
+        }
+        select:focus-visible { outline: none; border-color: var(--wit); }
+
+        .huur-regel {
+            margin: 0 0 12px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--gedempt);
+            max-width: 52ch;
+        }
         input:focus-visible, textarea:focus-visible { outline: none; border-color: var(--wit); }
 
         .versturen {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px 18px;
-            margin-top: 12px;
+            gap: 10px 16px;
+            margin-top: 10px;
         }
 
         .knop {
@@ -376,7 +396,7 @@
         .direct { font-size: 0.9rem; color: var(--gedempt); }
         .direct a { color: var(--wit); text-underline-offset: 3px; }
 
-        .melding { margin: 10px 0 0; font-size: 0.95rem; min-height: 1.3em; }
+        .melding { margin: 8px 0 0; font-size: 0.95rem; min-height: 1.2em; }
         .melding.fout { color: #ff8a80; }
 
         /* =========================================================
@@ -389,8 +409,8 @@
             flex-wrap: wrap;
             gap: 8px 24px;
             border-top: 1px solid var(--lijn);
-            padding-top: 18px;
-            margin-bottom: 18px;
+            padding-top: 16px;
+            margin-bottom: 16px;
         }
         .suggesties-kop h2 {
             font-family: var(--serif);
@@ -883,7 +903,7 @@
 
         const SJABLONEN = ["saas", "app", "tech", "bureau", "slaap", "horloges", "kaart", "persoonlijk", "game"];
         /* Sleutels uit domeinen.txt. Alles met -en erachter is de Engelse versie. */
-        const SLEUTELS = ["naam", "slogan", "tekst", "sjabloon", "kleur", "afbeelding", "tonen", "verwant",
+        const SLEUTELS = ["naam", "slogan", "tekst", "sjabloon", "kleur", "afbeelding", "tonen", "verwant", "vorm",
                           "naam-en", "slogan-en", "tekst-en"];
 
         /* =========================================================
@@ -895,6 +915,10 @@
                 kopRechts: "Domeinnamen te koop",
                 ondertitel: "Webapps<br>tools en<br>experimenten",
                 status: "Deze domeinnaam is te koop",
+                statusHuur: "Deze domeinnaam is te huur",
+                ookHuur: "Liever huren of in termijnen betalen? Dat kan ook. Zet het in uw bericht, dan denk ik met u mee.",
+                labelVorm: "Ik heb interesse in",
+                vormen: { koop: "Kopen", huur: "Huren", termijnen: "In termijnen kopen", onbekend: "Weet ik nog niet" },
                 ook: "Ook beschikbaar:",
                 formTitel: (d) => `Interesse in ${d}?`,
                 labelNaam: "Naam",
@@ -929,6 +953,10 @@
                 kopRechts: "Domain names for sale",
                 ondertitel: "Web apps<br>tools and<br>experiments",
                 status: "This domain name is for sale",
+                statusHuur: "This domain name is available to rent",
+                ookHuur: "Would you rather rent it, or pay in instalments? That is possible too. Mention it in your message and I will think along with you.",
+                labelVorm: "I am interested in",
+                vormen: { koop: "Buying", huur: "Renting", termijnen: "Buying in instalments", onbekend: "Not sure yet" },
                 ook: "Also available:",
                 formTitel: (d) => `Interested in ${d}?`,
                 labelNaam: "Name",
@@ -1145,6 +1173,19 @@
             </${tag}>`;
         }
 
+        /* ---------- Koop, huur of termijnen ----------
+           De regel  vorm: koop, huur, termijnen  in domeinen.txt bepaalt
+           wat er in het keuzemenu staat. Staat er niets, dan geldt
+           STANDAARD_VORM hieronder voor alle domeinen. */
+        const STANDAARD_VORM = "koop, huur, termijnen";
+        const VORMEN = ["koop", "huur", "termijnen"];
+
+        const vormenVan = (d) => {
+            const gekozen = ((d.vorm || STANDAARD_VORM).toLowerCase().match(/[a-z]+/g) || [])
+                .filter((x) => VORMEN.includes(x));
+            return gekozen.length ? gekozen : ["koop"];
+        };
+
         /* ---------- Verwante domeinnamen ----------
            Automatisch: dezelfde naam met een andere extensie.
            Handmatig: de regel  verwant: naam1.nl, naam2.com  in domeinen.txt.
@@ -1227,14 +1268,17 @@
             document.title = T().paginatitel(d.domein);
 
             const zusjes = verwanten(d);
+            const vormen = vormenVan(d);
+            const meerDanKoop = vormen.length > 1 || !vormen.includes("koop");
             const blok = $("#uitgelicht");
 
             blok.innerHTML = `
                 ${venster(d)}
                 <div class="tekst-kolom">
-                    <p class="status" style="--accent:${d.kleur}"><i aria-hidden="true"></i>${T().status}</p>
+                    <p class="status" style="--accent:${d.kleur}"><i aria-hidden="true"></i>${vormen.includes("koop") ? T().status : T().statusHuur}</p>
                     <h1 class="domein-titel" tabindex="-1">${esc(d.domein)}</h1>
                     <p class="domein-tekst">${esc(veld(d, "tekst") || T().geenTekst)}</p>
+                    ${meerDanKoop ? `<p class="huur-regel">${T().ookHuur}</p>` : ""}
                     ${zusjes.length ? `<div class="ook">${T().ook} ${zusjes.map((z) =>
                         `<button type="button" data-domein="${esc(z.domein)}">${esc(z.domein)}</button>`).join("")}</div>` : ""}
 
@@ -1249,6 +1293,13 @@
                                 <label for="f-email">${T().labelEmail}</label>
                                 <input id="f-email" name="email" type="email" autocomplete="email" required>
                             </div>
+                            ${meerDanKoop ? `<div class="veld-breed">
+                                <label for="f-vorm">${T().labelVorm}</label>
+                                <select id="f-vorm" name="vorm">
+                                    ${vormen.map((v) => `<option value="${T().vormen[v]}">${T().vormen[v]}</option>`).join("")}
+                                    <option value="${T().vormen.onbekend}">${T().vormen.onbekend}</option>
+                                </select>
+                            </div>` : ""}
                             <div class="veld-breed">
                                 <label for="f-bericht">${T().labelBericht}</label>
                                 <textarea id="f-bericht" name="bericht" placeholder="${T().hintBericht}"></textarea>
@@ -1338,6 +1389,7 @@
             const naam = form.naam.value.trim();
             const email = form.email.value.trim();
             const bericht = form.bericht.value.trim();
+            const gekozenVorm = form.vorm ? form.vorm.value : "";
 
             if (!naam || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 melding.textContent = T().validatie;
@@ -1349,7 +1401,9 @@
             const onderwerp = T().onderwerp(actief.domein);
 
             if (!CONFIG.formulierAdres) {
-                const inhoud = `${onderwerp}\n\n${naam}\n${email}\n\n${bericht}`;
+                const inhoud = `${onderwerp}\n\n${naam}\n${email}` +
+                    (gekozenVorm ? `\n${T().labelVorm}: ${gekozenVorm}` : "") +
+                    `\n\n${bericht}`;
                 location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(onderwerp)}&body=${encodeURIComponent(inhoud)}`;
                 melding.textContent = T().mailGeopend;
                 melding.className = "melding";

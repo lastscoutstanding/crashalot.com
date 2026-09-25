@@ -11,6 +11,10 @@
 #  afbeelding (optioneel) eigen screenshot, bv. img/servicetag.png
 #             Die vervangt dan het sjabloon.
 #  tonen      nee = domein staat niet op de pagina
+#  vorm       (optioneel) wat je aanbiedt: koop, huur, termijnen
+#             (een of meer, met een komma ertussen). Staat er niets,
+#             dan geldt de standaard uit index.html: alle drie.
+#             Alleen koop = geen keuzemenu en geen extra regel.
 #  verwant    (optioneel) andere domeinnamen die erbij horen, met een
 #             komma ertussen, bv.  verwant: taqqer.com, taqqer.nl
 #             Ze verschijnen dan bij "Ook beschikbaar" en staan
