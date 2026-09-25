@@ -48,6 +48,7 @@
 
 [servicetag.net]
 naam: ServiceTag
+vorm: koop
 slogan: Elk apparaat zijn eigen servicehistorie
 slogan-en: Every device with its own service history
 tekst: Een korte, internationale naam voor een platform rond onderhoud, garantie of asset tracking. ServiceTag zegt meteen wat het doet: een label met de hele geschiedenis erachter. Samen met servicetag.nl over te nemen.
@@ -57,6 +58,7 @@ kleur: #2563eb
 
 [servicetag.nl]
 naam: ServiceTag
+vorm: koop
 slogan: Onderhoud en garantie, met één scan geregeld
 slogan-en: Maintenance and warranty, sorted with a single scan
 tekst: De Nederlandse tegenhanger van servicetag.net. Een sterke naam voor een installateur, leverancier of servicebedrijf dat klanten via QR-labels wil bedienen.
@@ -94,6 +96,7 @@ kleur: #16a34a
 [apptech.nl]
 verwant: appliedtechnologies.nl
 naam: AppTech
+vorm: koop, huur
 slogan: Apps die gewoon werken
 slogan-en: Apps that simply work
 tekst: Kort, zakelijk en direct duidelijk. Ideaal voor een appbouwer, softwarebureau of IT-dienstverlener die een naam zoekt die klanten in één keer onthouden.
@@ -103,6 +106,7 @@ kleur: #0284c7
 
 [k2electronics.com]
 naam: K2 Electronics
+vorm: koop, huur
 slogan: Elektronica, ontwikkeld tot in het kleinste detail
 slogan-en: Electronics engineered down to the smallest detail
 tekst: Een krachtige .com-naam voor een elektronica-ontwikkelaar, producent of distributeur. Kort, internationaal en makkelijk uit te spreken in elke taal.
