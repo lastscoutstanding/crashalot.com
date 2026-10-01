@@ -45,6 +45,7 @@ localStorage-keys:
   - `ballistics.js` en `reticle.js` hebben geen DOM-afhankelijkheid.
   - Thema's `field` (standaard) en `night`; anti-flash-snippet bovenin `<head>`.
   - Geen merkreticles, bewust. Geen service worker zolang de bestanden nog vaak veranderen.
+- `pellets.txt` is de pelletbibliotheek: één pellet per regel, velden gescheiden door `|`, `#` voor commentaar. Een pellet toevoegen = een regel toevoegen, geen codewijziging. Het formaat en de `quality`-waarden (`meas`/`est`/`none`) staan bovenin het bestand.
 - `check.html` is een validatiepagina, niet gelinkt vanuit de app.
 - UI in het Engels.
 
